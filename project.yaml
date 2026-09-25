@@ -2,7 +2,12 @@
 name: GridBench
 slug: gridbench
 area: Advanced Manufacturing
-status: concept          # concept | design | prototype | tested | released
+trl: 2                   # Technology Readiness Level, see .kit/STANDARDS.md section 9
+trl_target: 3
+trl_evidence:
+  - docs/01-problem.md
+  - docs/02-concept.md
+  - docs/03-requirements.md
 shortlisted: false
 pitch: >-
   A modular fixture and workbench standard: a 25 mm hole grid plate with printable and machined clamps, stops and jigs, so community workshops can hold, assemble and test parts repeatably.

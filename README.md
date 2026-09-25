@@ -1,6 +1,8 @@
 # GridBench
 
-**Area:** Advanced Manufacturing · **Status:** Concept · **Prototype budget:** about $220 USD · **Difficulty:** 2 of 5
+![TRL 2](https://img.shields.io/badge/TRL-2%20of%209-0F766E) ![Hardware: CERN-OHL-S-2.0](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-111827) ![Software: MIT](https://img.shields.io/badge/software-MIT-111827)
+
+**Area:** Advanced Manufacturing · **TRL:** 2 of 9 (concept formulated) · **Prototype budget:** about $220 USD · **Difficulty:** 2 of 5
 
 A modular fixture and workbench standard: a 25 mm hole grid plate with printable and machined clamps, stops and jigs, so community workshops can hold, assemble and test parts repeatably.
 
@@ -67,6 +69,10 @@ The working bill of materials is in [bom/bom.csv](bom/bom.csv).
 | `firmware/` | Microcontroller code |
 | `media/` | Renders, perspectives and photos |
 | `build-log/` | Dated prototyping notes |
+
+## Documentation
+
+Controlled documents follow the portfolio [documentation standard](.kit/STANDARDS.md). Each carries a document ID (GBN-PRC-001 for the precis), a version and a revision history. Branded PDFs are built with `python .kit/render.py` and attached to GitHub Releases when a document is tagged, for example `GBN-PRC-001/v1.0`.
 
 ## Licenses
 
