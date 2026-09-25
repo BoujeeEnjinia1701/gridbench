@@ -1,0 +1,17 @@
+# Card metadata consumed by https://designmolecule.com
+name: GridBench
+slug: gridbench
+area: Advanced Manufacturing
+status: concept          # concept | design | prototype | tested | released
+shortlisted: false
+pitch: >-
+  A modular fixture and workbench standard: a 25 mm hole grid plate with printable and machined clamps, stops and jigs, so community workshops can hold, assemble and test parts repeatably.
+problem: >-
+  Repeatable building needs repeatable fixturing, and commercial modular fixture systems are costly while improvised jigs are one-off.
+budget_usd: 220
+difficulty: 2  # 1 easiest, 5 hardest
+hero_image: media/hero.png
+licenses:
+  hardware: CERN-OHL-S-2.0
+  software: MIT
+tags: [advanced-manufacturing, open-hardware, cern-ohl-s]
