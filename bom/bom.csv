@@ -1,6 +1,13 @@
 item,qty,spec,supplier,unit_cost_usd,make_buy,notes
-"Plywood or aluminum grid plate, 25 mm pitch",,,,,,
-Printable clamp and stop library,,,,,,
-Machined dowel pins and bushings,,,,,,
-Bench frame with levelling feet,,,,,,
-Test instrument mounts,,,,,,
+1 Bench frame,1,"Bolted softwood: 4 legs 70 x 70 x 857 mm, aprons 45 x 95 mm, 4 cross rails 45 x 70 mm at 300 mm or less, low shelf rails; M8 carriage bolts and wood screws",Local timber yard and hardware shop,38.00,make,Indicative price (about 12 m of sawn softwood plus bolts); welded steel frame is a proposed variant
+2 Levelling feet,4,"M10 levelling foot, 50 mm pad, with M10 T-nut or threaded insert in the leg",Hardware or industrial supplier,2.00,buy,Indicative price; ±15 mm adjustment
+3 Lower shelf,1,"12 mm plywood, about 1,020 x 445 mm",Local timber yard,12.00,make,Indicative price; carries ballast for tip stability (R12)
+4 Plywood grid worktop,1,"18 mm birch plywood, 1,200 x 600 mm; 1,008 holes on the 25 mm grid (756 at 6.6 mm, 252 at insert size); 300 x 300 mm tile pocket; edges rounded",Timber yard; holes by shared CNC router or printed drilling template,45.00,make,Indicative price (half sheet plus router bit wear)
+5 M6 threaded inserts,252,"Screw-in M6 inserts for hardwood or plywood, zinc or brass, on the 50 mm sub-grid",Fastener supplier,0.10,buy,Indicative bulk price
+6 Precision grid tile,1,"Cast or 6061 aluminum tooling plate 300 x 300 x 12.7 mm; 144 M6 tapped holes on the 25 mm grid; 9 dowel bores 8 mm H7 at 100 mm pitch; 4 counterbored M6 holes to the cross rails",Metal stockist; tap set and 8 mm H7 reamer from tool supplier,50.00,make,Indicative price (plate about $38; taps and reamer about $12)
+7 Dowel pins,10,"8 mm h6 hardened steel dowel pin, 20 mm long",Industrial supplier,0.60,buy,Indicative price
+8 Printed toe clamps,4,"PETG toe clamp, 70 mm long, M6 screw slot, heel pad; about 60 g each",Printed in house,1.50,make,Indicative filament cost; screw torque limited to 2 N m
+9 Printed fence stops and V-block,1,"Set: 400 mm fence on two grid holes, 6 stop pins for 6.6 mm holes, 90 degree V-block 100 x 60 x 60 mm; PETG about 500 g",Printed in house,10.00,make,Indicative filament cost
+10 Instrument post and arm,1,"20 x 40 mm aluminum extrusion 350 mm on a printed grid foot; 10 mm steel rod arm with printed clamps",Extrusion and hardware supplier,12.00,buy,Indicative price
+11 Dial indicator,1,"0.01 mm resolution, 0 to 10 mm travel, 8 mm stem, lug back",Tool supplier,15.00,buy,Indicative price; could be user-supplied (proposed cost option)
+12 M6 fastener kit,1,"M6 cap screws 16 to 40 mm (20), washers, 4 printed knobs, 5 mm hex key",Fastener supplier,12.00,buy,Indicative price; no exploded-view callout
