@@ -18,7 +18,7 @@ Keeping it open and garage-buildable is the point: a fixture standard only helps
 
 ## Burning platform
 
-Most making happens in small firms. Small and medium enterprises are about 90 % of businesses and more than half of employment worldwide ([World Bank](https://www.worldbank.org/ext/en/topic/competitiveness/small-and-medium-enterprises-smes-finance)), and in the United States more than 98 % of the roughly 244,000 manufacturers employ fewer than 500 people ([ITIF, citing the National Association of Manufacturers](https://itif.org/publications/2025/06/17/mep-program-critical-for-small-manufacturers-underpinning-america-s-manufacturing-revival/)). These firms rarely own modular fixture systems: a 1,200 x 800 mm fixture table from one leading system starts at about $2,561 before clamps ([Siegmund System 16 listing](https://weldingtablesandfixtures.com/products/4-161025-p-siegmund-1200x800mm-basic-system-16-welding-table)).
+Most making happens in small firms. Small and medium enterprises are about 90 % of businesses and more than half of employment worldwide ([World Bank](https://www.worldbank.org/ext/en/topic/competitiveness/small-and-medium-enterprises-smes-finance)), and in the United States more than 98 % of the roughly 239,000 manufacturing firms counted in 2022 had fewer than 500 employees ([National Association of Manufacturers, Facts About Manufacturing](https://nam.org/mfgdata/facts-about-manufacturing-expanded/)). These firms rarely own modular fixture systems: a 1,200 x 800 mm fixture table from one leading system starts at about $2,561 before clamps ([Siegmund System 16 listing](https://weldingtablesandfixtures.com/products/4-161025-p-siegmund-1200x800mm-basic-system-16-welding-table)).
 
 Demand for local, repeatable making is rising with repair. The world generated a record 62 million tonnes of e-waste in 2022 and only 22 % was formally recycled ([ITU and UNITAR, Global E-waste Monitor 2024](https://www.itu.int/hub/2024/04/the-world-generated-62-million-tonnes-of-electronic-waste-in-just-one-year-and-recycled-way-too-little-un-agencies-warn/)), and repair and remanufacture depend on holding parts accurately without factory tooling.
 
@@ -40,14 +40,14 @@ Demand for local, repeatable making is rising with repair. The world generated a
 | Country or region | Why it matters there |
 | --- | --- |
 | European Union | The repair directive must apply in member states by 31 July 2026, requiring producers to offer repair and spare parts ([European Commission](https://commission.europa.eu/law/law-topic/consumer-protection-law/directive-repair-goods_en)); independent repairers need low-cost, repeatable workholding. |
-| United States | More than 98 % of manufacturers employ fewer than 500 people ([ITIF, citing NAM](https://itif.org/publications/2025/06/17/mep-program-critical-for-small-manufacturers-underpinning-america-s-manufacturing-revival/)); makerspaces and job shops can share jigs as files. |
+| United States | More than 98 % of manufacturing firms had fewer than 500 employees in 2022, and about three quarters had fewer than 20 ([National Association of Manufacturers](https://nam.org/mfgdata/facts-about-manufacturing-expanded/)); makerspaces and job shops can share jigs as files. |
 | India | MSMEs account for 30.1 % of GDP and 35.4 % of manufacturing ([Press Information Bureau, 2025](https://www.pib.gov.in/PressReleasePage.aspx?PRID=2142170&reg=48&lang=2)); consistent quality helps small units supply larger buyers. |
 | Ghana | Suame Magazine in Kumasi, an artisan engineering cluster, had over 80,000 people working in it by 2018 ([Adu-Gyamfi and Adjei, AfricaLics working paper](https://openair.africa/wp-content/uploads/2018/09/WP-16.pdf)); shared jigs could make artisan-made parts interchangeable. |
-| Kenya | The informal sector created about 85 % of new jobs in 2023, according to the national statistics bureau ([Kenyan Wallstreet, reporting KNBS](https://kenyanwallstreet.com/informal-sector-creates-85-of-new-jobs-in-kenya-in-2023-knbs-survey)); jua kali workshops make parts with hand tools and could build the bench locally. |
+| Kenya | Informal sector employment grew 4.5 % in 2023, faster than formal wage employment at 4.1 % ([Kenya National Bureau of Statistics, Economic Survey 2024, popular version](https://www.knbs.or.ke/wp-content/uploads/2024/05/2024-Economic-Survey-Popular-Version.pdf)); jua kali workshops make parts with hand tools and could build the bench locally. |
 
 ## What sparked the idea
 
-The idea traces back to Paris in 1785, when Thomas Jefferson, then the US minister to France, was shown the work of the gunsmith Honoré Blanc. Jefferson wrote to John Jay that he was handed the parts of 50 musket locks sorted into compartments, put several locks together himself from parts picked at random, and found that they fitted perfectly ([Jefferson to Jay, 30 August 1785, Founders Online](https://founders.archives.gov/documents/Jefferson/01-08-02-0354)). Blanc had no machine tools for this: each part was hand-filed in a jig and checked against gauges and master models ([Wikipedia, "Honoré Blanc"](https://en.wikipedia.org/wiki/Honor%C3%A9_Blanc)). Repeatability came from shared fixtures and gauges rather than from expensive machines, which is still the situation of a small workshop today. What such workshops lack is a common base on which those fixtures can be shared, and GridBench is an attempt to supply one.
+The idea traces back to Paris in 1785, when Thomas Jefferson, then the US minister to France, was shown the work of the gunsmith Honoré Blanc. Jefferson wrote to John Jay that he was handed the parts of 50 musket locks sorted into compartments, put several locks together himself from parts picked at random, and found that they fitted perfectly ([Jefferson to Jay, 30 August 1785, Founders Online](https://founders.archives.gov/documents/Jefferson/01-08-02-0354)). Jefferson added that Blanc achieved this "by tools of his own contrivance," which also shortened the work, and that the advantages when arms need repair were evident (same letter). Repeatability came from purpose-made tooling rather than from a large factory, which is still the situation of a small workshop today. What such workshops lack is a common base on which those fixtures can be shared, and GridBench is an attempt to supply one.
 
 ## Problem
 
@@ -92,6 +92,12 @@ The priced bill of materials (16 lines) is in [bom/bom.csv](bom/bom.csv).
 ## Documentation
 
 Controlled documents follow the portfolio [documentation standard](.kit/STANDARDS.md). Each carries a document ID (GBN-PRC-001 for the precis), a version and a revision history. Branded PDFs are built with `python .kit/render.py` and attached to GitHub Releases when a document is tagged, for example `GBN-PRC-001/v1.0`.
+
+## Credits
+
+Designed by Amish Chadha. See [CONTRIBUTORS.md](CONTRIBUTORS.md) for roles. To cite this design, use [CITATION.cff](CITATION.cff) (GitHub shows it as "Cite this repository").
+
+AI assistance (Claude) was used to accelerate concept renders, prototype documentation and first-pass sizing calculations. Design direction and all decisions are Amish Chadha's, recorded in this repository's decision records (`docs/decisions/`).
 
 ## Licenses
 

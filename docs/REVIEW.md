@@ -180,3 +180,15 @@ TRL 4 remains on hold by Amish's instruction. `trl` and `trl_target` stay at 3. 
 
 - The decision wording relies on Amish's chat message as relayed to this session on 2026-09-25.
 - New assumptions flagged in GBN-CAL-001 v0.2: plywood bearing strength under a tee-nut flange (10 MPa), tee-nut pull-through on the same shear strength as inserts, and indicative prices for tee nuts ($0.12), 45 x 120 mm timber ($2.80/m) and rubber-padded feet ($2.50).
+
+## Session 2026-09-26: sources strengthened
+
+Amish asked on 2026-09-26 to fix the weaker sources. Changes, all in `README.md`:
+
+| Claim | Old source | New source |
+| --- | --- | --- |
+| US manufacturers with fewer than 500 employees (Burning platform and United States row) | ITIF, citing NAM | National Association of Manufacturers, [Facts About Manufacturing](https://nam.org/mfgdata/facts-about-manufacturing-expanded/). Figures updated to the NAM page: about 239,000 firms in 2022, more than 98 % with fewer than 500 employees. |
+| Kenya row | Kenyan Wallstreet, reporting KNBS (85 % of new jobs informal) | Kenya National Bureau of Statistics, [Economic Survey 2024, popular version](https://www.knbs.or.ke/wp-content/uploads/2024/05/2024-Economic-Survey-Popular-Version.pdf). The 85 % figure could not be verified in a KNBS document that could be fetched, so the row now states only the growth rates in that document (informal employment 4.5 %, formal wage employment 4.1 %, 2023). |
+| What sparked the idea: how Blanc made the parts | Wikipedia, "Honoré Blanc" | Jefferson to Jay, 30 August 1785 (Founders Online), already the section's primary source. The hand-filing, jig and gauge detail was removed because it rested only on Wikipedia; the section now quotes Jefferson's own words ("by tools of his own contrivance"). The inspiration event is unchanged. |
+
+No country rows were replaced. `docs/01-problem.md` did not cite these sources, so no controlled document changed. The RP Photonics link (grid convention) and the Siegmund dealer listing (a price, for which the listing is the primary source) were not flagged and were kept.
