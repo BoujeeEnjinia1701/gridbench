@@ -1,6 +1,7 @@
 # Card metadata consumed by https://designmolecule.com
 name: GridBench
 slug: gridbench
+repo: BoujeeEnjinia1701/gridbench         # GitHub repository, shown on every drawing and render
 area: Advanced Manufacturing
 trl: 3                   # Technology Readiness Level, see .kit/STANDARDS.md section 9
 trl_target: 3
