@@ -1,14 +1,14 @@
 # GridBench
 
-![TRL 2](https://img.shields.io/badge/TRL-2%20of%209-0F766E) ![Hardware: CERN-OHL-S-2.0](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-111827) ![Software: MIT](https://img.shields.io/badge/software-MIT-111827)
+![TRL 3](https://img.shields.io/badge/TRL-3%20of%209-0F766E) ![Hardware: CERN-OHL-S-2.0](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-111827) ![Software: MIT](https://img.shields.io/badge/software-MIT-111827)
 
-**Area:** Advanced Manufacturing · **TRL:** 2 of 9 (concept formulated) · **Prototype budget:** about $220 USD · **Difficulty:** 2 of 5
+**Area:** Advanced Manufacturing · **TRL:** 3 of 9 (proof of concept on paper) · **Prototype budget:** $220 USD (core parts $239.20; see Concept) · **Difficulty:** 2 of 5
 
 A modular fixture and workbench standard: a 25 mm hole grid plate with printable and machined clamps, stops and jigs, so community workshops can hold, assemble and test parts repeatably.
 
 ![GridBench concept](media/hero.png)
 
-[Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [Review note](docs/REVIEW.md)
+[Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [General arrangement GBN-DWG-001 (PDF)](cad/drawings/GBN-DWG-001.pdf) · [Calculations](docs/04-calcs/01-sizing.md) · [Review note](docs/REVIEW.md)
 
 ## Concept rationale
 
@@ -55,24 +55,25 @@ Repeatable building needs repeatable fixturing, and commercial modular fixture s
 
 ## Concept
 
-A 1,200 x 600 mm workbench with a 25 mm, M6 hole grid: a plywood field with threaded inserts for general holding, a flush 300 x 300 mm aluminum precision tile with dowel bores for repeatable location, printed clamps, stops and V-blocks, and an instrument post with a dial indicator to check parts in place. Parts cost is estimated at about $239, above the $220 budget; options are in the review note.
+A 1,200 x 600 mm workbench with a 25 mm, M6 hole grid: a plywood field with threaded inserts for general holding, a flush 300 x 300 mm aluminum precision tile with dowel bores for repeatable location, printed clamps, stops and V-blocks, and an instrument post with a user-supplied dial indicator to check parts in place. Two concrete slabs on the shelf keep it from tipping. The TRL 3 calculations ([GBN-CAL-001](docs/04-calcs/01-sizing.md)) find 7 of 12 requirements met on paper or by design; cost (core parts $239.20 against $220) and clamp hold-down on the plywood field (insert pull-out) are not met. A $250 budget and fixes for the inserts are proposed, awaiting Amish.
 
-Full design precis: [docs/02-concept.md](docs/02-concept.md) · Requirements: [docs/03-requirements.md](docs/03-requirements.md)
+Full design precis: [docs/02-concept.md](docs/02-concept.md) · Requirements: [docs/03-requirements.md](docs/03-requirements.md) · Decisions: [docs/decisions/0001-trl2-review-decisions.md](docs/decisions/0001-trl2-review-decisions.md) · Model: [cad/src/model.py](cad/src/model.py)
 
 ## Key components
 
 - Bolted timber bench frame with levelling feet and a lower shelf
 - 18 mm plywood grid worktop, 25 mm pitch, M6 inserts on a 50 mm sub-grid
 - Aluminum precision tile, 300 x 300 mm, 144 M6 holes and 9 dowel bores 8 mm H7
-- Hardened 8 mm dowel pins
-- Printable clamp, stop, fence and V-block library
-- Instrument post with a 0.01 mm dial indicator
+- Hardened 8 mm locating pins, one round and one diamond per precision fixture
+- Printable clamp, stop, fence and V-block library (every part fits a 200 x 200 mm print bed)
+- Instrument post for a 0.01 mm dial indicator (user-supplied)
+- Two concrete ballast slabs on the shelf; optional wall anchor brackets
 
-The working bill of materials is in [bom/bom.csv](bom/bom.csv).
+The priced bill of materials (16 lines) is in [bom/bom.csv](bom/bom.csv).
 
 ## Safety
 
-> Drilling, tapping and clamping create chip, projectile and pinch hazards: wear eye protection and secure work before cutting. The empty bench can tip under a firm push at the top edge; ballast the shelf or anchor it to a wall. Printed clamps can crack under overload; respect the rated screw torque. Not for welding or hot work.
+> Drilling, tapping and clamping create chip, projectile and pinch hazards: wear eye protection and secure work before cutting. The empty bench tips at about 107 N at the top edge (estimate); place both ballast slabs on the shelf or anchor it to a wall before use. Printed clamps can crack under overload; respect the rated screw torque of 1.6 N·m. Not for welding or hot work.
 
 ## Repository layout
 

@@ -3,7 +3,7 @@ doc_id: GBN-PRB-001
 title: GridBench problem statement
 project: GridBench
 doc_type: Problem statement
-version: "0.2"
+version: "0.3"
 status: Draft
 date: '2026-09-25'
 author: Amish Chadha
@@ -17,6 +17,10 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Populate to TRL 2 (users, context, constraints, prior work, open questions)
+- version: "0.3"
+  date: '2026-09-25'
+  author: Amish Chadha
+  change: TRL 3 update; grid choice and budget scope adopted as recommended (GBN-DDR-001), humidity figures sourced
 ---
 
 # GridBench problem statement
@@ -43,13 +47,13 @@ The missing piece is an open, cheap, documented grid standard: a bench surface w
 
 ## Operating environment
 
-- Indoor workshop, 10 to 35 °C, 20 to 80 % relative humidity, not air-conditioned in many target regions.
+- Indoor workshop, 10 to 35 °C, 20 to 80 % relative humidity, not air-conditioned in many target regions. Over that humidity range wood settles at about 4.5 to 16 % moisture content ([USDA Forest Products Laboratory, *Wood Handbook*, FPL-GTR-190, Table 4-2](https://www.fpl.fs.usda.gov/documnts/fplgtr/fplgtr190/chapter_04.pdf)), so a plywood top moves with the seasons (GBN-CAL-001, section E).
 - Loads from hand assembly, drilling with a hand drill or drill press, light filing and gluing. Not for welding heat or heavy machining forces.
 - Users range from trained machinists to first-time makers.
 
 ## Constraints
 
-- Garage-buildable prototype, about $220 USD in parts, using timber or steel sections, plywood, one aluminum plate and 3D-printed parts.
+- Garage-buildable prototype, about $220 USD in parts for the bench, grid, tile and fixture set (the dial indicator is user-supplied, GBN-DDR-001 A1), using timber or steel sections, plywood, one aluminum plate and 3D-printed parts.
 - Build with common workshop tools: a drill press or hand router with a template, taps and a reamer. A shared CNC router speeds up the worktop but must not be required.
 - The grid must be compatible with something already made in volume, so that commercial accessories fit.
 - All files open: CAD in build123d source, hardware under CERN-OHL-S-2.0.
@@ -79,5 +83,5 @@ No open standard found combines a cheap worktop, a precision zone and a fixture 
 
 ## Open questions
 
-- Is 25 mm with M6 the right grid, or should the standard also allow a coarser 50 mm, M8 variant for heavy work? Proposed: 25 mm, M6 only at first, awaiting Amish.
-- Which workshops test the first benches, and in which countries? Proposed, awaiting Amish.
+- Grid: 25 mm with M6 only at first, with a coarser 50 mm variant for heavy work considered later. Adopted as recommended for TRL 3 under Amish's 2026-09-25 instruction, open for his review (GBN-DDR-001 A2).
+- Which workshops test the first benches, and in which countries? No recommendation made. Proposed, awaiting Amish (GBN-DDR-001 O1).
