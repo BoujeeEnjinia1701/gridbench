@@ -1,5 +1,9 @@
 """GridBench parametric model (build123d), TRL 3, massing-plus level of detail.
 
+Revised 2026-09-25 under GBN-DDR-002 (recommendations accepted by Amish): 45 x 120 mm aprons,
+flanged M6 tee nuts pressed in from the underside at every insert position with a clear underside,
+screw-in inserts kept only where a frame member lies below, and rubber-padded levelling feet.
+
 Run from the repo root:  python cad/src/model.py
 Exports STEP and STL into cad/step and cad/stl:
     gridbench-assembly.step / .stl   the bench with worktop, tile, fixture set, ballast and anchor
@@ -29,6 +33,8 @@ PARAMS = {
     "pitch": 25.0, "edge": 12.5,
     "plain_d": 6.6,                  # plain pin holes in the plywood field
     "insert_hole_d": 8.5, "insert_od": 10.0, "insert_len": 13.0, "insert_every": 2,   # 50 mm sub-grid
+    # 5 flanged M6 tee nuts, pressed in from the underside (GBN-DDR-002, R7 option a)
+    "tee_hole_d": 8.0, "tee_flange_d": 19.0, "tee_flange_t": 1.5, "tee_barrel_d": 7.9, "tee_barrel_len": 9.5,
     # 4 worktop
     "top_l": 1200.0, "top_d": 600.0, "top_t": 18.0, "h": 900.0,
     # 6 precision tile, flush in a through pocket, on packers over two cross rails
@@ -37,10 +43,10 @@ PARAMS = {
     "fix_hole_d": 7.0, "fix_offset": (22.5, 125.0),   # fixing holes: X from each tile edge, +/- Y
     # 1 frame, bolted softwood (width in plan, depth in Z)
     "leg": 70.0, "leg_inset": 20.0, "foot_h": 25.0,
-    "apron": (45.0, 95.0), "rail": (45.0, 70.0), "low_rail_z": 105.0,
+    "apron": (45.0, 120.0), "rail": (45.0, 70.0), "low_rail_z": 105.0,
     "cross_x": (-300.0, 0.0, 247.5, 502.5),          # cross rail centers; the last two carry the tile
-    # 2 levelling feet
-    "foot_pad_d": 50.0, "foot_pad_t": 12.0, "adjust": 15.0,
+    # 2 levelling feet with rubber pads (GBN-DDR-002)
+    "foot_pad_d": 50.0, "foot_pad_t": 12.0, "rubber_t": 3.0, "adjust": 15.0,
     # 3 shelf, resting on the two low rails
     "shelf_t": 12.0,
     # 14 ballast: two concrete paving slabs on the shelf
@@ -111,6 +117,45 @@ def classify(p=PARAMS):
         else:
             plain.append((x, y))
     return tile, ins, plain
+
+
+def frame_footprint(p=PARAMS):
+    """Plan rectangles (xmin, xmax, ymin, ymax) of the frame members directly under the worktop."""
+    d = derived(p)
+    aw = p["apron"][0]
+    rw = p["rail"][0]
+    leg = p["leg"]
+    out = []
+    for sy in (-1, 1):
+        yc = sy * d["long_apron_y"]
+        out.append((-d["long_apron_len"] / 2, d["long_apron_len"] / 2, yc - aw / 2, yc + aw / 2))
+    for sx in (-1, 1):
+        xc = sx * d["end_apron_x"]
+        out.append((xc - aw / 2, xc + aw / 2, -d["end_apron_len"] / 2, d["end_apron_len"] / 2))
+    for x in p["cross_x"]:
+        out.append((x - rw / 2, x + rw / 2, -d["rail_len"] / 2, d["rail_len"] / 2))
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            out.append((sx * d["lx"] - leg / 2, sx * d["lx"] + leg / 2, sy * d["ly"] - leg / 2, sy * d["ly"] + leg / 2))
+    return out
+
+
+def insert_kinds(p=PARAMS):
+    """Split the insert positions: tee nuts where the flange has a clear underside, screw-in inserts
+    where a frame member lies within the flange radius (GBN-DDR-002)."""
+    _, ins, _ = classify(p)
+    r = p["tee_flange_d"] / 2
+    fp = frame_footprint(p)
+    def blocked(x, y):
+        for x1, x2, y1, y2 in fp:
+            dx = max(x1 - x, 0.0, x - x2)
+            dy = max(y1 - y, 0.0, y - y2)
+            if dx * dx + dy * dy < r * r:
+                return True
+        return False
+    tee = [(x, y) for x, y in ins if not blocked(x, y)]
+    screw = [(x, y) for x, y in ins if blocked(x, y)]
+    return tee, screw
 
 
 def dowel_points(p=PARAMS):
@@ -187,8 +232,10 @@ def build_parts(p=PARAMS, full_top_holes=False):
     packers = [box(x, tcy, zu + pk / 2, rw, s, pk) for x in p["cross_x"] if x0 < x < x0 + s]
     out["frame"] = fuse(legs + aprons + cross + low + packers)
 
-    # 2 levelling feet (pad plus threaded stem into the leg)
-    out["feet"] = fuse([b.Pos(sx * lx, sy * ly, 0) * (b.Pos(0, 0, p["foot_pad_t"] / 2) * b.Cylinder(p["foot_pad_d"] / 2, p["foot_pad_t"])
+    # 2 levelling feet (rubber pad, steel pad and threaded stem into the leg)
+    rt = p["rubber_t"]
+    out["feet"] = fuse([b.Pos(sx * lx, sy * ly, 0) * (b.Pos(0, 0, rt / 2) * b.Cylinder(p["foot_pad_d"] / 2 - 1, rt)
+                                                      + b.Pos(0, 0, rt + (p["foot_pad_t"] - rt) / 2) * b.Cylinder(p["foot_pad_d"] / 2, p["foot_pad_t"] - rt)
                                                       + b.Pos(0, 0, p["foot_pad_t"] + 7) * b.Cylinder(5, 14))
                         for sx in (-1, 1) for sy in (-1, 1)])
 
@@ -199,14 +246,23 @@ def build_parts(p=PARAMS, full_top_holes=False):
     # 4 worktop with the through pocket and a representative patch of holes (or all of them)
     top = box(0, 0, H - p["top_t"] / 2, L, D, p["top_t"]) - box(tcx, tcy, H - p["top_t"] / 2, s, s, p["top_t"] + 2)
     pl = plain_pts if full_top_holes else patch(plain_pts, p)
-    ip = ins_pts if full_top_holes else patch(ins_pts, p)
+    tee_pts, screw_pts = insert_kinds(p)
+    tp = tee_pts if full_top_holes else patch(tee_pts, p)
+    sp = screw_pts if full_top_holes else patch(screw_pts, p)
     top = drilled(top, pl, H + 1, p["plain_d"], p["top_t"] + 2)
-    top = drilled(top, ip, H + 1, p["insert_hole_d"], p["top_t"] + 2)
+    top = drilled(top, sp, H + 1, p["insert_hole_d"], p["top_t"] + 2)
+    top = drilled(top, tp, H + 1, p["tee_hole_d"], p["top_t"] + 2)
     out["worktop"] = top
 
-    # 5 M6 inserts (flush sleeves) in the patch
-    out["inserts"] = fuse([b.Pos(x, y, H - p["insert_len"] / 2) * (b.Cylinder(p["insert_od"] / 2 - 0.75, p["insert_len"])
-                                                                   - b.Cylinder(2.5, p["insert_len"] + 1)) for x, y in ip])
+    # 5 M6 threaded inserts in the patch: screw-in sleeves over frame members, flanged tee nuts
+    # pressed in from the underside elsewhere (barrel up into the plywood, flange under it)
+    screw_in = [b.Pos(x, y, H - p["insert_len"] / 2) * (b.Cylinder(p["insert_od"] / 2 - 0.75, p["insert_len"])
+                                                        - b.Cylinder(2.5, p["insert_len"] + 1)) for x, y in sp]
+    zb = zu
+    tee = [b.Pos(x, y, zb) * ((b.Pos(0, 0, -p["tee_flange_t"] / 2) * b.Cylinder(p["tee_flange_d"] / 2, p["tee_flange_t"])
+                               + b.Pos(0, 0, p["tee_barrel_len"] / 2) * b.Cylinder(p["tee_barrel_d"] / 2, p["tee_barrel_len"]))
+                              - b.Pos(0, 0, p["tee_barrel_len"] / 2 - 1) * b.Cylinder(2.5, p["tee_barrel_len"] + 4)) for x, y in tp]
+    out["inserts"] = fuse(screw_in + tee)
 
     # 6 precision tile: every M6 tap hole, dowel bores and counterbored fixing holes
     tile = box(tcx, tcy, H - tt / 2, s, s, tt)
@@ -292,5 +348,7 @@ if __name__ == "__main__":
         export_stl(shape, str(out / "stl" / f"{name}.stl"), tolerance=0.5, angular_tolerance=0.5)
         print(f"exported {name}: volume {shape.volume / 1e6:.3f} L")
     t, i, pl = classify()
+    tn, sn = insert_kinds()
+    print(f"inserts: {len(tn)} tee nuts from the underside, {len(sn)} screw-in over frame members")
     print(f"grid: {len(t) + len(i) + len(pl)} positions ({len(t)} tile, {len(i)} inserts, {len(pl)} plain); "
           f"worktop exports a representative patch of {len(patch(pl)) + len(patch(i))} holes")

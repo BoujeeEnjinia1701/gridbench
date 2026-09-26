@@ -3,23 +3,23 @@
 [A3] dowel bore to nearest M6 hole 17.7 mm between centers; ligament 10.7 mm
 [A4] fixing counterbore to nearest M6 hole 16.0 mm; ligament 7.5 mm
 [A5] plywood ligament efficiency (25 - 6.6) / 25 = 0.736; tile (25 - 5.0) / 25 = 0.800
-[B1] masses kg: frame 21.4, worktop 7.2, tile 3.0, shelf 4.5, inserts, feet, fasteners 2.4, fixtures, post, indicator 1.7; bench 40.2 kg
-[B2] ballast slab 12.9 kg each, two 25.8 kg; bench with ballast 65.9 kg
-[B3] center of mass about 575 mm above the floor, empty
+[B1] masses kg: frame 23.2, worktop 7.2, tile 3.0, shelf 4.5, inserts, feet, fasteners 2.4, fixtures, post, indicator 1.7; bench 41.9 kg
+[B2] ballast slab 12.9 kg each, two 25.8 kg; bench with ballast 67.7 kg
+[B3] center of mass about 572 mm above the floor, empty
 [C1] feet 1090 x 490 mm (centers); lever for a front push 245 mm, push height 900 mm
-[C2] tipping force empty 107 N (target 150 N); along the bench 239 N
-[C3] mass needed for 150 N: 56.2 kg, so ballast of at least 16.0 kg
-[C4] with two slabs: tipping force 176 N, factor 1.17 on 150 N
-[C5] sliding force empty 79 to 197 N; ballasted 129 to 323 N (mu 0.2 to 0.5)
-[C6] wall anchor (optional) tie force for a 150 N pull on the empty bench: 45 N at 862 mm
+[C2] tipping force empty 112 N (target 150 N); along the bench 249 N
+[C3] mass needed for 150 N: 56.2 kg, so ballast of at least 14.2 kg
+[C4] with two slabs: tipping force 181 N, factor 1.21 on 150 N
+[C5] sliding force on hard feet (mu 0.2): empty 82 N, ballasted 133 N; on the adopted rubber pads (mu 0.5): empty 206 N, ballasted 332 N
+[C6] wall anchor (optional) tie force for a 150 N pull on the empty bench: 40 N at 862 mm
 [D1] largest plywood bay 255 x 470 mm clear (b/a 1.84); plate stiffness with holes 2.75 kN m
 [D2] local worktop deflection, 500 N at bay center: 0.19 mm (TRL 2 strip estimate 0.41 mm)
 [D3] each of the two bay cross rails takes about 250 N: deflection 0.07 mm, adds 0.07 mm at bay center
-[D4] long apron 45 x 95 over 1090 mm between legs: 0.22 mm under 250 N at the bay
-[D5] total at the worst bay center: 0.49 mm (target 0.5 mm); worktop relative to its supports 0.19 mm
-[D6] with 45 x 120 aprons: apron 0.11 mm, total 0.37 mm
-[D7] with 45 x 145 aprons: apron 0.06 mm, total 0.32 mm
-[D8] 150 kg spread: 2.04 kPa; plate 0.030 mm; each long apron 0.52 mm, stress 1.6 MPa (C16 f_m,k 16 MPa, ratio 10.1)
+[D4] long apron 45 x 120 over 1090 mm between legs: 0.11 mm under 250 N at the bay
+[D5] total at the worst bay center: 0.37 mm (target 0.5 mm); worktop relative to its supports 0.19 mm
+[D6] for comparison, 45 x 95 aprons: apron 0.22 mm, total 0.49 mm
+[D7] for comparison, 45 x 145 aprons: apron 0.06 mm, total 0.32 mm
+[D8] 150 kg spread: 2.04 kPa; plate 0.030 mm; each long apron 0.26 mm, stress 1.0 MPa (C16 f_m,k 16 MPa, ratio 16.1)
 [D9] leg compression 0.10 MPa per leg
 [D10] tile over 255 mm between packers, 500 N at center: 0.061 mm, stress 4.9 MPa
 [D11] shelf under 26 kg of slabs, spread, 490 mm span: 0.38 mm
@@ -39,12 +39,17 @@
 [G3] TRL 2 clamp (16 mm deep, 2 N m, K 0.2): part 805 N, stress 33 MPa, above the 12 MPa sustained limit
 [G4] rated 1.6 N m: part force 515 to 858 N (target 500 N); peak stress 9.9 MPa against 12 MPa
 [G5] insert pull-out, shear on 408 mm2: 1.02 to 1.63 kN; screw tension up to 1.78 kN; factor 0.57 to 0.92
+[G5b] insert positions: 130 flanged tee nuts from the underside, 122 screw-in inserts where a frame member lies within 9.5 mm of the hole
+[G5c] tee nut pull-through, shear on 1074 mm2 around the 19 mm flange: 2.69 to 4.30 kN; factor 1.51 to 2.42 on 1.78 kN
+[G5d] flange bearing on 233 mm2: 7.6 MPa at 1.78 kN against 10 MPa (factor 1.31); thread engagement 9.5 mm
+[G5e] screw-in positions over the frame, light-duty option: torque 0.92 N m keeps screw tension within 1.02 kN; part force 296 to 493 N
 [G6] M6 in the tile: thread engagement 12.7 mm, more than twice the 6 mm diameter
 [H1] fixture change: 4 screw operations at 9 s (12 turns at 2 turns/s plus 3 s to engage), 10 s lift and place, 10 s to seat on pins: 56 s (target 60 s)
 [I1] largest printed footprint 190 mm (fence segment); bed 200 mm; the TRL 2 fence was 400 mm
 [I2] tile machining by drill press and tapping guide: about 4.2 h (144 holes at 1.5 min, 9 reamed bores at 3 min, 4 counterbores)
-[K1] timber by section: 70 x 70 3.43 m, 45 x 95 3.16 m, 45 x 70 3.92 m; total 10.5 m
-[K2] frame cost 29.43 + 10 % waste + $9 hardware = $41.38
-[K3] BOM 16 lines; core parts $239.20; user-supplied indicator $15.00; optional anchor $5.00; everything $259.20
-[K4] against budget_usd $220: core +8.7 %; against the proposed $250: core -4.3 %, everything +3.7 %
-[K5] TRL 2 total $239.20 (with indicator); TRL 3 equivalent (core plus indicator) $254.20
+[K1] timber by section: 70 x 70 3.43 m, 45 x 120 3.16 m, 45 x 70 3.92 m; total 10.5 m
+[K2] frame cost 31.33 + 10 % waste + $9 hardware = $43.46
+[K2b] threaded inserts: 130 tee nuts at $0.12 and 122 screw-in at $0.10 = $27.80
+[K3] BOM 16 lines; core parts $245.90; user-supplied indicator $15.00; optional anchor $5.00; everything $265.90
+[K4] against budget_usd $250: core -1.6 % ($4.10 spare), everything +6.4 %; against the former $220: core +11.8 %
+[K5] TRL 2 total $239.20 (with indicator); CAL-001 v0.1 core $239.20; now (core plus indicator) $260.90

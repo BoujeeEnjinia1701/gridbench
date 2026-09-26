@@ -1,4 +1,4 @@
-"""GridBench sizing calculations, GBN-CAL-001 (TRL 3).
+"""GridBench sizing calculations, GBN-CAL-001 v0.2 (TRL 3; revised under GBN-DDR-002).
 
 Run from the repo root:  python docs/04-calcs/sizing.py
 Imports PARAMS and the derived dimensions from cad/src/model.py, reads bom/bom.csv and
@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "cad" / "src"))
-from model import PARAMS as P, derived, classify, dowel_points, fixing_points, grid_points  # noqa: E402
+from model import PARAMS as P, derived, classify, dowel_points, fixing_points, grid_points, insert_kinds  # noqa: E402
 
 G = 9.81
 D = derived(P)
@@ -43,7 +43,9 @@ K_NUT = (0.15, 0.20, 0.25)   # nut factor, low, nominal, high
 T_CLAMP = 1.6           # N m, rated clamp screw torque (this note)
 PETG_SUSTAINED = 12.0   # MPa, allowable sustained bending stress for printed PETG (assumption)
 INSERT_TAU = (2.5, 4.0) # MPa, effective shear strength of plywood around a screw-in insert (assumption)
-MU_FEET = (0.2, 0.5)    # friction, levelling feet on a workshop floor
+PLY_BEARING = 10.0      # MPa, plywood bearing strength perpendicular to the face under a tee-nut flange (assumption)
+MU_FEET = (0.2, 0.5)    # friction, levelling feet on a workshop floor: hard plastic, rubber
+MU_RUBBER = MU_FEET[1]  # rubber pads on the feet (GBN-DDR-002)
 PUSH, PUSH_H = 150.0, P["h"]   # N at the top edge (R12)
 POINT = 500.0           # N (R6)
 DIST_KG = 150.0         # kg (R6)
@@ -75,7 +77,9 @@ m_pack = 2 * rw * P["tile"] * D["packer_t"]
 V_frame = (m_leg + m_apr + m_rail + m_pack) * 1e-9
 mass = {}
 mass["frame"] = V_frame * RHO_SOFT
-holes_v = (len(plain) * math.pi / 4 * P["plain_d"] ** 2 + len(ins) * math.pi / 4 * P["insert_hole_d"] ** 2) * P["top_t"]
+tee_pts, screw_pts = insert_kinds(P)
+holes_v = (len(plain) * math.pi / 4 * P["plain_d"] ** 2 + len(screw_pts) * math.pi / 4 * P["insert_hole_d"] ** 2
+           + len(tee_pts) * math.pi / 4 * P["tee_hole_d"] ** 2) * P["top_t"]
 mass["worktop"] = ((P["top_l"] * P["top_d"] - P["tile"] ** 2) * P["top_t"] - holes_v) * 1e-9 * RHO_PLY
 tile_holes = (len(tile) * math.pi / 4 * P["tap_drill_d"] ** 2 + 9 * math.pi / 4 * P["dowel_d"] ** 2) * P["tile_t"]
 mass["tile"] = (P["tile"] ** 2 * P["tile_t"] - tile_holes) * 1e-9 * RHO_AL
@@ -103,8 +107,8 @@ m_need = PUSH * PUSH_H / (G * b_y)
 say("C3", f"mass needed for {PUSH:.0f} N: {m_need:.1f} kg, so ballast of at least {m_need - m_empty:.1f} kg")
 m_bal = m_empty + 2 * m_slab
 say("C4", f"with two slabs: tipping force {f_tip(m_bal):.0f} N, factor {f_tip(m_bal) / PUSH:.2f} on 150 N")
-say("C5", f"sliding force empty {MU_FEET[0] * m_empty * G:.0f} to {MU_FEET[1] * m_empty * G:.0f} N; ballasted "
-          f"{MU_FEET[0] * m_bal * G:.0f} to {MU_FEET[1] * m_bal * G:.0f} N (mu {MU_FEET[0]} to {MU_FEET[1]})")
+say("C5", f"sliding force on hard feet (mu {MU_FEET[0]}): empty {MU_FEET[0] * m_empty * G:.0f} N, ballasted {MU_FEET[0] * m_bal * G:.0f} N; "
+          f"on the adopted rubber pads (mu {MU_RUBBER}): empty {MU_RUBBER * m_empty * G:.0f} N, ballasted {MU_RUBBER * m_bal * G:.0f} N")
 a_h = D["z_under"] - 20
 f_anchor = max(0.0, (PUSH * PUSH_H - m_empty * G * b_y) / a_h)
 say("C6", f"wall anchor (optional) tie force for a 150 N pull on the empty bench: {f_anchor:.0f} N at {a_h:.0f} mm")
@@ -143,9 +147,9 @@ w_ap = apron_defl(POINT / 2, a_load, span_ap, I_ap)
 say("D4", f"long apron 45 x {ah:.0f} over {span_ap:.0f} mm between legs: {w_ap:.2f} mm under 250 N at the bay")
 w_tot = w_plate + w_rail + w_ap
 say("D5", f"total at the worst bay center: {w_tot:.2f} mm (target 0.5 mm); worktop relative to its supports {w_plate:.2f} mm")
-for h_alt in (120.0, 145.0):
+for tag, h_alt in (("D6", 95.0), ("D7", 145.0)):
     w_alt = apron_defl(POINT / 2, a_load, span_ap, aw * h_alt ** 3 / 12)
-    say("D6" if h_alt == 120 else "D7", f"with 45 x {h_alt:.0f} aprons: apron {w_alt:.2f} mm, total {w_plate + w_rail + w_alt:.2f} mm")
+    say(tag, f"for comparison, 45 x {h_alt:.0f} aprons: apron {w_alt:.2f} mm, total {w_plate + w_rail + w_alt:.2f} mm")
 q = DIST_KG * G / (P["top_l"] * P["top_d"])
 w_q = interp(ALPHA_Q, ratio) * q * a_bay ** 4 / Dp
 W_ap = (DIST_KG * G + mass["worktop"] * G + mass["tile"] * G) / 2
@@ -223,6 +227,18 @@ A_ins = math.pi * P["insert_od"] * P["insert_len"]
 cap = [t * A_ins for t in INSERT_TAU]
 say("G5", f"insert pull-out, shear on {A_ins:.0f} mm2: {cap[0] / 1000:.2f} to {cap[1] / 1000:.2f} kN; "
           f"screw tension up to {F_hi / 1000:.2f} kN; factor {cap[0] / F_hi:.2f} to {cap[1] / F_hi:.2f}")
+say("G5b", f"insert positions: {len(tee_pts)} flanged tee nuts from the underside, {len(screw_pts)} screw-in inserts "
+           f"where a frame member lies within {P['tee_flange_d'] / 2:.1f} mm of the hole")
+A_punch = math.pi * P["tee_flange_d"] * P["top_t"]
+cap_t = [t * A_punch for t in INSERT_TAU]
+A_bear = math.pi / 4 * (P["tee_flange_d"] ** 2 - P["tee_hole_d"] ** 2)
+say("G5c", f"tee nut pull-through, shear on {A_punch:.0f} mm2 around the {P['tee_flange_d']:.0f} mm flange: {cap_t[0] / 1000:.2f} to "
+           f"{cap_t[1] / 1000:.2f} kN; factor {cap_t[0] / F_hi:.2f} to {cap_t[1] / F_hi:.2f} on {F_hi / 1000:.2f} kN")
+say("G5d", f"flange bearing on {A_bear:.0f} mm2: {F_hi / A_bear:.1f} MPa at {F_hi / 1000:.2f} kN against {PLY_BEARING:.0f} MPa "
+           f"(factor {PLY_BEARING / (F_hi / A_bear):.2f}); thread engagement {P['tee_barrel_len']:.1f} mm")
+T_light = cap[0] * K_NUT[0] * 6.0 / 1000
+say("G5e", f"screw-in positions over the frame, light-duty option: torque {T_light:.2f} N m keeps screw tension within "
+           f"{cap[0] / 1000:.2f} kN; part force {T_light * 1000 / (K_NUT[2] * 6.0) * share:.0f} to {T_light * 1000 / (K_NUT[0] * 6.0) * share:.0f} N")
 say("G6", f"M6 in the tile: thread engagement {P['tile_t']:.1f} mm, more than twice the 6 mm diameter")
 
 # ---------------- H. Fixture change (R8) ----------------
@@ -242,8 +258,9 @@ say("I2", f"tile machining by drill press and tapping guide: about {t_tile:.1f} 
           f"({len(tile)} holes at 1.5 min, 9 reamed bores at 3 min, 4 counterbores)")
 
 # ---------------- K. Timber and cost (R10) ----------------
-rates = {"70 x 70": 4.50, "45 x 95": 2.20, "45 x 70": 1.80}
-lengths = {"70 x 70": 4 * D["leg_h"] / 1000, "45 x 95": (2 * D["long_apron_len"] + 2 * D["end_apron_len"]) / 1000,
+AP = f"45 x {ah:.0f}"
+rates = {"70 x 70": 4.50, AP: 2.80, "45 x 70": 1.80}
+lengths = {"70 x 70": 4 * D["leg_h"] / 1000, AP: (2 * D["long_apron_len"] + 2 * D["end_apron_len"]) / 1000,
            "45 x 70": (len(P["cross_x"]) * D["rail_len"] + 2 * D["low_rail_len"]) / 1000}
 timber = sum(lengths[k] * rates[k] for k in rates)
 frame_cost = timber * 1.10 + 9.0
@@ -257,12 +274,14 @@ tot = {"core": 0.0, "user-supplied": 0.0, "optional": 0.0}
 for r in rows:
     c = float(r["qty"]) * float(r["unit_cost_usd"])
     tot[r["make_buy"] if r["make_buy"] in ("user-supplied", "optional") else "core"] += c
-alt = 250.0
+say("K2b", f"threaded inserts: {len(tee_pts)} tee nuts at $0.12 and {len(screw_pts)} screw-in at $0.10 = "
+           f"${len(tee_pts) * 0.12 + len(screw_pts) * 0.10:.2f}")
+alt = 220.0   # the TRL 3 v0.1 budget, for comparison
 say("K3", f"BOM {len(rows)} lines; core parts ${tot['core']:.2f}; user-supplied indicator ${tot['user-supplied']:.2f}; "
           f"optional anchor ${tot['optional']:.2f}; everything ${sum(tot.values()):.2f}")
-say("K4", f"against budget_usd ${budget:.0f}: core {tot['core'] / budget * 100 - 100:+.1f} %; against the proposed ${alt:.0f}: "
-          f"core {tot['core'] / alt * 100 - 100:+.1f} %, everything {sum(tot.values()) / alt * 100 - 100:+.1f} %")
-say("K5", f"TRL 2 total $239.20 (with indicator); TRL 3 equivalent (core plus indicator) ${tot['core'] + tot['user-supplied']:.2f}")
+say("K4", f"against budget_usd ${budget:.0f}: core {tot['core'] / budget * 100 - 100:+.1f} % (${budget - tot['core']:.2f} spare), "
+          f"everything {sum(tot.values()) / budget * 100 - 100:+.1f} %; against the former ${alt:.0f}: core {tot['core'] / alt * 100 - 100:+.1f} %")
+say("K5", f"TRL 2 total $239.20 (with indicator); CAL-001 v0.1 core $239.20; now (core plus indicator) ${tot['core'] + tot['user-supplied']:.2f}")
 
 if __name__ == "__main__":
     (Path(__file__).parent / "sizing-output.txt").write_text("\n".join(OUT) + "\n")

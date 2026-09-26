@@ -38,6 +38,8 @@ Requirements not met or at risk:
 
 ### Proposed, awaiting Amish
 
+Update: items 1 to 8 are Decided by Amish, 2026-09-25: go with recommendation (GBN-DDR-001 v0.2, GBN-DDR-002); item 9 has no recommendation and stays Proposed, awaiting Amish.
+
 1. **Budget.** Options: (a) dial indicator user-supplied, about $224; (b) also buy the tile as offcut stock, about $214 (price unverified); (c) raise `budget_usd` to $250. Recommendation: (a) plus (b), (c) as fallback. `project.yaml` is unchanged.
 2. **Grid standard:** 25 mm, M6 (optical breadboard compatible) versus 50 mm, M8 or 16 mm bores. Recommendation: 25 mm, M6, with a heavy variant considered later.
 3. **Two zones** (plywood field plus aluminum tile) versus an all-plywood or all-aluminum top. Recommendation: two zones.
@@ -100,9 +102,11 @@ Key numbers: bench 40.2 kg (65.9 kg ballasted); tile 3.0 kg, 0.061 mm under 500 
 
 ### Decisions recorded (GBN-DDR-001)
 
-Adopted as recommended for TRL 3 under Amish's 2026-09-25 instruction, open for his review: A1 cost options (a) and (b), indicator user-supplied and tile as offcut, with R10 redefined to exclude the indicator; A2 25 mm, M6 grid; A3 two zones; A4 inserts on the 50 mm sub-grid; A5 bolted timber frame; A6 printed PETG fixtures with a machined option; A7 ballast shelf plus optional wall anchor; A8 fixture metadata block; A9 fixture library stays CERN-OHL-S-2.0; A10 tile at the right of the worktop. `budget_usd` is unchanged at $220. No pitch or problem rewording was recommended, so none was applied.
+Decided by Amish, 2026-09-25: go with recommendation (first adopted for TRL 3, open for his review): A1 cost options (a) and (b), indicator user-supplied and tile as offcut, with R10 redefined to exclude the indicator; A2 25 mm, M6 grid; A3 two zones; A4 inserts on the 50 mm sub-grid; A5 bolted timber frame; A6 printed PETG fixtures with a machined option; A7 ballast shelf plus optional wall anchor; A8 fixture metadata block; A9 fixture library stays CERN-OHL-S-2.0; A10 tile at the right of the worktop. `budget_usd` is unchanged at $220. No pitch or problem rewording was recommended, so none was applied.
 
 ### Still awaiting Amish
+
+Update: items 2 and 3 (option a) and the apron and rubber-pad suggestions in item 4 are Decided by Amish, 2026-09-25: go with recommendation (GBN-DDR-002). Item 1 and the racking suggestion in item 4 stay Proposed, awaiting Amish.
 
 1. **O1, first workshops and regions for co-design.** No recommendation was made; none is chosen.
 2. **O2, `budget_usd` of $250** (TRL 2 cost option c). Recommended at TRL 2 as the fallback; GBN-CAL-001 shows it is now needed for R10. Not applied.
@@ -126,3 +130,53 @@ Adopted as recommended for TRL 3 under Amish's 2026-09-25 instruction, open for 
 ### Recommended next step
 
 TRL 4 is on hold by Amish's instruction; this repo stops at TRL 3. Amish's review is needed on O2 (the $250 budget) and on the R7 insert options above; O1 stays open. For the record only, TRL 4 would need: a built bench and tile; a lab test report (TST, `environment: lab`) of tipping force with and without ballast, deflection under 500 N, insert and clamp pull tests with 8 h creep, tile hole position and flatness, dowel relocation over 10 cycles, and hole position over 1,000 mm at two humidities; and build log entries. None of this has been started.
+
+## Session 2026-09-25: recommendations accepted
+
+On 2026-09-25 Amish wrote, in chat: "i accept all your recommendations, go with them across all repos." Every item with a recommendation is now **Decided by Amish, 2026-09-25: go with recommendation**, and is recorded in `docs/decisions/0002-recommendations-accepted.md` (GBN-DDR-002 v0.1). Items without a recommendation stay open.
+
+### Decisions applied and what changed
+
+| Item | Decision | Before | After |
+| --- | --- | --- | --- |
+| A1 to A10 (DDR-001) | Cost options, grid, zones, insert spacing, frame, fixture bodies, stability, file convention, license, tile position | Adopted for TRL 3, open for review | Decided; status wording in DDR-001 v0.2, PRB-001 and PRC-001 updated |
+| O2 budget | Raise `budget_usd` | $220 | $250; R10 target $250 |
+| R7 option (a) | Flanged M6 tee nuts pressed in from the underside; screw-in inserts where a frame member lies below | 252 screw-in inserts, pull-out factor 0.57 to 0.92 | 130 tee nuts (factor 1.51 to 2.42) and 122 screw-in inserts; BOM line 5 $25.20 to $27.80 |
+| Deeper aprons (TRL 3 suggestion) | 45 x 120 mm aprons | 45 x 95 mm, 0.49 mm under 500 N | 0.37 mm; frame $41.40 to $43.50; bench 40.2 kg to 41.9 kg |
+| Rubber pads (TRL 3 suggestion) | Rubber pads on the levelling feet | Empty bench slides at about 79 N (hard feet) | About 206 N empty, 332 N ballasted; feet $2.00 to $2.50 each |
+
+Knock-on figures: tipping 107 N to 112 N empty and 176 N to 181 N with ballast; core parts $239.20 to $245.90 ($4.10 under $250).
+
+Files changed: `project.yaml` (budget, evidence), `README.md`, `docs/01-problem.md` (GBN-PRB-001 v0.4), `docs/02-concept.md` (GBN-PRC-001 v0.4), `docs/03-requirements.md` (GBN-REQ-001 v0.4), `docs/04-calcs/01-sizing.md` (GBN-CAL-001 v0.2) and `sizing.py`, `docs/decisions/0001-trl2-review-decisions.md` (GBN-DDR-001 v0.2), `bom/bom.csv` and `bom-notes.md`, `cad/src/model.py` (STEP and STL re-exported), `cad/src/sheets.py` (GBN-DWG-001 Rev P1 to P2), `cad/src/concept_media.py` (all of `media/` re-rendered and checked), and all PDFs in `docs/pdf/`. The README "What sparked the idea" section was rewritten around Honoré Blanc's hand-filed interchangeable musket locks as reported by Jefferson in 1785, and the footer line about gap-filling areas was removed.
+
+### Requirement status (GBN-CAL-001 v0.2)
+
+1 not met in part, 2 at risk, 1 not verifiable at TRL 3, 5 met on paper, 3 met by design.
+
+| ID | Status | Key number |
+| --- | --- | --- |
+| R7 Clamp hold-down | **Not met** at the 122 screw-in positions over the frame | Pull-out factor 0.57 to 0.92 there; tee nuts 1.51 to 2.42 at 130 positions; tile met on paper |
+| R3 Coarse field accuracy | At risk | Template ±0.34 mm statistical, ±0.62 mm worst case; moisture coefficient unsourced |
+| R4 Tile location | At risk | 0.036 mm worst case against 0.03 mm |
+| R5 Flatness | Not verifiable at TRL 3 | Depends on stock as supplied |
+| R6, R8, R9, R10, R12 | Met on paper | 0.37 mm; 56 s; 190 mm print; $245.90 against $250; 181 N ballasted |
+| R1, R2, R11 | Met by design | |
+
+### Still awaiting Amish
+
+1. **O1, first workshops and regions for co-design.** No recommendation; none chosen.
+2. **O3, racking stiffness:** end low rails or a screwed-down shelf. The TRL 3 note named both without recommending one.
+3. **O4 (new), the 122 screw-in positions over the frame:** (a) rate them light duty at 0.92 N·m, giving 296 to 493 N at the part (GBN-CAL-001, G5e); (b) move the insert sub-grid off the frame lines; (c) relax R7 there. Recommendation: (a).
+
+### Cross-repo actions
+
+None. No decision in this repo needs a change in another repo.
+
+### TRL 4
+
+TRL 4 remains on hold by Amish's instruction. `trl` and `trl_target` stay at 3. Pull tests of the tee nuts and inserts, push tests for tipping and sliding with the rubber pads, and all purchasing are recorded as decided-in-principle work for TRL 4 and not started.
+
+### Notes
+
+- The decision wording relies on Amish's chat message as relayed to this session on 2026-09-25.
+- New assumptions flagged in GBN-CAL-001 v0.2: plywood bearing strength under a tee-nut flange (10 MPa), tee-nut pull-through on the same shear strength as inserts, and indicative prices for tee nuts ($0.12), 45 x 120 mm timber ($2.80/m) and rubber-padded feet ($2.50).

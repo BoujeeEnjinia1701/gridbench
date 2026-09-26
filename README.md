@@ -2,7 +2,7 @@
 
 ![TRL 3](https://img.shields.io/badge/TRL-3%20of%209-0F766E) ![Hardware: CERN-OHL-S-2.0](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-111827) ![Software: MIT](https://img.shields.io/badge/software-MIT-111827)
 
-**Area:** Advanced Manufacturing · **TRL:** 3 of 9 (proof of concept on paper) · **Prototype budget:** $220 USD (core parts $239.20; see Concept) · **Difficulty:** 2 of 5
+**Area:** Advanced Manufacturing · **TRL:** 3 of 9 (proof of concept on paper) · **Prototype budget:** $250 USD (core parts $245.90; see Concept) · **Difficulty:** 2 of 5
 
 A modular fixture and workbench standard: a 25 mm hole grid plate with printable and machined clamps, stops and jigs, so community workshops can hold, assemble and test parts repeatably.
 
@@ -47,7 +47,7 @@ Demand for local, repeatable making is rising with repair. The world generated a
 
 ## What sparked the idea
 
-It came out of a September 2026 review of Design Molecule's applied research areas against the open projects already in the lab. Advanced manufacturing was the lab's thinnest applied area. The real-world trigger was Gridfinity, a free 42 mm storage grid created in 2022 ([Wikipedia](https://en.wikipedia.org/wiki/Gridfinity)) that makers now extend without any central supplier; no open grid does the same for holding and checking parts.
+The idea traces back to Paris in 1785, when Thomas Jefferson, then the US minister to France, was shown the work of the gunsmith Honoré Blanc. Jefferson wrote to John Jay that he was handed the parts of 50 musket locks sorted into compartments, put several locks together himself from parts picked at random, and found that they fitted perfectly ([Jefferson to Jay, 30 August 1785, Founders Online](https://founders.archives.gov/documents/Jefferson/01-08-02-0354)). Blanc had no machine tools for this: each part was hand-filed in a jig and checked against gauges and master models ([Wikipedia, "Honoré Blanc"](https://en.wikipedia.org/wiki/Honor%C3%A9_Blanc)). Repeatability came from shared fixtures and gauges rather than from expensive machines, which is still the situation of a small workshop today. What such workshops lack is a common base on which those fixtures can be shared, and GridBench is an attempt to supply one.
 
 ## Problem
 
@@ -55,14 +55,14 @@ Repeatable building needs repeatable fixturing, and commercial modular fixture s
 
 ## Concept
 
-A 1,200 x 600 mm workbench with a 25 mm, M6 hole grid: a plywood field with threaded inserts for general holding, a flush 300 x 300 mm aluminum precision tile with dowel bores for repeatable location, printed clamps, stops and V-blocks, and an instrument post with a user-supplied dial indicator to check parts in place. Two concrete slabs on the shelf keep it from tipping. The TRL 3 calculations ([GBN-CAL-001](docs/04-calcs/01-sizing.md)) find 7 of 12 requirements met on paper or by design; cost (core parts $239.20 against $220) and clamp hold-down on the plywood field (insert pull-out) are not met. A $250 budget and fixes for the inserts are proposed, awaiting Amish.
+A 1,200 x 600 mm workbench with a 25 mm, M6 hole grid: a plywood field with tee nuts and threaded inserts for general holding, a flush 300 x 300 mm aluminum precision tile with dowel bores for repeatable location, printed clamps, stops and V-blocks, and an instrument post with a user-supplied dial indicator to check parts in place. Two concrete slabs on the shelf keep it from tipping and rubber-padded feet keep it from sliding. The TRL 3 calculations ([GBN-CAL-001](docs/04-calcs/01-sizing.md)) find 8 of 12 requirements met on paper or by design, including cost (core parts $245.90 against the $250 budget). Clamp hold-down is met at the tee-nut positions and on the tile but not at the 122 screw-in insert positions over the frame; a light-duty rating for those is proposed, awaiting Amish. The recommendations Amish accepted on 2026-09-25 are recorded in [GBN-DDR-002](docs/decisions/0002-recommendations-accepted.md).
 
-Full design precis: [docs/02-concept.md](docs/02-concept.md) · Requirements: [docs/03-requirements.md](docs/03-requirements.md) · Decisions: [docs/decisions/0001-trl2-review-decisions.md](docs/decisions/0001-trl2-review-decisions.md) · Model: [cad/src/model.py](cad/src/model.py)
+Full design precis: [docs/02-concept.md](docs/02-concept.md) · Requirements: [docs/03-requirements.md](docs/03-requirements.md) · Decisions: [DDR-001](docs/decisions/0001-trl2-review-decisions.md), [DDR-002](docs/decisions/0002-recommendations-accepted.md) · Model: [cad/src/model.py](cad/src/model.py)
 
 ## Key components
 
-- Bolted timber bench frame with levelling feet and a lower shelf
-- 18 mm plywood grid worktop, 25 mm pitch, M6 inserts on a 50 mm sub-grid
+- Bolted timber bench frame with 45 x 120 mm aprons, rubber-padded levelling feet and a lower shelf
+- 18 mm plywood grid worktop, 25 mm pitch, M6 flanged tee nuts (screw-in inserts over the frame) on a 50 mm sub-grid
 - Aluminum precision tile, 300 x 300 mm, 144 M6 holes and 9 dowel bores 8 mm H7
 - Hardened 8 mm locating pins, one round and one diamond per precision fixture
 - Printable clamp, stop, fence and V-block library (every part fits a 200 x 200 mm print bed)
@@ -73,7 +73,7 @@ The priced bill of materials (16 lines) is in [bom/bom.csv](bom/bom.csv).
 
 ## Safety
 
-> Drilling, tapping and clamping create chip, projectile and pinch hazards: wear eye protection and secure work before cutting. The empty bench tips at about 107 N at the top edge (estimate); place both ballast slabs on the shelf or anchor it to a wall before use. Printed clamps can crack under overload; respect the rated screw torque of 1.6 N·m. Not for welding or hot work.
+> Drilling, tapping and clamping create chip, projectile and pinch hazards: wear eye protection and secure work before cutting. The empty bench tips at about 112 N at the top edge (estimate); place both ballast slabs on the shelf or anchor it to a wall before use. Printed clamps can crack under overload; respect the rated screw torque of 1.6 N·m. Not for welding or hot work.
 
 ## Repository layout
 
@@ -98,4 +98,4 @@ Controlled documents follow the portfolio [documentation standard](.kit/STANDARD
 - **Hardware** (CAD, drawings, BOM, electronics): [CERN-OHL-S v2](LICENSE)
 - **Software** (firmware, scripts, notebooks): [MIT](LICENSE-SOFTWARE)
 
-A project of the [Design Molecule](https://designmolecule.com) lab. Gap-filling areas set.
+A project of the [Design Molecule](https://designmolecule.com) lab.

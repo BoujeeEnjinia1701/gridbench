@@ -40,13 +40,13 @@ tile_holes = Compound(children=[Pos(x, y, H) * disk(2.5, 0.6) for x, y in tile_x
 m = build_parts(P)
 parts = [
     Part("Bench frame, bolted timber", m["frame"], WOOD, 1, (0, 0, -420)),
-    Part("Levelling feet, M10 (4)", m["feet"], STEEL, 2, (0, 0, -620)),
+    Part("Levelling feet, M10, rubber pads (4)", m["feet"], STEEL, 2, (0, 0, -620)),
     Part("Lower shelf", m["shelf"], PLY, 3, (0, -700, -300)),
     Part("Ballast slabs, concrete (2)", m["ballast"], "#A8A29E", 14, (0, -700, -150)),
     Part("Wall anchor brackets (optional)", m["anchor"], STEEL, 15, (0, 800, 250)),
     Part("Plywood grid worktop (coarse field)", m["worktop"], PLY, 4, (0, 0, 0)),
     Part("Pin holes, 6.6 mm", ply_holes, HOLE, None, (0, 0, 0)),
-    Part("M6 threaded inserts, 50 mm sub-grid", inserts_mark, BRASS, 5, (0, 0, 0)),
+    Part("M6 tee nuts and inserts, 50 mm sub-grid", inserts_mark, BRASS, 5, (0, 0, 0)),
     Part("Insert bores", ins_bores, HOLE, None, (0, 0, 0)),
     Part("Precision grid tile, aluminum", m["tile"], ALU, 6, (0, 0, 200)),
     Part("Tile holes", tile_holes, "#374151", None, (0, 0, 200)),
@@ -102,9 +102,9 @@ render_all(
     parts, project="GridBench", title="Grid workbench and fixture set", dwg_no="GBN-DWG-010", date="2026-09-25",
     key_figures=["25 mm grid, M6, same as metric optical breadboards; 1,152 positions",
                  "Worktop 1,200 x 600 mm at 900 mm; tile 300 x 300 mm, 9 dowel bores 8 H7",
-                 "40.2 kg empty; tips at 107 N empty, 176 N with 25.8 kg ballast",
-                 "0.49 mm under 500 N at a bay (target 0.5 mm)",
-                 "Core parts $239.20 vs $220 budget (GBN-CAL-001)"],
+                 "41.9 kg empty; tips at 112 N empty, 181 N with 25.8 kg ballast",
+                 "0.37 mm under 500 N at a bay with 45 x 120 aprons (target 0.5 mm)",
+                 "Core parts $245.90 vs $250 budget (GBN-CAL-001 v0.2)"],
     cut=False,  # a section adds little: the worktop is solid plywood with the tile flush in a pocket
     flow={"title": "material flow for one part at a fixture (times are estimates)", "unit": "",
           "stages": [("Blank in", "from stock or printer"), ("Locate", "2 pins, ~10 s"),

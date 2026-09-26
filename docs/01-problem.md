@@ -3,7 +3,7 @@ doc_id: GBN-PRB-001
 title: GridBench problem statement
 project: GridBench
 doc_type: Problem statement
-version: "0.3"
+version: "0.4"
 status: Draft
 date: '2026-09-25'
 author: Amish Chadha
@@ -21,6 +21,10 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: TRL 3 update; grid choice and budget scope adopted as recommended (GBN-DDR-001), humidity figures sourced
+- version: "0.4"
+  date: '2026-09-25'
+  author: Amish Chadha
+  change: Recommendations accepted by Amish (DDR-002)
 ---
 
 # GridBench problem statement
@@ -53,7 +57,7 @@ The missing piece is an open, cheap, documented grid standard: a bench surface w
 
 ## Constraints
 
-- Garage-buildable prototype, about $220 USD in parts for the bench, grid, tile and fixture set (the dial indicator is user-supplied, GBN-DDR-001 A1), using timber or steel sections, plywood, one aluminum plate and 3D-printed parts.
+- Garage-buildable prototype, about $250 USD in parts (raised from $220 by Amish on 2026-09-25, GBN-DDR-002) for the bench, grid, tile and fixture set (the dial indicator is user-supplied, GBN-DDR-001 A1), using timber or steel sections, plywood, one aluminum plate and 3D-printed parts.
 - Build with common workshop tools: a drill press or hand router with a template, taps and a reamer. A shared CNC router speeds up the worktop but must not be required.
 - The grid must be compatible with something already made in volume, so that commercial accessories fit.
 - All files open: CAD in build123d source, hardware under CERN-OHL-S-2.0.
@@ -83,5 +87,5 @@ No open standard found combines a cheap worktop, a precision zone and a fixture 
 
 ## Open questions
 
-- Grid: 25 mm with M6 only at first, with a coarser 50 mm variant for heavy work considered later. Adopted as recommended for TRL 3 under Amish's 2026-09-25 instruction, open for his review (GBN-DDR-001 A2).
+- Grid: 25 mm with M6 only at first, with a coarser 50 mm variant for heavy work considered later. Decided by Amish, 2026-09-25: go with recommendation (GBN-DDR-001 A2).
 - Which workshops test the first benches, and in which countries? No recommendation made. Proposed, awaiting Amish (GBN-DDR-001 O1).

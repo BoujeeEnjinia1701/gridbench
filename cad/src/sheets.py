@@ -1,4 +1,4 @@
-"""GridBench general arrangement sheet GBN-DWG-001, Rev P1 (TRL 3).
+"""GridBench general arrangement sheet GBN-DWG-001, Rev P2 (TRL 3; Rev P2 under GBN-DDR-002).
 
 Run from the repo root:  python cad/src/sheets.py
 Writes cad/drawings/GBN-DWG-001.svg, .pdf and .png from the parametric model in
@@ -12,7 +12,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT / ".kit"), str(ROOT / "cad" / "src")]
 from drawing import Sheet, _viewbox, _t, M, TB_Y, INK, MUTED  # noqa: E402
-from model import PARAMS as P, assembly, build_parts, derived, dowel_points  # noqa: E402
+from model import PARAMS as P, assembly, build_parts, derived, dowel_points, insert_kinds  # noqa: E402
+
+TEE, SCREW = insert_kinds(P)
 
 DATE = "2026-09-25"
 
@@ -97,10 +99,11 @@ def main():
     tile = build_parts()["tile"]
     tview = safe_project_views(tile, work / "tile", names=("top",))["top"]
     bb = asm.bounding_box()
-    s = Sheet(project="GridBench", title="General arrangement", dwg_no="GBN-DWG-001", rev="P1",
+    s = Sheet(project="GridBench", title="General arrangement", dwg_no="GBN-DWG-001", rev="P2",
               author="Amish Chadha", date=DATE, scale=None, theme="technical",
               material="Softwood frame, birch plywood top, cast aluminum tile; bought-in parts per bom/bom.csv. PRELIMINARY, NOT FOR FABRICATION",
-              revisions=[("P1", "Preliminary GA for TRL 3 (from cad/src/model.py)", DATE, "AC")])
+              revisions=[("P1", "Preliminary GA for TRL 3 (from cad/src/model.py)", DATE, "AC"),
+                         ("P2", "Recommendations accepted (DDR-002): 45 x 120 aprons, tee nuts, rubber feet", DATE, "AC")])
     s.add_ortho(views)
     k = s.scale
     c = ortho_cells(s, views)
@@ -162,12 +165,13 @@ def main():
     s.add_notes("Main dimensions and interfaces (mm)", [
         f"Worktop {Lt:,.0f} x {Dt:.0f} x {P['top_t']:.0f} birch ply, top at {H:.0f} ±{P['adjust']:.0f}",
         f"Grid {P['pitch']:.0f} pitch, first hole {P['edge']} from each edge; 1,152 positions",
-        f"Field: 756 x {P['plain_d']} plain; 252 M6 inserts on the 50 sub-grid",
+        f"Field: 756 x {P['plain_d']} plain; 252 M6 on the 50 sub-grid: {len(TEE)} tee nuts from below, {len(SCREW)} screw-in over frame",
         f"Tile {t:.0f} x {t:.0f} x {P['tile_t']}, left edge {x0 + Lt / 2:.0f} from the worktop's left edge",
         f"Feet at {2 * D['lx']:,.0f} x {2 * D['ly']:.0f} centers; legs {P['leg']:.0f} square",
         f"Aprons {P['apron'][0]:.0f} x {P['apron'][1]:.0f}; cross rails {P['rail'][0]:.0f} x {P['rail'][1]:.0f} at X {', '.join(f'{v:g}' for v in P['cross_x'])}",
         "Ballast 2 x 12.9 kg slabs (GBN-CAL-001, C4)",
         "Toe clamp torque 1.6 N m max; one round + one diamond pin",
+        "Levelling feet with 3 mm rubber pads",
         "All exposed edges chamfered or rounded 0.5 min",
         "Third-angle; front view from -Y; origin at worktop center",
     ], x=276, y=148, width=146)
