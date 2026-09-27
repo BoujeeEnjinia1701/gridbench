@@ -192,3 +192,27 @@ Amish asked on 2026-09-26 to fix the weaker sources. Changes, all in `README.md`
 | What sparked the idea: how Blanc made the parts | Wikipedia, "Honoré Blanc" | Jefferson to Jay, 30 August 1785 (Founders Online), already the section's primary source. The hand-filing, jig and gauge detail was removed because it rested only on Wikipedia; the section now quotes Jefferson's own words ("by tools of his own contrivance"). The inspiration event is unchanged. |
 
 No country rows were replaced. `docs/01-problem.md` did not cite these sources, so no controlled document changed. The RP Photonics link (grid convention) and the Siegmund dealer listing (a price, for which the listing is the primary source) were not flagged and were kept.
+
+## Session 2026-09-26: product appearance model and photoreal renders
+
+Amish chose this repo on 2026-09-26 for the first batch of product renders. This session added `cad/src/product_model.py` (appearance model, 42 parts), set the README hero image to `media/render-hero.png` with a link to `media/render-exploded.png`, and wrote this note. The render files are produced later by the portfolio render pipeline. No other file changed: `model.py`, the BOM, the drawings and the controlled documents are untouched.
+
+### What product_model.py adds
+
+- `product_parts()`, `TITLE` and `RENDER_VIEWS` (hero from the front right at about 30 deg, exploded from the front right at about 28 deg, and a detail view of the worktop and fixture set without the frame at about 42 deg).
+- Worktop: all 1,008 grid holes cut (cut per 150 mm cell so the mesh stays light), eased 1 mm edges, lamination lines on the plywood edges, laser-etched index ticks every 100 mm along the front and left margins, brass screw-in inserts flush in the top and zinc tee nuts underneath.
+- Precision tile: chamfered top edge, every M6 hole, the 9 dowel bores, and cap screws seated in the 4 counterbores.
+- Frame: members with eased arrises, domed M8 carriage bolt heads at every leg joint, a teal name plate on the front apron; levelling feet with rubber pads, filleted steel pads and lock nuts; shelf and ballast slabs with softened edges.
+- Fixture set: toe clamps with a toe relief, grip ribs, M6 screws, washers and lobed knobs; round and diamond pins; a machined sample block; fence segments with cap screws and a sight line; stop pins with collars; a V-block holding a sample round bar; a slotted instrument post with end cap, arm clamps, and a dial indicator with bezel, graduated face, needle, crystal and contact point on the sample block.
+- Context: a compact section of workshop floor.
+
+### Differences from model.py
+
+1. **Toe-clamp screw positions.** Proposed, awaiting Amish. model.py places the two clamp screws at (320, 40) and (430, -40) mm, which fall between tile holes (holes sit at 12.5 + 25k mm). The appearance model puts each screw on the nearest tile hole, (312.5, 37.5) and (437.5, -37.5), and slides the clamp bodies in their slots to stay near the model.py positions. Recommendation: update model.py to the same hole-centered positions at the next model revision.
+2. **Wall anchor brackets (BOM 15, optional) left out.** Proposed, awaiting Amish. With no wall in the scene the brackets read as loose tabs behind the bench. Recommendation: keep them out of product renders and keep them in model.py, the drawing and the BOM as they are.
+3. **Full hole pattern in the worktop.** Proposed, awaiting Amish. model.py cuts a representative 8 x 8 patch to keep STEP and STL files small; the appearance model cuts all 1,008 holes so the grid reads in renders. Grid positions come from model.py (`classify()`, `insert_kinds()`), so nothing moves. Recommendation: keep this split (patch in the exported CAD, full pattern in renders).
+4. **Appearance-only additions** (lamination lines, index ticks, name plate, bolt heads, knobs, the sample block and bar) change no dimension or interface. The index ticks and name plate are not in the BOM. Recommendation: treat them as render detail only unless Amish wants them adopted.
+
+### Status
+
+This is an appearance model only: no tolerances, fabrication detail or build instructions. `trl` and `trl_target` stay at 3, and TRL 4 remains on hold.
