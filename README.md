@@ -1,6 +1,6 @@
 # GridBench
 
-![TRL 3](https://img.shields.io/badge/TRL-3%20of%209-0F766E) ![Hardware: CERN-OHL-S-2.0](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-111827) ![Software: MIT](https://img.shields.io/badge/software-MIT-111827)
+![TRL 3](https://img.shields.io/badge/TRL-3%20of%209-0F766E) ![Hardware: CERN-OHL-S-2.0](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-111827) ![Software: MIT](https://img.shields.io/badge/software-MIT-111827) [![DOI](https://zenodo.org/badge/1388476621.svg)](https://zenodo.org/badge/latestdoi/1388476621) [![REUSE compliant](https://github.com/BoujeeEnjinia1701/gridbench/actions/workflows/reuse.yml/badge.svg)](https://github.com/BoujeeEnjinia1701/gridbench/actions/workflows/reuse.yml) [![Archived in Software Heritage](https://archive.softwareheritage.org/badge/origin/https://github.com/BoujeeEnjinia1701/gridbench/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/BoujeeEnjinia1701/gridbench)
 
 **Area:** Advanced Manufacturing · **TRL:** 3 of 9 (proof of concept on paper) · **Prototype budget:** $250 USD (core parts $245.90; see Concept) · **Difficulty:** 2 of 5
 
