@@ -40,7 +40,7 @@ tile_holes = Compound(children=[Pos(x, y, H) * disk(2.5, 0.6) for x, y in tile_x
 m = build_parts(P)
 parts = [
     Part("Bench frame, bolted timber", m["frame"], WOOD, 1, (0, 0, -420)),
-    Part("Levelling feet, M10, rubber pads (4)", m["feet"], STEEL, 2, (0, 0, -620)),
+    Part("Levelling feet, M10, rubber pads (4)", m["feet"], STEEL, 2, (0, 0, -300)),
     Part("Lower shelf", m["shelf"], PLY, 3, (0, -700, -300)),
     Part("Ballast slabs, concrete (2)", m["ballast"], "#A8A29E", 14, (0, -700, -150)),
     Part("Wall anchor brackets (optional)", m["anchor"], STEEL, 15, (0, 800, 250)),

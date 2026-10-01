@@ -99,11 +99,12 @@ def main():
     tile = build_parts()["tile"]
     tview = safe_project_views(tile, work / "tile", names=("top",))["top"]
     bb = asm.bounding_box()
-    s = Sheet(project="GridBench", title="General arrangement", dwg_no="GBN-DWG-001", rev="P2",
+    s = Sheet(project="GridBench", title="General arrangement", dwg_no="GBN-DWG-001", rev="P3",
               author="Amish Chadha", date=DATE, scale=None, theme="technical",
               material="Softwood frame, birch plywood top, cast aluminum tile; bought-in parts per bom/bom.csv. PRELIMINARY, NOT FOR FABRICATION",
               revisions=[("P1", "Preliminary GA for TRL 3 (from cad/src/model.py)", DATE, "AC"),
-                         ("P2", "Recommendations accepted (DDR-002): 45 x 120 aprons, tee nuts, rubber feet", DATE, "AC")])
+                         ("P2", "Recommendations accepted (DDR-002): 45 x 120 aprons, tee nuts, rubber feet", DATE, "AC"),
+                         ("P3", "Layout and labels tidied", DATE, "AC")])
     s.add_ortho(views)
     k = s.scale
     c = ortho_cells(s, views)
@@ -117,34 +118,28 @@ def main():
     Z = lambda mz: y + h - (mz - bb.min.Z) * k
     zg = Z(0)
     L.append(f'<line x1="{x - 8:.2f}" y1="{zg:.2f}" x2="{x + w + 4:.2f}" y2="{zg:.2f}" stroke="{INK}" stroke-width="0.35"/>')
-    L.append(_t(x + w + 4, zg + 3.5, "FLOOR", 2.0, 600, MUTED, "end"))
+    L.append(_t(x + w + 5, zg - 1.2, "FLOOR", 2.0, 600, MUTED, "start"))
     xd = X(-Lt / 2) - 5
-    L += [ext(X(-Lt / 2), Z(H), xd - 1, Z(H))]
-    L += dim_v(xd, Z(H), zg, f"{H:.0f} ±{P['adjust']:.0f}")
-    L += dim_h(X(-Lt / 2), X(Lt / 2), zg + 17, f"{Lt:,.0f}")
-    L += [ext(X(-Lt / 2), Z(H), X(-Lt / 2), zg + 18), ext(X(Lt / 2), Z(H), X(Lt / 2), zg + 18)]
+    # height (900 +/- 15) and worktop length (1,200) are dropped here: both are in the notes box and the overall views
     L += dim_h(X(-D["lx"]), X(D["lx"]), zg + 23, f"{2 * D['lx']:,.0f} FEET")
     L += [ext(X(-D["lx"]), zg + 1, X(-D["lx"]), zg + 24), ext(X(D["lx"]), zg + 1, X(D["lx"]), zg + 24)]
-    L += leader(X(-120), Z(D["shelf_z"] + 30), X(-120) + 3, Z(D["shelf_z"] + 250), "14 BALLAST, 2 SLABS ON SHELF 3")
+    L += leader(X(-120), Z(D["shelf_z"] + 30), X(-120) + 3, Z(D["shelf_z"] + 250), "14 BALLAST, 2 SLABS")
 
     # top view (from +Z): X to the right, Y up the sheet
     x, y, w, h = c["top"]
     Xt = lambda mx: x + (mx - bb.min.X) * k
     Yt = lambda my: y + h - (my - bb.min.Y) * k
-    L += dim_h(Xt(-Lt / 2), Xt(x0), Yt(Dt / 2) - 4, f"{x0 + Lt / 2:.0f}")
-    L += dim_h(Xt(x0), Xt(x0 + t), Yt(Dt / 2) - 4, f"{t:.0f}")
-    L += [ext(Xt(x0), Yt(P['tile_y0'] + t), Xt(x0), Yt(Dt / 2) - 5), ext(Xt(x0 + t), Yt(P['tile_y0'] + t), Xt(x0 + t), Yt(Dt / 2) - 5)]
-    L += dim_v(Xt(-Lt / 2) - 4, Yt(Dt / 2), Yt(-Dt / 2), f"{Dt:.0f}")
-    L += leader(Xt(x0 + t / 2), Yt(0), Xt(bb.max.X) + 3, Yt(Dt / 2) + 2, "6 PRECISION TILE, FLUSH")
-    L += leader(Xt(-500), Yt(-250), Xt(bb.max.X) + 3, Yt(-Dt / 2) + 2, "4 PLYWOOD FIELD, 25 GRID")
+    L += dim_h(Xt(-Lt / 2), Xt(x0), Yt(Dt / 2) - 10, f"{x0 + Lt / 2:.0f}")
+    L += dim_h(Xt(x0), Xt(x0 + t), Yt(Dt / 2) - 10, f"{t:.0f}")
+    L += [ext(Xt(x0), Yt(P['tile_y0'] + t), Xt(x0), Yt(Dt / 2) - 11), ext(Xt(x0 + t), Yt(P['tile_y0'] + t), Xt(x0 + t), Yt(Dt / 2) - 11)]
+    L += leader(Xt(x0 + t / 2), Yt(0), Xt(bb.max.X) + 9, Yt(Dt / 2) + 2, "6 PRECISION TILE, FLUSH")
+    L += leader(Xt(-500), Yt(-250), Xt(bb.max.X) + 9, Yt(-Dt / 2) + 2, "4 PLYWOOD FIELD, 25 GRID")
 
     # right view (from +X): +Y to the right, Z up
     x, y, w, h = c["right"]
     Yr = lambda my: x + (my - bb.min.Y) * k
     Zr = lambda mz: y + h - (mz - bb.min.Z) * k
-    L += dim_h(Yr(-D["ly"]), Yr(D["ly"]), Zr(0) + 17, f"{2 * D['ly']:.0f}")
-    L += [ext(Yr(-D["ly"]), Zr(0) + 1, Yr(-D["ly"]), Zr(0) + 18), ext(Yr(D["ly"]), Zr(0) + 1, Yr(D["ly"]), Zr(0) + 18)]
-    L.append(_t(Yr(0), Zr(0) + 21, "FEET, FRONT TO BACK", 1.8, 400, MUTED, "middle"))
+    # the 490 feet spacing (front to back) is given in the notes box
 
     # detail A: tile, top view at 1:5, left of the orthographic group
     kd = 0.2
