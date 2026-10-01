@@ -2,13 +2,13 @@
 
 ![TRL 3](https://img.shields.io/badge/TRL-3%20of%209-0F766E) ![Hardware: CERN-OHL-S-2.0](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-111827) ![Software: MIT](https://img.shields.io/badge/software-MIT-111827) [![DOI](https://zenodo.org/badge/1388476621.svg)](https://zenodo.org/badge/latestdoi/1388476621) [![REUSE compliant](https://github.com/BoujeeEnjinia1701/gridbench/actions/workflows/reuse.yml/badge.svg)](https://github.com/BoujeeEnjinia1701/gridbench/actions/workflows/reuse.yml) [![Archived in Software Heritage](https://archive.softwareheritage.org/badge/origin/https://github.com/BoujeeEnjinia1701/gridbench/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/BoujeeEnjinia1701/gridbench)
 
-**Area:** Advanced Manufacturing · **TRL:** 3 of 9 (proof of concept on paper) · **Prototype budget:** $250 USD (core parts $245.90; see Concept) · **Difficulty:** 2 of 5
+**Area:** Advanced Manufacturing · **TRL:** 3 of 9 (proof of concept on paper) · **Value-engineering target:** USD 250 (estimated cost of the constructable design USD 268.40; see Concept) · **Difficulty:** 2 of 5
 
 A modular fixture and workbench standard: a 25 mm hole grid plate with printable and machined clamps, stops and jigs, so community workshops can hold, assemble and test parts repeatably.
 
 ![GridBench: workbench with a 25 mm hole grid and fixture set, product render](media/render-hero.png)
 
-[Exploded render](media/render-exploded.png) · [Detail render](media/render-detail.png) · [Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [General arrangement GBN-DWG-001 (PDF)](cad/drawings/GBN-DWG-001.pdf) · [Calculations](docs/04-calcs/01-sizing.md) · [Review note](docs/REVIEW.md)
+[Exploded render](media/render-exploded.png) · [Detail render](media/render-detail.png) · [Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [General arrangement GBN-DWG-001 (PDF)](cad/drawings/GBN-DWG-001.pdf) · [Calculations](docs/04-calcs/01-sizing.md) · [Prototype build plan](docs/05-build-plan.md) · [Design decisions](docs/06-design-decisions.md) · [Review note](docs/REVIEW.md)
 
 ## Concept rationale
 
@@ -55,13 +55,13 @@ Repeatable building needs repeatable fixturing, and commercial modular fixture s
 
 ## Concept
 
-A 1,200 x 600 mm workbench with a 25 mm, M6 hole grid: a plywood field with tee nuts and threaded inserts for general holding, a flush 300 x 300 mm aluminum precision tile with dowel bores for repeatable location, printed clamps, stops and V-blocks, and an instrument post with a user-supplied dial indicator to check parts in place. Two concrete slabs on the shelf keep it from tipping and rubber-padded feet keep it from sliding. The TRL 3 calculations ([GBN-CAL-001](docs/04-calcs/01-sizing.md)) find 8 of 12 requirements met on paper or by design, including cost (core parts $245.90 against the $250 budget). Clamp hold-down is met at the tee-nut positions and on the tile but not at the 122 screw-in insert positions over the frame; a light-duty rating for those is proposed, awaiting Amish. The recommendations Amish accepted on 2026-09-25 are recorded in [GBN-DDR-002](docs/decisions/0002-recommendations-accepted.md).
+A 1,200 x 600 mm workbench with a 25 mm, M6 hole grid: a plywood field with tee nuts and threaded inserts for general holding, a flush 300 x 300 mm aluminum precision tile with dowel bores for repeatable location, printed clamps, stops and V-blocks, and an instrument post with a user-supplied dial indicator to check parts in place. Two concrete slabs on the shelf keep it from tipping and rubber-padded feet keep it from sliding. The TRL 3 calculations ([GBN-CAL-001](docs/04-calcs/01-sizing.md)) find 7 of 12 requirements met on paper or by design. Value-engineering target: USD 250; estimated cost of the constructable design: USD 268.40 (USD 18.40 over the target). Clamp hold-down is met at the tee-nut positions and on the tile but not at the 122 screw-in insert positions over the frame; a light-duty rating for those is proposed, awaiting Amish. The recommendations Amish accepted on 2026-09-25 are recorded in [GBN-DDR-002](docs/decisions/0002-recommendations-accepted.md), and the changes that make the design buildable in [GBN-DDR-003](docs/decisions/0003-design-for-construction.md).
 
-Full design precis: [docs/02-concept.md](docs/02-concept.md) · Requirements: [docs/03-requirements.md](docs/03-requirements.md) · Decisions: [DDR-001](docs/decisions/0001-trl2-review-decisions.md), [DDR-002](docs/decisions/0002-recommendations-accepted.md) · Model: [cad/src/model.py](cad/src/model.py)
+Full design precis: [docs/02-concept.md](docs/02-concept.md) · Requirements: [docs/03-requirements.md](docs/03-requirements.md) · Decisions: [DDR-001](docs/decisions/0001-trl2-review-decisions.md), [DDR-002](docs/decisions/0002-recommendations-accepted.md), [DDR-003](docs/decisions/0003-design-for-construction.md), [register](docs/06-design-decisions.md) · Model: [cad/src/model.py](cad/src/model.py)
 
 ## Key components
 
-- Bolted timber bench frame with 45 x 120 mm aprons, rubber-padded levelling feet and a lower shelf
+- Bolted timber bench frame (M8 bolts and cross dowels) with 45 x 120 mm aprons, rubber-padded levelling feet and a lower shelf
 - 18 mm plywood grid worktop, 25 mm pitch, M6 flanged tee nuts (screw-in inserts over the frame) on a 50 mm sub-grid
 - Aluminum precision tile, 300 x 300 mm, 144 M6 holes and 9 dowel bores 8 mm H7
 - Hardened 8 mm locating pins, one round and one diamond per precision fixture
@@ -69,11 +69,17 @@ Full design precis: [docs/02-concept.md](docs/02-concept.md) · Requirements: [d
 - Instrument post for a 0.01 mm dial indicator (user-supplied)
 - Two concrete ballast slabs on the shelf; optional wall anchor brackets
 
-The priced bill of materials (16 lines) is in [bom/bom.csv](bom/bom.csv).
+The priced bill of materials (17 lines) is in [bom/bom.csv](bom/bom.csv).
+
+## Building the prototype
+
+The [prototype build plan](docs/05-build-plan.md) (GBN-BLD-001) shows how to make each of the 20 components and put the bench together in 15 steps, with a making sketch for every made part and a picture for every joint and step, all drawn from the model. The frame is sawn and drilled softwood joined with M8 bolts and cross dowels, the worktop is drilled plywood, the tile is drilled, reamed and tapped aluminium plate, and the fixtures are printed in PETG on a 200 x 200 mm bed. Making the design buildable changed some details of the concept, recorded in [GBN-DDR-003](docs/decisions/0003-design-for-construction.md); decisions still open are in the [design decisions register](docs/06-design-decisions.md). It is a plan: nothing has been built yet.
+
+![GridBench prototype: every component, pulled apart and numbered in build order](docs/05-build-plan/overview.png)
 
 ## Safety
 
-> Drilling, tapping and clamping create chip, projectile and pinch hazards: wear eye protection and secure work before cutting. The empty bench tips at about 112 N at the top edge (estimate); place both ballast slabs on the shelf or anchor it to a wall before use. Printed clamps can crack under overload; respect the rated screw torque of 1.6 N·m. Not for welding or hot work.
+> Drilling, tapping and clamping create chip, projectile and pinch hazards: wear eye protection and secure work before cutting. The empty bench tips at about 117 N at the top edge (estimate); place both ballast slabs on the shelf or anchor it to a wall before use. Printed clamps can crack under overload; respect the rated screw torque of 1.6 N·m. Not for welding or hot work.
 
 ## Repository layout
 

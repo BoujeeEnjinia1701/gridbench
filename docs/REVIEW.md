@@ -222,3 +222,57 @@ This is an appearance model only: no tolerances, fabrication detail or build ins
 - Kit 1.5.0 synced: STANDARDS v1.5 (sections 12 to 15: product renders, storefront images and image quality, public release, authorship and signing), `.kit/cards.py`, `.kit/image_qc.py`, `.kit/release_gate.py`, issue templates, and the `/render-product` and `/release` commands. `CLAUDE.md` now matches `.kit/CLAUDE.md`.
 - Every `media/render-*.png` recaptioned from its original render with the new layout: the title, concept label and repository sit in a band above the render and the view note in a band below it, each line wrapped to the image width, so no text overlaps other text or the render or runs off the image. `media/card.png` and `media/social-preview.png` regenerated with the same rules.
 - `python .kit/image_qc.py` and `python .kit/release_gate.py` pass. trl stays 3.
+
+## Session 2026-10-01: design for construction and prototype build plan (kit 1.7.0)
+
+Amish approved the build plan format on 2026-09-30 ("this is the correct build plan ... this is a good quality document format. Extend this across all the other repos"), asked for outstanding decisions to go in a separate design decisions register, and asked for any design that cannot be built as drawn to be made physically feasible. On 2026-10-01 he set `budget_usd` as a value-engineering target, not a limit. This session installed kit 1.7.0, ran `/build-plan` and stopped at TRL 3.
+
+### What was done
+
+- Kit 1.7.0 installed (`.kit/`, `.claude/commands/`); `CLAUDE.md` now matches `.kit/CLAUDE.md`.
+- `cad/src/model.py`: every component is now its own solid (`build_components()`), with a constructability check (`python cad/src/model.py --check`, 92 checks, all pass). STEP and STL re-exported to `cad/step/` and `cad/stl/`.
+- `docs/decisions/0003-design-for-construction.md` (GBN-DDR-003 v0.1, Draft): every change below, made under Amish's 2026-09-30 instruction to make the design physically buildable; open for his review.
+- `cad/src/build_plan_media.py`: overview, worktop hole layout, 16 making sketches (`cad/drawings/GBN-DWG-101` to `116`), 11 joint close-ups and 15 assembly step pictures in `docs/05-build-plan/`.
+- `docs/05-build-plan.md` (GBN-BLD-001 v0.1) and `docs/06-design-decisions.md` (GBN-DEC-001 v0.1, with a Value engineering section).
+- GBN-DWG-001 to Rev P4; concept media re-rendered from the updated model.
+- GBN-CAL-001 v0.3 and `sizing.py`, GBN-PRC-001 v0.5, GBN-REQ-001 v0.5, `bom/bom.csv` (17 lines) and `bom/bom-notes.md`, `project.yaml` (`design_state: constructable`, new evidence), `README.md` (links line and "Building the prototype"); PDFs rebuilt.
+
+### Design changes made for construction (GBN-DDR-003)
+
+1. Long aprons shortened to 1,020 mm and butted between the legs (they ran through them); every apron and low rail end held by two M8 x 120 bolts into M8 cross dowels, the end-apron bolts staggered against the long-apron bolts inside the leg.
+2. Cross rail under the tile's right edge notched 15 x 25 mm at both ends (it ran 15 mm into the right-hand legs); every cross rail held by two 6 x 100 mm screws through the apron at each end.
+3. Shelf 1,010 mm long instead of 1,020 mm, so it fits between the legs.
+4. Tile pocket 301 x 301 mm with 8 mm corner relief holes (it was the tile's exact size with square corners).
+5. Tile held by four M6 x 20 cap screws into screw-in inserts in the two tile rails (the counterbored holes had nothing to screw into).
+6. Worktop held by nine steel angle brackets on the apron inside faces (it had no fixing), each clear of every tee nut and cross rail.
+7. Leg ends bored 12 mm with an M10 T-nut for each levelling foot (the stems ended in solid wood).
+8. Fence, V-block, post foot and toe clamp screws moved onto threaded positions; stop pins given a spigot; one screw length rule (15 to 18 mm below the plywood surface, 12 mm at most on the tile).
+9. Instrument arm passes beside the post through a printed arm clamp, and the drop rod beside the arm's end through a printed end clamp (the arm passed through the post); post foot 74 x 74 mm on two M6 screws, post held by two M5 screws; post moved to the plywood directly behind the tile.
+10. V-block's V narrowed to 50 mm with 5 mm flats, so the block is 60 mm tall as specified (the V cut its top edges off).
+11. Optional wall anchor angles fixed under the rear apron and down the wall (the flat leg pointed at no wall).
+
+### Key results
+
+- Mass 43.8 kg empty (was 41.9 kg), 69.5 kg with ballast; tipping 117 N empty, 186 N with ballast (target 150 N); stiffness unchanged at 0.37 mm.
+- Value-engineering target: USD 250. Estimated cost of the constructable design: USD 268.40 (USD 18.40 over the target). The cost drivers and savings worth trying are in GBN-DEC-001.
+- Requirements: R7 not met at the 122 screw-in positions (unchanged); R10 over the value-engineering target by USD 18.40; R3 and R4 at risk; R5 not verifiable at TRL 3; R6, R8, R9 and R12 met on paper; R1, R2 and R11 met by design.
+
+### Decisions proposed and awaiting Amish
+
+All are in the design decisions register (`docs/06-design-decisions.md`): review of GBN-DDR-003; O4, the light-duty rating of the 122 screw-in positions (recommended); O3, racking stiffness; O1, first workshops; and three appearance items from 2026-09-26 (wall anchor out of renders, full holes only in renders, render-only details). No budget decision is proposed: the budget is a value-engineering target.
+
+### Stale outputs
+
+The photoreal renders `media/render-hero.png`, `media/render-exploded.png` and `media/render-detail.png` (made on Amish's Mac, not in this cloud copy), `media/card.png` and `media/social-preview.png`, and the appearance model `cad/src/product_model.py` still show the concept: fixture positions, post and arm without clamps, and no brackets, T-nuts or frame bolts. The appearance model reads the apron length from `model.py`, so it already butts the aprons between the legs. They are not regenerated here and need updating on the Mac.
+
+### Safety concerns
+
+Unchanged in kind: tipping of the empty bench (117 N), chips and projectiles when drilling, tapping and routing, pinch points at clamps, printed clamps cracking above 1.6 N·m, screw-in positions over the frame pulling out before full clamp force, and no hot work. The build plan adds six safety stops (S1 to S6), including a two-person lift for the worktop.
+
+### Recommended next step
+
+Amish to review GBN-DDR-003 and the register. TRL 4 remains on hold; a TRL 4 build would follow GBN-BLD-001 and record the first checks of its section 5.
+
+### Picture check
+
+Every picture made in this session was looked at: the overview, the worktop hole layout, the 16 making sketches, the 11 joint close-ups, the 15 step pictures, the general arrangement and the concept media (hero, exploded view, flow, blueprint). Pictures that were unclear were redrawn: joints 1, 2 and 3 as sections cut level with a bolt or screw and seen from above, joints 5, 6, 7 and 9 with the cut facing the camera, the long members' sketches drawn standing on end so their views fit the sheet, the packer and fixture sketches with insets that zoom in on where the part sits, the step pictures with bolts pulled out on the correct side, and the overview with the shelf, slabs and wall anchor moved clear of the frame. `python .kit/drawing.py --check-text cad/drawings/*.svg media/concept-blueprint.svg` finds no overlapping text. One known weakness: in joint 3 the leader for the front right leg ends at the leg's corner beside the apron, because the kit picks the leader point.

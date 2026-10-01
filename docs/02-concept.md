@@ -3,9 +3,9 @@ doc_id: GBN-PRC-001
 title: GridBench design precis
 project: GridBench
 doc_type: Design precis
-version: "0.4"
+version: "0.5"
 status: Draft
-date: '2026-09-25'
+date: '2026-10-01'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -25,13 +25,17 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Recommendations accepted by Amish (DDR-002)
+- version: "0.5"
+  date: '2026-10-01'
+  author: Amish Chadha
+  change: Design made constructable (GBN-DDR-003); mass, stability and cost updated; cost reported against the value-engineering target
 ---
 
 # GridBench design precis
 
 ## Summary
 
-GridBench is a 1,200 x 600 mm workbench whose top is a 25 mm hole grid with M6 threads, the same pattern as metric optical breadboards. A cheap plywood field covers most of the top for general holding, and a 300 x 300 mm aluminum precision tile, set flush on the same grid, carries work that must repeat to a few hundredths of a millimeter. Printed clamps, stops, fences and V-blocks bolt to either zone, and a post with a user-supplied dial indicator checks parts in place. Two concrete slabs on the shelf keep the bench from tipping, and rubber-padded feet keep it from sliding. The core parts cost $245.90, within the $250 budget that Amish set on 2026-09-25 (GBN-DDR-002). The parametric model is `cad/src/model.py`, the general arrangement is drawing GBN-DWG-001 and the calculations are GBN-CAL-001.
+GridBench is a 1,200 x 600 mm workbench whose top is a 25 mm hole grid with M6 threads, the same pattern as metric optical breadboards. A cheap plywood field covers most of the top for general holding, and a 300 x 300 mm aluminum precision tile, set flush on the same grid, carries work that must repeat to a few hundredths of a millimeter. Printed clamps, stops, fences and V-blocks bolt to either zone, and a post with a user-supplied dial indicator checks parts in place. Two concrete slabs on the shelf keep the bench from tipping, and rubber-padded feet keep it from sliding. Value-engineering target: USD 250. Estimated cost of the constructable design: USD 268.40 for the core parts (USD 18.40 over the target). The design was made buildable on 2026-10-01 (GBN-DDR-003): the frame members are bolted to the legs with cross dowels, the worktop is held by brackets and the tile by four screws, and every fixture sits on threaded grid positions; the prototype build plan is GBN-BLD-001. The parametric model is `cad/src/model.py`, the general arrangement is drawing GBN-DWG-001 and the calculations are GBN-CAL-001.
 
 ![GridBench concept](../media/hero.png)
 
@@ -58,9 +62,9 @@ Table 1. Main components (numbers match the BOM and Figure 2).
 
 | No. | Component | Design |
 | --- | --- | --- |
-| 1 | Bench frame | Bolted softwood: four 70 x 70 mm legs at 1,090 x 490 mm centers, 45 x 120 mm aprons, four 45 x 70 mm cross rails (clear bays 255 mm or less), two low rails for the shelf, two 5.3 mm hardwood packers under the tile |
+| 1 | Bench frame | Bolted softwood: four 70 x 70 mm legs at 1,090 x 490 mm centers, 45 x 120 mm aprons and two low rails butted between the legs on M8 bolts and cross dowels, four 45 x 70 mm cross rails (clear bays 255 mm or less), two 5.3 mm hardwood packers under the tile |
 | 2 | Levelling feet | Four M10 feet in T-nuts with 3 mm rubber pads, ±15 mm adjustment |
-| 3 | Lower shelf | 12 mm plywood, 1,020 x 535 mm, resting on the low rails; carries the ballast |
+| 3 | Lower shelf | 12 mm plywood, 1,010 x 535 mm, resting on the low rails; carries the ballast |
 | 4 | Plywood grid worktop | 18 mm birch plywood, 1,200 x 600 mm, 1,008 holes on the 25 mm grid, 300 x 300 mm through pocket for the tile |
 | 5 | M6 threaded inserts | 252 on the 50 mm sub-grid: 130 flanged tee nuts (19 mm flange, 9.5 mm barrel) pressed in from the underside, and 122 screw-in inserts (10 mm OD by 13 mm) where a frame member lies below |
 | 6 | Precision grid tile | Cast aluminum tooling plate (offcut), 300 x 300 x 12.7 mm, 144 M6 tapped holes, 9 reamed 8 mm H7 bores, 4 counterbored fixing holes to the two cross rails |
@@ -84,8 +88,8 @@ Table 2. Key numbers.
 | Quantity | Value | Note |
 | --- | --- | --- |
 | Grid positions | 1,152 (48 x 24): 144 on the tile, 252 inserts and 756 plain holes | 25 mm pitch, 12.5 mm edge offset |
-| Bench mass | 41.9 kg empty; 67.7 kg with two ballast slabs | Densities in GBN-CAL-001, Table 1 |
-| Tipping force at the top edge | 112 N empty; 181 N with the ballast (target 150 N) | Feet 245 mm from the center line, push at 900 mm |
+| Bench mass | 43.8 kg empty; 69.5 kg with two ballast slabs | Densities in GBN-CAL-001, Table 1 |
+| Tipping force at the top edge | 117 N empty; 186 N with the ballast (target 150 N) | Feet 245 mm from the center line, push at 900 mm |
 | Deflection, 500 N at bay center | 0.19 mm in the plywood; 0.37 mm including rails and 45 x 120 mm aprons (target 0.5 mm) | Plate theory, E about 7 GPa, pinned joints |
 | Plywood field moisture movement | ±0.115 mm over 1,000 mm at 40 to 60 % RH; ±0.40 mm over 20 to 80 % RH | Sourced moisture contents; plywood coefficient 0.007 % per % still unsourced |
 | Tile thermal growth | 0.069 mm over 300 mm per 10 K | Aluminum, 23 x 10⁻⁶ /K |
@@ -93,7 +97,7 @@ Table 2. Key numbers.
 | Clamp force at the part | 515 to 858 N at 1.6 N·m; body stress 9.9 MPa or less | M6, nut factor 0.15 to 0.25 |
 | Tee nut pull-through | 2.69 to 4.30 kN against up to 1.78 kN of screw tension (130 positions) | Assumed shear strength; R7 met on paper |
 | Screw-in insert pull-out | 1.02 to 1.63 kN against up to 1.78 kN (122 positions over the frame) | R7 not met there; options await Amish |
-| Sliding force, rubber pads | About 206 N empty, 332 N ballasted | μ = 0.5 assumed |
+| Sliding force, rubber pads | About 215 N empty, 341 N ballasted | μ = 0.5 assumed |
 | Fixture change | 56 s (target 60 s) | Two screws out, two in |
 | Tile machining | About 4.2 h by drill press with a tapping guide | 144 holes, 9 reamed bores, 4 counterbores |
 
@@ -116,11 +120,11 @@ Four details changed at TRL 3 because of GBN-CAL-001 v0.1, within these choices:
 
 ## Cost
 
-The priced BOM (`bom/bom.csv`, 16 lines) gives core parts of $245.90 against the $250 `budget_usd`, $4.10 under, with the dial indicator ($15.00) user-supplied and the wall anchor brackets ($5.00) optional; everything together is $265.90. The largest items are the plywood worktop ($45.00), the frame ($43.50), the tile offcut ($28.00) and the threaded inserts ($27.80). Amish raised the budget from $220 to $250 on 2026-09-25 (GBN-DDR-002); the deeper aprons, tee nuts and rubber pads added $6.70 to the $239.20 of GBN-CAL-001 v0.1. The margin is thin, and the tile offcut price is unverified.
+Value-engineering target: USD 250 (`budget_usd`, a hypothetical control target, not a limit; Amish, 2026-10-01). Estimated cost of the constructable design: USD 268.40 for the core parts (USD 18.40 over the target), from the priced BOM (`bom/bom.csv`, 17 lines), with the dial indicator ($15.00) user-supplied and the wall anchor brackets ($5.00) optional; everything together is $288.40. The largest items are the frame ($57.00, of which $23.40 is bolts, cross dowels and screws), the plywood worktop ($45.00), the threaded inserts ($28.20) and the tile offcut ($28.00, unverified). The joints, fixings and clamps that make the design buildable (GBN-DDR-003) added $22.50 to the $245.90 of GBN-CAL-001 v0.2. The main cost drivers and the savings worth trying are in the design decisions register (GBN-DEC-001).
 
 ## Safety
 
-> **Safety:** Drilling, tapping and routing the worktop and tile create chips and projectiles: wear eye protection and clamp work before cutting. Clamps and toe clamps create pinch points; keep fingers clear when tightening. The empty bench tips at about 112 N at the top edge (GBN-CAL-001), below the 150 N design push, so place both ballast slabs on the shelf or anchor the bench to a wall before use, and lift each 13 kg slab with a straight back. Chamfer or round all plywood, tile and printed edges. Printed clamps can crack and release a part under load; do not exceed the rated screw torque of 1.6 N·m, and do not use printed clamps for machining with a milling machine. Screw-in inserts over the frame members may pull out before a clamp reaches its rated force; until the light-duty rating is decided, use the tee-nut positions or the tile for full clamping force. The bench is not for welding, grinding sparks or hot work: plywood and PETG are combustible.
+> **Safety:** Drilling, tapping and routing the worktop and tile create chips and projectiles: wear eye protection and clamp work before cutting. Clamps and toe clamps create pinch points; keep fingers clear when tightening. The empty bench tips at about 117 N at the top edge (GBN-CAL-001), below the 150 N design push, so place both ballast slabs on the shelf or anchor the bench to a wall before use, and lift each 13 kg slab with a straight back. Chamfer or round all plywood, tile and printed edges. Printed clamps can crack and release a part under load; do not exceed the rated screw torque of 1.6 N·m, and do not use printed clamps for machining with a milling machine. Screw-in inserts over the frame members may pull out before a clamp reaches its rated force; until the light-duty rating is decided, use the tee-nut positions or the tile for full clamping force. The bench is not for welding, grinding sparks or hot work: plywood and PETG are combustible.
 
 ## Open questions
 

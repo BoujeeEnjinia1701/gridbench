@@ -3,9 +3,9 @@ doc_id: GBN-CAL-001
 title: GridBench sizing calculations
 project: GridBench
 doc_type: Calculation
-version: "0.2"
+version: "0.3"
 status: Draft
-date: '2026-09-25'
+date: '2026-10-01'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -17,17 +17,21 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Recommendations accepted by Amish (DDR-002); $250 budget, 45 x 120 mm aprons, flanged tee nuts, rubber-padded feet; results re-run
+- version: "0.3"
+  date: '2026-10-01'
+  author: Amish Chadha
+  change: Design made constructable (GBN-DDR-003); mass, stability and cost re-run; cost reported against the value-engineering target
 ---
 
 # GridBench sizing calculations
 
-On paper, GridBench meets eight of its twelve requirements (five by calculation, three by design), has two at risk, has one that cannot be verified at TRL 3 and misses one in part. Version 0.2 applies the recommendations Amish accepted on 2026-09-25 (GBN-DDR-002): `budget_usd` is now $250, the long and end aprons are 45 x 120 mm instead of 45 x 95 mm, flanged M6 tee nuts pressed in from the underside replace the screw-in inserts wherever the underside is clear, and the levelling feet carry rubber pads. R10 (cost) is now met: the core parts cost $245.90 against $250, with $4.10 to spare. R6 (stiffness) now has margin: 0.37 mm against 0.5 mm, down from 0.49 mm. R7 (clamp hold-down) is met on paper at the 130 tee-nut positions (pull-through factor 1.51 to 2.42) and on the tile, but not at the 122 insert positions that sit over a frame member, where a screw-in insert must stay and its pull-out factor is still 0.57 to 0.92. R3 (coarse field accuracy, template-drilled build) and R4 (relocation within 0.03 mm) are at risk. R5 (flatness) cannot be verified at TRL 3. The first issue of this note changed four details of the TRL 2 concept, which stand: the printed toe clamp is deeper (30 mm instead of 16 mm) with a rated torque of 1.6 N·m instead of 2 N·m, every precision fixture carries one round and one diamond locating pin, the fence is printed in two 190 mm segments that fit a 200 mm bed, and two concrete slabs on the shelf form the ballast. Every number in this note is printed by `docs/04-calcs/sizing.py`; the tag in brackets, for example [C4], is the line of that script's output that carries it.
+On paper, GridBench meets seven of its twelve requirements (four by calculation, three by design), has two at risk, has one that cannot be verified at TRL 3, misses one in part, and is over its cost target. Version 0.3 follows the design-for-construction changes of GBN-DDR-003: the aprons and low rails butt between the legs on M8 bolts and cross dowels, the worktop is held by nine brackets, the tile by four screws into rail inserts, and the fixtures sit on threaded positions. The bench is 1.9 kg heavier (43.8 kg), tips at 117 N empty and 186 N ballasted, and its core parts cost USD 268.40: value-engineering target USD 250, USD 18.40 over the target [K4]. Stiffness and every other result are unchanged. Version 0.2 applied the recommendations Amish accepted on 2026-09-25 (GBN-DDR-002): `budget_usd` is now $250, the long and end aprons are 45 x 120 mm instead of 45 x 95 mm, flanged M6 tee nuts pressed in from the underside replace the screw-in inserts wherever the underside is clear, and the levelling feet carry rubber pads. R10 (cost) was then met at $245.90. R6 (stiffness) now has margin: 0.37 mm against 0.5 mm, down from 0.49 mm. R7 (clamp hold-down) is met on paper at the 130 tee-nut positions (pull-through factor 1.51 to 2.42) and on the tile, but not at the 122 insert positions that sit over a frame member, where a screw-in insert must stay and its pull-out factor is still 0.57 to 0.92. R3 (coarse field accuracy, template-drilled build) and R4 (relocation within 0.03 mm) are at risk. R5 (flatness) cannot be verified at TRL 3. The first issue of this note changed four details of the TRL 2 concept, which stand: the printed toe clamp is deeper (30 mm instead of 16 mm) with a rated torque of 1.6 N·m instead of 2 N·m, every precision fixture carries one round and one diamond locating pin, the fence is printed in two 190 mm segments that fit a 200 mm bed, and two concrete slabs on the shelf form the ballast. Every number in this note is printed by `docs/04-calcs/sizing.py`; the tag in brackets, for example [C4], is the line of that script's output that carries it.
 
-> **Safety:** These are first-principles estimates for a paper proof of concept. They do not replace a push test for tipping, a pull test of clamps and inserts, or inspection of the tile. The empty bench tips at about 112 N at its front edge [C2]; it must be ballasted or anchored before use. See GBN-PRC-001, Safety.
+> **Safety:** These are first-principles estimates for a paper proof of concept. They do not replace a push test for tipping, a pull test of clamps and inserts, or inspection of the tile. The empty bench tips at about 117 N at its front edge [C2]; it must be ballasted or anchored before use. See GBN-PRC-001, Safety.
 
 ## Scope and method
 
-The note checks every requirement in GBN-REQ-001 v0.4 against the design in GBN-PRC-001 v0.4 and the parametric model `cad/src/model.py`. The script imports the model's `PARAMS`, its derived dimensions and its grid functions, so the hole counts, bays, rail spans and foot positions used here are the ones in the STEP files and in drawing GBN-DWG-001. It also reads `bom/bom.csv` and `budget_usd` in `project.yaml`. Run it from the repo root with `python docs/04-calcs/sizing.py`; it also writes its output to `docs/04-calcs/sizing-output.txt`.
+The note checks every requirement in GBN-REQ-001 v0.5 against the design in GBN-PRC-001 v0.5 and the parametric model `cad/src/model.py`. The script imports the model's `PARAMS`, its derived dimensions and its grid functions, so the hole counts, bays, rail spans and foot positions used here are the ones in the STEP files and in drawing GBN-DWG-001. It also reads `bom/bom.csv` and `budget_usd` in `project.yaml`. Run it from the repo root with `python docs/04-calcs/sizing.py`; it also writes its output to `docs/04-calcs/sizing-output.txt`.
 
 The design case is a bench in an indoor workshop at 10 to 35 °C and 20 to 80 % relative humidity, with the loads in GBN-REQ-001: 150 kg spread over the top, 500 N at the middle of a bay and a 150 N horizontal push at the top edge.
 
@@ -50,7 +54,8 @@ The design case is a bench in an indoor workshop at 10 to 35 °C and 20 to 80 % 
 | Inserts | Pull-out by shear of the plywood on the insert's outer cylinder (10 mm by 13 mm) at 2.5 to 4 MPa; for a tee nut, the same shear strength on a cylinder of the 19 mm flange diameter through the 18 mm sheet | Assumption; no test data found |
 | Tee-nut flange bearing | Plywood bearing strength perpendicular to the face 10 MPa under the flange | Assumption; to be confirmed by a pull test at TRL 4 |
 | Friction | Levelling feet on a workshop floor, μ = 0.2 (hard plastic) to 0.5 (rubber); the adopted rubber pads use 0.5 | Typical range |
-| Timber prices | 70 x 70 mm $4.50/m, 45 x 120 mm $2.80/m, 45 x 70 mm $1.80/m, 10 % waste, $9 of bolts and screws | Indicative 2026 retail |
+| Timber prices | 70 x 70 mm $4.50/m, 45 x 120 mm $2.80/m, 45 x 70 mm $1.80/m, 10 % waste | Indicative 2026 retail |
+| Frame hardware (GBN-DDR-003) | M8 x 120 bolt with washer $0.45 and 0.065 kg; M8 cross dowel $0.35 and 0.020 kg; 6 x 100 structural screw $0.20 and 0.020 kg; worktop bracket 0.030 kg; $1.00 of glue and small screws | Indicative 2026 retail; catalogue masses |
 
 ## A. Grid (R1)
 
@@ -60,16 +65,16 @@ The design case is a bench in an indoor workshop at 10 to 35 °C and 20 to 80 % 
 
 ## B. Mass (context for R12)
 
-- **Bench.** Frame 23.2 kg (with the deeper aprons), worktop 7.2 kg, tile 3.0 kg, shelf 4.5 kg and small parts 4.1 kg give 41.9 kg [B1], against 40.2 kg in v0.1 and about 40 kg at TRL 2.
-- **Ballast.** Two 400 x 400 x 35 mm concrete slabs weigh 12.9 kg each, 25.8 kg together; the ballasted bench is 67.7 kg [B2]. Each slab is light enough for one person to lift.
+- **Bench.** Frame timber 22.4 kg, worktop 7.2 kg, tile 3.0 kg, shelf 4.4 kg, inserts, feet and fasteners 2.4 kg, frame bolts, cross dowels and brackets 2.6 kg, and fixtures 1.7 kg give 43.8 kg [B1], against 41.9 kg in v0.2. The frame timber is lighter than in v0.2 because the long aprons no longer run through the legs (GBN-DDR-003); the bolts and brackets more than make up for it.
+- **Ballast.** Two 400 x 400 x 35 mm concrete slabs weigh 12.9 kg each, 25.8 kg together; the ballasted bench is 69.5 kg [B2]. Each slab is light enough for one person to lift.
 
 ## C. Tipping and sliding (R12)
 
 - **Base.** The feet are at 1,090 x 490 mm centers, so a push at the front edge acts at 900 mm against a 245 mm lever [C1].
-- **Empty bench.** It tips at 112 N, below the 150 N target; along the bench it would take 249 N [C2]. R12 is not met by the empty bench.
-- **Ballast.** At least 14.2 kg of ballast is needed [C3]. With the two slabs the bench tips at 181 N, a factor of 1.21 on 150 N [C4]. R12 is met on paper with the ballast in place.
-- **Sliding.** On hard feet the empty bench would slide at about 82 N, before it tips. With the adopted rubber pads it slides at about 206 N empty and 332 N ballasted [C5], so a firm push no longer moves it. Sliding is not a requirement.
-- **Anchor.** For the optional wall anchor, the tie force for a 150 N pull on the empty bench is only 40 N [C6], so light angle brackets suffice.
+- **Empty bench.** It tips at 117 N, below the 150 N target; along the bench it would take 260 N [C2]. R12 is not met by the empty bench.
+- **Ballast.** At least 12.4 kg of ballast is needed [C3]. With the two slabs the bench tips at 186 N, a factor of 1.24 on 150 N [C4]. R12 is met on paper with the ballast in place.
+- **Sliding.** On hard feet the empty bench would slide at about 86 N, before it tips. With the adopted rubber pads it slides at about 215 N empty and 341 N ballasted [C5], so a firm push no longer moves it. Sliding is not a requirement.
+- **Anchor.** For the optional wall anchor, the tie force for a 150 N pull on the empty bench is only 35 N [C6], so light angle brackets suffice.
 
 ## D. Stiffness and strength (R6)
 
@@ -112,10 +117,10 @@ The design case is a bench in an indoor workshop at 10 to 35 °C and 20 to 80 % 
 
 ## K. Timber and cost (R10)
 
-- **Timber.** The frame uses 3.43 m of 70 x 70 mm, 3.16 m of 45 x 120 mm and 3.92 m of 45 x 70 mm, 10.5 m in all [K1], for $43.46 with waste and hardware [K2] (BOM line 1, $43.50; $41.40 with the v0.1 aprons).
-- **Inserts.** 130 tee nuts at $0.12 and 122 screw-in inserts at $0.10 cost $27.80 [K2b] (BOM line 5, $25.20 in v0.1). The rubber-padded feet add $2.00 (BOM line 2).
-- **Totals.** The 16-line BOM gives core parts of $245.90, the user-supplied dial indicator $15.00 and the optional anchor brackets $5.00, $265.90 in all [K3].
-- **Against the budget.** `budget_usd` is $250 under GBN-DDR-002 (was $220). Core parts are 1.6 % under it, with $4.10 to spare; everything including the indicator and anchor is 6.4 % over; against the former $220 the core parts would be 11.8 % over [K4]. Core plus indicator is $260.90, against $239.20 at TRL 2 [K5]. R10 is met on paper with a thin margin.
+- **Timber.** The frame uses 3.43 m of 70 x 70 mm, 2.88 m of 45 x 120 mm and 3.92 m of 45 x 70 mm, 10.2 m in all [K1]. With 10 % waste and $23.40 of hardware (24 M8 x 120 bolts with washers, 24 M8 cross dowels, 16 structural screws and $1.00 of glue and small screws) the frame costs $57.00 [K2] (BOM line 1; $43.50 in v0.2, when the frame had no joints).
+- **Inserts.** 130 tee nuts at $0.12 and 126 screw-in inserts at $0.10 (122 in the worktop, 4 in the tile rails) cost $28.20 [K2b] (BOM line 5).
+- **Totals.** The 17-line BOM gives core parts of $268.40, the user-supplied dial indicator $15.00 and the optional anchor brackets $5.00, $288.40 in all [K3]. Besides the frame and inserts, the design-for-construction changes added the nine worktop brackets ($3.60, line 17), the arm clamps and drop rod (line 10, $12.00 to $15.00) and the longer screw set (line 12, $12.00 to $14.00).
+- **Against the value-engineering target.** Value-engineering target: USD 250 (`budget_usd`, a hypothetical control target, not a limit). Estimated cost of the constructable design: USD 268.40 (USD 18.40 over the target, 7.4 %); everything including the indicator and anchor is 15.4 % over [K4]. Core plus indicator is $283.40, against $239.20 at TRL 2 [K5]. The main cost drivers and the savings worth trying are in the design decisions register (GBN-DEC-001, Value engineering).
 
 ## L. Results against every requirement
 
@@ -127,16 +132,16 @@ The design case is a bench in an indoor workshop at 10 to 35 °C and 20 to 80 % 
 | R3 | Coarse field hole position | CNC ±0.22 mm; template ±0.34 mm statistical, ±0.62 mm worst case over 1,000 mm [E4] | ±0.3 mm (CNC); ±0.5 mm (template) at 40 to 60 % RH | **At risk** (template build; unsourced coefficient) |
 | R4 | Precision tile location | Relocation 0.036 mm worst case, 0.015 mm statistical [F3]; hole position not verifiable | ±0.05 mm; 0.03 mm | **At risk** |
 | R5 | Flatness | Depends on the plate as supplied and on the plywood sheet | Tile 0.05 mm over 300 mm; worktop 0.5 mm over 1,000 mm | Not verifiable at TRL 3 |
-| R10 | Parts cost | $245.90 core (indicator user-supplied) [K3, K4] | $250 (`budget_usd`, GBN-DDR-002) | Met on paper ($4.10 margin) |
+| R10 | Parts cost | $268.40 core (indicator user-supplied) [K3, K4] | $250 value-engineering target (`budget_usd`) | Over the value-engineering target by $18.40 |
 | R6 | Stiffness and load | 0.37 mm total, 0.19 mm local, under 500 N; 150 kg at 1.0 MPa in the aprons [D5, D8] | 0.5 mm; 150 kg | Met on paper |
 | R8 | Fixture change | 56 s [H1] | 60 s | Met on paper (thin margin) |
 | R9 | Buildability | Largest print 190 mm; tile about 4.2 h by drill press [I1, I2] | 200 x 200 mm bed; CNC optional | Met on paper |
-| R12 | Stability and edges | 181 N with 25.8 kg of ballast; 112 N empty [C2, C4] | 150 N; edges 0.5 mm or more | Met on paper with ballast (not met empty) |
+| R12 | Stability and edges | 186 N with 25.8 kg of ballast; 117 N empty [C2, C4] | 150 N; edges 0.5 mm or more | Met on paper with ballast (not met empty) |
 | R1 | Grid standard | 1,152 positions at 25 mm, 12.5 mm edge offset, tile on grid [A1, A2] | 25.00 mm, M6, 12.5 mm | Met by design |
 | R2 | Worktop size and height | 1,200 x 600 mm at 900 mm, feet ±15 mm (model) | At least 1,200 x 600 mm; 900 mm ±15 mm | Met by design |
 | R11 | Openness | build123d source, CERN-OHL-S-2.0 | As stated | Met by design |
 
-Counts: 1 not met (R7, in part), 2 at risk, 1 not verifiable at TRL 3, 5 met on paper, 3 met by design. R12 counts as met on paper because the ballast is part of the adopted design. In v0.1, R10 was not met ($239.20 against $220) and R7 was not met anywhere on the plywood field.
+Counts: 1 not met (R7, in part), 1 over the value-engineering target (R10), 2 at risk, 1 not verifiable at TRL 3, 4 met on paper, 3 met by design. R12 counts as met on paper because the ballast is part of the adopted design. In v0.2, R10 was met at $245.90; the joints, fixings and clamps that make the design buildable (GBN-DDR-003) added $22.50. In v0.1, R10 was not met ($239.20 against $220) and R7 was not met anywhere on the plywood field.
 
 ## Checks against the TRL 2 figures
 
@@ -145,9 +150,9 @@ Counts: 1 not met (R7, in part), 2 at risk, 1 not verifiable at TRL 3, 5 met on 
 | TRL 2 claim | This note | Action |
 | --- | --- | --- |
 | 1,152 positions: 144 tile, 252 inserts, 756 plain | Same [A1] | Stands |
-| Bench about 40 kg | 41.9 kg with the deeper aprons [B1] | Precis updated |
+| Bench about 40 kg | 43.8 kg with the deeper aprons and the frame bolts and brackets [B1] | Precis updated |
 | Deflection about 0.3 to 0.4 mm under 500 N | 0.19 mm local; 0.49 mm with 45 x 95 aprons, 0.37 mm with 45 x 120 [D2, D5, D6] | Aprons deepened (DDR-002) |
-| Tipping about 105 N empty, about 160 N with 20 kg | 112 N empty; 181 N with 25.8 kg [C2, C4] | Precis updated |
+| Tipping about 105 N empty, about 160 N with 20 kg | 117 N empty; 186 N with 25.8 kg [C2, C4] | Precis updated |
 | Tile growth about 0.07 mm over 300 mm per 10 K | 0.069 mm [E5] | Stands |
 | Moisture movement up to about 0.4 mm over 1,200 mm | ±0.115 mm over 1,000 mm at 40 to 60 % RH; ±0.40 mm over 20 to 80 % RH [E2, E3] | Precis updated; coefficient still unsourced |
 | Dowel relocation about 0.03 mm on two dowels | Two round pins can bind; round plus diamond pin gives 0.036 mm worst case [F2, F3] | Diamond pin added |
@@ -155,4 +160,4 @@ Counts: 1 not met (R7, in part), 2 at risk, 1 not verifiable at TRL 3, 5 met on 
 | Insert pull-out 2 to 4 kN (unverified) | 1.02 to 1.63 kN (assumed shear) [G5]; tee nuts 2.69 to 4.30 kN [G5c] | Tee nuts where the underside is clear (DDR-002) |
 | 400 mm printed fence | Does not fit a 200 mm bed [I1] | Two 190 mm segments |
 | Tapping about 2.5 h | 4.2 h including drilling, reaming and counterbores [I2] | Precis updated |
-| Parts about $239 (with indicator) | $260.90 with indicator; $245.90 core [K3, K5] | Budget $250 (DDR-002) |
+| Parts about $239 (with indicator) | $283.40 with indicator; $268.40 core [K3, K5] | Reported against the USD 250 value-engineering target |

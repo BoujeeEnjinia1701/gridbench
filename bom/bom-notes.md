@@ -1,10 +1,11 @@
 # BOM notes
 
-- Line numbers match the callouts in `media/exploded.png`. Lines 12 (fastener kit) and 16 (tile machining tools) have no callout.
+- Line numbers match the callouts in `media/exploded.png`. Lines 12 (fastener kit), 16 (tile machining tools) and 17 (worktop brackets) have no callout.
 - Every line is priced. All costs are indicative 2026 USD retail or bulk prices for budgeting, not quotes; suppliers are named by type and none is selected. The tile offcut price ($28.00) is unverified.
 - The frame price (line 1) is built up in GBN-CAL-001, section K, from about 10.5 m of sawn softwood by section; the 45 x 120 mm rate ($2.80/m) is indicative.
 - The `make_buy` column also marks two lines that sit outside the core parts total: line 11, the dial indicator, is `user-supplied` (GBN-DDR-001 A1), and line 15, the wall anchor brackets, is `optional` (GBN-DDR-001 A7).
-- Totals (from `docs/04-calcs/sizing.py`, K3 and K4): core parts $245.90, 1.6 % under the $250 `budget_usd` that Amish set on 2026-09-25 (GBN-DDR-002, was $220); with the indicator and the anchor, $265.90.
+- Totals (from `docs/04-calcs/sizing.py`, K3 and K4): value-engineering target USD 250 (`budget_usd`, a hypothetical control target, not a limit). Estimated cost of the constructable design: USD 268.40 for the core parts (USD 18.40 over the target); with the indicator and the anchor, $288.40.
+- Changes under GBN-DDR-003 (design for construction, 2026-10-01): line 1 now includes 24 M8 x 120 bolts, 24 cross dowels and 16 structural screws ($43.50 to $57.00, GBN-CAL-001 K2); line 3 shelf 1,010 mm long; line 5 adds 4 screw-in inserts for the tile rails ($27.80 to $28.20); line 6 specifies the M6 x 20 tile screws; line 10 adds the printed arm and end clamps and the drop rod ($12.00 to $15.00); line 12 sets the screw lengths ($12.00 to $14.00); line 15 fixes under the rear apron; line 17, nine worktop brackets, is new ($3.60).
 - Changes under GBN-DDR-002: line 1 aprons 45 x 95 mm to 45 x 120 mm ($41.40 to $43.50); line 2 feet with rubber pads ($2.00 to $2.50 each); line 5 is now a set of 130 flanged tee nuts at $0.12 and 122 screw-in inserts at $0.10 ($25.20 to $27.80, GBN-CAL-001 K2b); line 4 drills 8.0 mm holes for the tee nuts.
 - Lines 13 (diamond pins) and 14 (ballast slabs) were added at TRL 3, and line 16 prices the tile tools that the TRL 2 BOM folded into the tile line.
 - The example workpiece shown in the renders is not part of the BOM.

@@ -3,9 +3,9 @@ doc_id: GBN-REQ-001
 title: GridBench requirements
 project: GridBench
 doc_type: Requirements
-version: "0.4"
+version: "0.5"
 status: Draft
-date: '2026-09-25'
+date: '2026-10-01'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -25,11 +25,15 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Recommendations accepted by Amish (DDR-002)
+- version: "0.5"
+  date: '2026-10-01'
+  author: Amish Chadha
+  change: Design made constructable (GBN-DDR-003); R10 reported against the value-engineering target; R12 figures updated
 ---
 
 # GridBench requirements
 
-Twelve requirements define a garage-built grid bench and fixture set. The TRL 3 calculations (GBN-CAL-001 v0.2) find one not met in part: clamp hold-down (R7) at the 122 insert positions that sit over a frame member, where a screw-in insert may pull out. Two are at risk (R3, R4), one cannot be verified on paper (R5), five are met on paper and three are met by design. R10 changed at v0.4 under GBN-DDR-002: its target is now $250, the `budget_usd` Amish set on 2026-09-25, and it is met. At v0.3, under GBN-DDR-001, R10 was redefined to exclude the user-supplied dial indicator and R12 is assessed with the shelf ballast in place.
+Twelve requirements define a garage-built grid bench and fixture set. The TRL 3 calculations (GBN-CAL-001 v0.3) find one not met in part: clamp hold-down (R7) at the 122 insert positions that sit over a frame member, where a screw-in insert may pull out. Two are at risk (R3, R4), one cannot be verified on paper (R5), four are met on paper and three are met by design. R10 is reported against the value-engineering target (Amish, 2026-10-01): value-engineering target USD 250; estimated cost of the constructable design USD 268.40 (USD 18.40 over the target), after the joints, fixings and clamps that make the design buildable (GBN-DDR-003). At v0.4, under GBN-DDR-002, the R10 target became $250, the `budget_usd` Amish set on 2026-09-25. At v0.3, under GBN-DDR-001, R10 was redefined to exclude the user-supplied dial indicator and R12 is assessed with the shelf ballast in place.
 
 ## Requirements
 
@@ -46,9 +50,9 @@ Table 1. GridBench requirements and TRL 3 status (GBN-CAL-001, Table 2).
 | R7 | Clamp hold-down | Each printed toe clamp holds 500 N at the part with no visible creep after 8 h at 25 °C | Spring scale pull test | **Not met at the 122 screw-in positions over the frame** (pull-out factor 0.57 to 0.92); met on paper at the 130 tee-nut positions (factor 1.51 to 2.42) and on the tile (515 to 858 N at 1.6 N·m, 9.9 MPa) |
 | R8 | Fixture change | Swap one fixture for another in 60 s or less with one 5 mm hex key | Timed trial | Met on paper: 56 s (thin margin) |
 | R9 | Buildability | Built with hand and garage tools plus an FDM printer (200 x 200 mm bed); CNC optional | Build review | Met on paper: largest print 190 mm; tile about 4.2 h by drill press |
-| R10 | Parts cost | $250 or less (`budget_usd`, GBN-DDR-002) for bench, grid, tile and fixture set; the dial indicator is user-supplied and excluded (GBN-DDR-001 A1) | Priced BOM | Met on paper: $245.90 ($4.10 margin) |
+| R10 | Parts cost | Value-engineering target USD 250 (`budget_usd`, a hypothetical control target) for bench, grid, tile and fixture set; the dial indicator is user-supplied and excluded (GBN-DDR-001 A1) | Priced BOM | Over the value-engineering target by $18.40: $268.40 for the constructable design (GBN-DDR-003) |
 | R11 | Openness | All geometry as build123d source; fixture library parametric; CERN-OHL-S-2.0 | Repository review | Met by design |
-| R12 | Stability and edges | No tipping under 150 N horizontal at the top edge, with the shelf ballast in place; all exposed edges chamfered or rounded 0.5 mm or more | Push test; inspection | Met on paper with 25.8 kg of ballast (181 N); the empty bench tips at 112 N |
+| R12 | Stability and edges | No tipping under 150 N horizontal at the top edge, with the shelf ballast in place; all exposed edges chamfered or rounded 0.5 mm or more | Push test; inspection | Met on paper with 25.8 kg of ballast (186 N); the empty bench tips at 117 N |
 
 ## Design load case
 

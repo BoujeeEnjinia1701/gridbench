@@ -99,12 +99,12 @@ def _web_model_without_marks(parts, *a, **kw):
 concept.export_web_model = _web_model_without_marks
 
 render_all(
-    parts, project="GridBench", title="Grid workbench and fixture set", dwg_no="GBN-DWG-010", date="2026-09-25",
+    parts, project="GridBench", title="Grid workbench and fixture set", dwg_no="GBN-DWG-010", date="2026-10-01",
     key_figures=["25 mm grid, M6, same as metric optical breadboards; 1,152 positions",
                  "Worktop 1,200 x 600 mm at 900 mm; tile 300 x 300 mm, 9 dowel bores 8 H7",
-                 "41.9 kg empty; tips at 112 N empty, 181 N with 25.8 kg ballast",
+                 "43.8 kg empty; tips at 117 N empty, 186 N with 25.8 kg ballast",
                  "0.37 mm under 500 N at a bay with 45 x 120 aprons (target 0.5 mm)",
-                 "Core parts $245.90 vs $250 budget (GBN-CAL-001 v0.2)"],
+                 "Core parts $268.40; value-engineering target $250 (GBN-CAL-001 v0.3)"],
     cut=False,  # a section adds little: the worktop is solid plywood with the tile flush in a pocket
     flow={"title": "material flow for one part at a fixture (times are estimates)", "unit": "",
           "stages": [("Blank in", "from stock or printer"), ("Locate", "2 pins, ~10 s"),

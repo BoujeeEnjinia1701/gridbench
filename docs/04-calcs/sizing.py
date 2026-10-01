@@ -1,4 +1,4 @@
-"""GridBench sizing calculations, GBN-CAL-001 v0.2 (TRL 3; revised under GBN-DDR-002).
+"""GridBench sizing calculations, GBN-CAL-001 v0.3 (TRL 3; revised under GBN-DDR-002 and GBN-DDR-003).
 
 Run from the repo root:  python docs/04-calcs/sizing.py
 Imports PARAMS and the derived dimensions from cad/src/model.py, reads bom/bom.csv and
@@ -86,6 +86,11 @@ mass["tile"] = (P["tile"] ** 2 * P["tile_t"] - tile_holes) * 1e-9 * RHO_AL
 sl, sd, st = D["shelf"]
 mass["shelf"] = sl * sd * st * 1e-9 * RHO_PLY
 mass["inserts, feet, fasteners"] = len(ins) * 0.004 + 4 * 0.15 + 0.8
+# GBN-DDR-003: frame joints and worktop fixing (catalogue masses, assumption)
+n_bolts = 4 * (len(P["apron_bolt_z"]) + len(P["end_bolt_z"]) + len(P["low_bolt_z"]))
+n_rail_screws = 2 * len(P["cross_x"]) * len(P["rail_screw_z"])
+n_brackets = 2 * len(P["bracket_x"]) + 1
+mass["frame bolts, cross dowels, brackets"] = n_bolts * (0.065 + 0.020) + n_rail_screws * 0.020 + n_brackets * 0.030
 mass["fixtures, post, indicator"] = 0.6 + 0.8 + 0.3
 m_empty = sum(mass.values())
 m_slab = math.prod(P["slab"]) * 1e-9 * RHO_CONC
@@ -93,7 +98,8 @@ say("B1", "masses kg: " + ", ".join(f"{k} {v:.1f}" for k, v in mass.items()) + f
 say("B2", f"ballast slab {m_slab:.1f} kg each, two {2 * m_slab:.1f} kg; bench with ballast {m_empty + 2 * m_slab:.1f} kg")
 # center of mass height (for the record; tipping about the feet uses plan offsets only)
 z_items = [(mass["frame"], 0.55 * P["h"]), (mass["worktop"], P["h"] - 9), (mass["tile"], P["h"] - 6),
-           (mass["shelf"], D["shelf_z"] + 6), (mass["inserts, feet, fasteners"], 400), (mass["fixtures, post, indicator"], P["h"] + 60)]
+           (mass["shelf"], D["shelf_z"] + 6), (mass["inserts, feet, fasteners"], 400),
+           (mass["frame bolts, cross dowels, brackets"], 600), (mass["fixtures, post, indicator"], P["h"] + 60)]
 zc = sum(m * z for m, z in z_items) / m_empty
 say("B3", f"center of mass about {zc:.0f} mm above the floor, empty")
 
@@ -263,10 +269,14 @@ rates = {"70 x 70": 4.50, AP: 2.80, "45 x 70": 1.80}
 lengths = {"70 x 70": 4 * D["leg_h"] / 1000, AP: (2 * D["long_apron_len"] + 2 * D["end_apron_len"]) / 1000,
            "45 x 70": (len(P["cross_x"]) * D["rail_len"] + 2 * D["low_rail_len"]) / 1000}
 timber = sum(lengths[k] * rates[k] for k in rates)
-frame_cost = timber * 1.10 + 9.0
+HW = {"M8 x 120 bolts and washers": (n_bolts, 0.45), "M8 cross dowels": (n_bolts, 0.35),
+      "6 x 100 structural screws": (n_rail_screws, 0.20), "glue and small screws": (1, 1.00)}
+hardware = sum(n * c for n, c in HW.values())
+frame_cost = timber * 1.10 + hardware
 say("K1", "timber by section: " + ", ".join(f"{k} {v:.2f} m" for k, v in lengths.items())
           + f"; total {sum(lengths.values()):.1f} m")
-say("K2", f"frame cost {timber:.2f} + 10 % waste + $9 hardware = ${frame_cost:.2f}")
+say("K2", f"frame cost {timber:.2f} + 10 % waste + ${hardware:.2f} hardware ("
+          + ", ".join(f"{n} {k}" for k, (n, c) in HW.items() if n > 1) + f") = ${frame_cost:.2f}")
 import yaml  # noqa: E402
 budget = float(yaml.safe_load((ROOT / "project.yaml").read_text())["budget_usd"])
 rows = list(csv.DictReader((ROOT / "bom" / "bom.csv").open()))
@@ -274,14 +284,16 @@ tot = {"core": 0.0, "user-supplied": 0.0, "optional": 0.0}
 for r in rows:
     c = float(r["qty"]) * float(r["unit_cost_usd"])
     tot[r["make_buy"] if r["make_buy"] in ("user-supplied", "optional") else "core"] += c
-say("K2b", f"threaded inserts: {len(tee_pts)} tee nuts at $0.12 and {len(screw_pts)} screw-in at $0.10 = "
-           f"${len(tee_pts) * 0.12 + len(screw_pts) * 0.10:.2f}")
+n_rail_ins = len(fixing_points(P))
+say("K2b", f"threaded inserts: {len(tee_pts)} tee nuts at $0.12 and {len(screw_pts)} + {n_rail_ins} (tile rails) screw-in at $0.10 = "
+           f"${len(tee_pts) * 0.12 + (len(screw_pts) + n_rail_ins) * 0.10:.2f}")
 alt = 220.0   # the TRL 3 v0.1 budget, for comparison
 say("K3", f"BOM {len(rows)} lines; core parts ${tot['core']:.2f}; user-supplied indicator ${tot['user-supplied']:.2f}; "
           f"optional anchor ${tot['optional']:.2f}; everything ${sum(tot.values()):.2f}")
-say("K4", f"against budget_usd ${budget:.0f}: core {tot['core'] / budget * 100 - 100:+.1f} % (${budget - tot['core']:.2f} spare), "
-          f"everything {sum(tot.values()) / budget * 100 - 100:+.1f} %; against the former ${alt:.0f}: core {tot['core'] / alt * 100 - 100:+.1f} %")
-say("K5", f"TRL 2 total $239.20 (with indicator); CAL-001 v0.1 core $239.20; now (core plus indicator) ${tot['core'] + tot['user-supplied']:.2f}")
+dv = tot['core'] - budget
+say("K4", f"value-engineering target (budget_usd) ${budget:.0f}: core ${tot['core']:.2f}, ${abs(dv):.2f} {'over' if dv > 0 else 'under'} the target "
+          f"({tot['core'] / budget * 100 - 100:+.1f} %); everything {sum(tot.values()) / budget * 100 - 100:+.1f} %; against the former ${alt:.0f}: core {tot['core'] / alt * 100 - 100:+.1f} %")
+say("K5", f"TRL 2 total $239.20 (with indicator); CAL-001 v0.1 core $239.20; v0.2 core $245.90; now (core plus indicator) ${tot['core'] + tot['user-supplied']:.2f}")
 
 if __name__ == "__main__":
     (Path(__file__).parent / "sizing-output.txt").write_text("\n".join(OUT) + "\n")
