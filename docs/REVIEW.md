@@ -276,3 +276,43 @@ Amish to review GBN-DDR-003 and the register. TRL 4 remains on hold; a TRL 4 bui
 ### Picture check
 
 Every picture made in this session was looked at: the overview, the worktop hole layout, the 16 making sketches, the 11 joint close-ups, the 15 step pictures, the general arrangement and the concept media (hero, exploded view, flow, blueprint). Pictures that were unclear were redrawn: joints 1, 2 and 3 as sections cut level with a bolt or screw and seen from above, joints 5, 6, 7 and 9 with the cut facing the camera, the long members' sketches drawn standing on end so their views fit the sheet, the packer and fixture sketches with insets that zoom in on where the part sits, the step pictures with bolts pulled out on the correct side, and the overview with the shelf, slabs and wall anchor moved clear of the frame. `python .kit/drawing.py --check-text cad/drawings/*.svg media/concept-blueprint.svg` finds no overlapping text. One known weakness: in joint 3 the leader for the front right leg ends at the leg's corner beside the apron, because the kit picks the leader point.
+
+## Session 2026-10-02: open decisions decided by Amish
+
+Authority: Amish, 2026-10-02: "i approve your recommendations for all 555 open decisions." The recommendations approved are those written for the open decisions in the design decisions register. No model, BOM quantity or price, or picture was changed; where a decision needs one, it is listed below as a follow-up. `trl` and `trl_target` stay at 3. No commit or push.
+
+### Decisions recorded
+
+7, all moved to "Decisions made" in `docs/06-design-decisions.md`, dated 2026-10-02:
+
+1. Design for construction (GBN-DDR-003) accepted as recorded.
+2. Clamp rating: the 122 screw-in positions over the frame rated light duty at 0.92 N·m (296 to 493 N at the part), marked on the worktop in a contrasting colour and stated in the fixture library notes.
+3. Racking: shelf screwed down to the low rails now; push test at TRL 4; end low rails only if the frame still sways.
+4. First workshops for co-design: makerspaces or technical colleges with a CNC router that teach fixturing; first candidate a member lab of the Fab Lab network.
+5. Wall anchor angles: left out of the renders, kept in the model, drawing and BOM.
+6. Hole pattern: full pattern in the renders, representative patch in the exported CAD.
+7. Appearance-only render details: render detail only.
+
+### Documents changed
+
+- `docs/06-design-decisions.md` (GBN-DEC-001 v0.2): also withdraws the plain-hole saving under Value engineering
+- `docs/decisions/0003-design-for-construction.md` (GBN-DDR-003 v0.2): accepted; status stays Draft
+- `docs/decisions/0002-recommendations-accepted.md` (GBN-DDR-002 v0.2): O1, O3 and O4 decided
+- `docs/decisions/0001-trl2-review-decisions.md` (GBN-DDR-001 v0.3): O1 decided
+- `docs/02-concept.md` (GBN-PRC-001 v0.6): open items closed with the decisions
+- `docs/03-requirements.md` (GBN-REQ-001 v0.6): R7 note on the light-duty rating
+- `docs/05-build-plan.md` (GBN-BLD-001 v0.2): safety stop S5 states the light-duty rating and marking
+
+### Follow-up actions to carry approved decisions into the design
+
+1. Decision 2 (drawings): Show the contrasting-colour marking of the 122 light-duty positions on the worktop making sketch and GA drawing GBN-DWG-001.
+2. Decision 2 (pictures): Show the marking in the build plan worktop pictures.
+3. Decision 2 (bom): Add the marking paint or marker to the fastener kit line of the BOM.
+4. Decision 2 (docs): State the light-duty rating (0.92 N·m, 296 to 493 N at the part) in the fixture library notes.
+5. Decision 3 (model): Add the screws that fix the shelf down to the low rails in `cad/src/model.py`, with the constructability checks re-run.
+6. Decision 3 (pictures): Show the shelf screws in build plan steps 4 and 7 and the shelf making sketch.
+7. Decision 3 (bom): Add the shelf screws to the fastener kit line of the BOM.
+
+### Points found in the review
+
+- A saving in Value engineering (leave the 122 screw-in positions as plain holes 'if decision 2 rates them light duty anyway') contradicts item 2: the light-duty rating depends on the screw-in inserts being there.

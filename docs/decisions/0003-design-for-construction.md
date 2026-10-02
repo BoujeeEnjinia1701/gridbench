@@ -3,9 +3,9 @@ doc_id: GBN-DDR-003
 title: GridBench design for construction
 project: GridBench
 doc_type: Design decision record
-version: "0.1"
+version: "0.2"
 status: Draft
-date: '2026-10-01'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -13,12 +13,16 @@ revisions:
   date: '2026-10-01'
   author: Amish Chadha
   change: Changes that make the concept physically buildable, with the reason for each; made under Amish's 2026-09-30 instruction to make the design physically buildable; open for his review
+- version: "0.2"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: 'Accepted by Amish on 2026-10-02 as recorded; record stays Draft'
 ---
 
 # 0003: Design for construction
 
 - **Date:** 2026-10-01
-- **Status:** proposed. Made under Amish's 2026-09-30 instruction to make the design physically buildable; open for his review. Nothing here changes what the bench does, its pitch or its safety case.
+- **Status:** accepted. Made under Amish's 2026-09-30 instruction to make the design physically buildable. Amish, 2026-10-02: "i approve your recommendations for all 555 open decisions." This covers every change in Tables 1 and 2, accepted as recorded, and is recorded in the design decisions register (GBN-DEC-001). Nothing here changes what the bench does, its pitch or its safety case. The record stays Draft.
 
 ## Context
 
@@ -60,13 +64,13 @@ For each problem the simplest physically sound fix that a garage workshop can ma
 | Drawing | GBN-DWG-001 Rev P4; making sketches GBN-DWG-101 to 116 added. | Follows the model. |
 | Documents | GBN-CAL-001 v0.3, GBN-PRC-001 v0.5, GBN-REQ-001 v0.5: mass, stability and cost updated; R10 is now reported against the value-engineering target. No other requirement changed status. | Follows the model. |
 
-*Table 3. Proposed, awaiting Amish.*
+*Table 3. Items held back for Amish's decision.*
 
-None of the changes alters what the bench does, its pitch or its safety case, so none is held back. Amish's review of the whole record is the open item, listed in the design decisions register (GBN-DEC-001).
+None of the changes alters what the bench does, its pitch or its safety case, so none is held back. Amish's review of the whole record was the open item; he accepted it as recorded on 2026-10-02.
 
 ## Consequences
 
 - `design_state: constructable` in `project.yaml`. The build plan GBN-BLD-001 shows every component and step in pictures generated from the model (`cad/src/build_plan_media.py`).
 - Requirement status: R10 is now reported as USD 18.40 over the value-engineering target rather than met; otherwise unchanged (R7 not met at the 122 screw-in positions, R3 and R4 at risk, R5 not verifiable at TRL 3, R1, R2 and R11 met by design, R6, R8, R9 and R12 met on paper).
 - The appearance model `cad/src/product_model.py` and the photoreal renders (`media/render-*.png`, made on Amish's Mac) still show the concept fixture positions, post and arm, and have no brackets, bolts or T-nuts. They need updating on the Mac; they are not regenerated here.
-- The open decisions of GBN-DDR-001 and GBN-DDR-002 (O1, O3, O4) are unchanged and are listed in the register.
+- The open decisions of GBN-DDR-001 and GBN-DDR-002 (O1, O3, O4) were decided by Amish on 2026-10-02 and are listed in the register.

@@ -3,9 +3,9 @@ doc_id: GBN-BLD-001
 title: GridBench prototype build plan
 project: GridBench
 doc_type: Build plan
-version: "0.1"
+version: "0.2"
 status: Draft
-date: '2026-10-01'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -13,6 +13,10 @@ revisions:
     date: '2026-10-01'
     author: Amish Chadha
     change: First build plan, with pictures by component and step; design made constructable (GBN-DDR-003)
+  - version: "0.2"
+    date: '2026-10-02'
+    author: Amish Chadha
+    change: 'Safety stop S5: screw-in positions rated light duty and marked (decided by Amish, 2026-10-02)'
 ---
 
 # GridBench prototype build plan
@@ -532,7 +536,7 @@ Stop at each point. Carry on only when everything listed is true.
 - **S2. Before drilling and tapping the tile.** The tile clamped in a drill press vice or to the table; cutting fluid ready; the tap held square in its guide. Clear aluminium chips with a brush, not fingers.
 - **S3. Before standing the frame up.** Every frame bolt tight; a helper to steady it. Lift the worktop with two people.
 - **S4. Before any use of the bench.** Both ballast slabs on the shelf, or the wall anchor fitted. The bench does not rock on its feet.
-- **S5. Before clamping.** Every toe clamp marked 1.6 N·m and a torque screwdriver to hand. Full clamping force only at tee nut positions and on the tile; the screw-in positions over the frame can pull out first.
+- **S5. Before clamping.** Every toe clamp marked 1.6 N·m and a torque screwdriver to hand. Full clamping force only at tee nut positions and on the tile; the screw-in positions over the frame can pull out first, so they are rated light duty at 0.92 N·m and marked on the worktop in a contrasting colour (decided by Amish, 2026-10-02).
 - **S6. Always.** No welding, grinding sparks or hot work on the bench.
 
 ## 7. Tools, skills and workspace

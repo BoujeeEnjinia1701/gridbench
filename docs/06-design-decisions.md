@@ -3,9 +3,9 @@ doc_id: GBN-DEC-001
 title: GridBench design decisions register
 project: GridBench
 doc_type: Design decisions register
-version: "0.1"
+version: "0.2"
 status: Draft
-date: '2026-10-01'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -13,6 +13,10 @@ revisions:
   date: '2026-10-01'
   author: Amish Chadha
   change: Register opened with the open decisions, items to confirm, value engineering and decisions made to date
+- version: "0.2"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: 'Amish approved the recommendations for all seven open decisions (2026-10-02); GBN-DDR-003 accepted; moved to decisions made; plain-hole saving withdrawn from value engineering'
 ---
 
 # GridBench design decisions register
@@ -21,17 +25,7 @@ Every design decision still to be made, and every decision made, in one place. E
 
 ## Open decisions
 
-*Table 1. Open decisions.*
-
-| # | Decision needed | Options | Recommendation | Affects in the build | Source |
-| --- | --- | --- | --- | --- | --- |
-| 1 | Review of the design-for-construction changes (bolt and cross dowel frame joints, notched rail, shorter shelf, worktop brackets, tile pocket and fixing, T-nuts, fixtures on threaded positions, arm clamps, wall anchor) | (a) accept as recorded; (b) amend named changes | (a): none changes what the bench does, its pitch or its safety case | The whole build plan follows them | GBN-DDR-003 |
-| 2 | Clamp rating at the 122 screw-in positions over the frame, where R7 is not met (pull-out factor 0.57 to 0.92) | (a) rate them light duty at 0.92 N·m (296 to 493 N at the part) and mark them on the worktop; (b) move the insert sub-grid off the frame lines; (c) relax R7 at those positions | (a) | How the worktop is marked; safety stop S5 | GBN-DDR-002, O4; GBN-CAL-001 [G5e] |
-| 3 | Racking stiffness of the frame | (a) end low rails between the legs at each end; (b) screw the shelf down to the low rails; (c) leave as is until a TRL 4 push test | None yet | Steps 4 and 7 | GBN-DDR-002, O3 |
-| 4 | First workshops and regions for co-design | Workshops and regions to approach first | None yet | Not part of the TRL 3 build | GBN-DDR-001, O1 |
-| 5 | Wall anchor angles in the product renders | (a) leave them out of the renders and keep them in the model, drawing and BOM; (b) render them with a wall | (a) | None (renders only) | `docs/REVIEW.md`, 2026-09-26, item 2 |
-| 6 | Full hole pattern in the renders, representative patch in the exported CAD | (a) keep the split; (b) export every hole | (a): the full pattern makes very large STEP and STL files | None (renders and exports only) | `docs/REVIEW.md`, 2026-09-26, item 3 |
-| 7 | Appearance-only details in the renders (index ticks, name plate, bolt heads, knobs, sample block and bar) | (a) render detail only; (b) adopt them into the design and the BOM | (a) | None unless adopted | `docs/REVIEW.md`, 2026-09-26, item 4 |
+None. All open decisions were decided on 2026-10-02.
 
 The fourth appearance item of 2026-09-26, the toe clamp screws on tile holes, is settled by GBN-DDR-003: the model now puts them there too.
 
@@ -56,7 +50,7 @@ Value-engineering target: USD 250 (a hypothetical control target, not a limit). 
 
 - **Frame, USD 57.00.** About USD 33.60 of timber and USD 23.40 of bolts, cross dowels and screws [K2]. Worth trying: one bolt instead of two at each low rail end (about USD 3.20); bolts and cross dowels bought as a bulk furniture-fitting pack; or a glued and screwed frame (about USD 15 less, but it no longer comes apart).
 - **Worktop, USD 45.00.** A half sheet of birch plywood plus router wear. Worth trying: a full sheet shared with the shelf, or a cheaper sheet faced only on the top.
-- **Threaded inserts, USD 28.20.** Worth trying: a bulk price for tee nuts and inserts; leaving the 122 screw-in positions as plain holes if decision 2 rates them light duty anyway.
+- **Threaded inserts, USD 28.20.** Worth trying: a bulk price for tee nuts and inserts. (The earlier idea of leaving the 122 screw-in positions as plain holes is withdrawn: their light-duty rating, decided on 2026-10-02, depends on the inserts being there.)
 - **Precision tile, USD 28.00.** An unverified offcut price. Worth trying: offcut dealers' minimum-cut prices; a 250 x 250 tile if the fixture library allows.
 - **Instrument post and arm, USD 15.00, and fastener kit, USD 14.00.** Worth trying: steel bar and screws from bulk stock.
 
@@ -71,3 +65,10 @@ Value-engineering target: USD 250 (a hypothetical control target, not a limit). 
 | 2026-09-25 | Flanged tee nuts from the underside, screw-in inserts only over the frame (D1); 45 x 120 mm aprons (D2); rubber-padded feet (D3) | Amish, same instruction | GBN-DDR-002 |
 | 2026-09-30 | Build plan format approved; outstanding decisions kept in this register, not the build plan; the design to be made physically buildable as the pictures are drawn | Amish: "this is the correct build plan ... this is a good quality document format. Extend this across all the other repos"; "If you are realising that the design cannot be built as per concept - fix the design assumptions to match and be physically feasible as you draw the illustrations." | GBN-BLD-001, GBN-DDR-003 |
 | 2026-10-01 | `budget_usd` is a hypothetical value-engineering target, not a limit; cost is reported as over or under it | Amish: "the budgets are a hypothethical control target to ensure we are thinking along a value engineering lens. its ok to ensure wording reflects that the hypothesis budget was x - the real cost being accrued is y" | This register, Value engineering |
+| 2026-10-02 | Design for construction accepted as recorded: the bolt and cross dowel frame joints, notched rail, shorter shelf, worktop brackets, tile pocket and fixing, T-nuts, fixtures on threaded positions, arm clamps and wall anchor | Amish: "i approve your recommendations for all 555 open decisions." | GBN-DDR-003 |
+| 2026-10-02 | Clamp rating: the 122 screw-in positions over the frame are rated light duty at 0.92 N·m (296 to 493 N at the part), marked on the worktop in a contrasting colour, and the rating is stated in the fixture library notes | Amish: "i approve your recommendations for all 555 open decisions." | GBN-DDR-002, O4; GBN-CAL-001 [G5e] |
+| 2026-10-02 | Racking: the shelf is screwed down to the low rails now; the frame is push-tested at TRL 4, and end low rails are added only if it still sways | Amish: "i approve your recommendations for all 555 open decisions." | GBN-DDR-002, O3 |
+| 2026-10-02 | First workshops for co-design: makerspaces or technical colleges that have a CNC router and teach fixturing; first candidate to approach, a member lab of the Fab Lab network | Amish: "i approve your recommendations for all 555 open decisions." | GBN-DDR-001, O1 |
+| 2026-10-02 | Wall anchor angles: left out of the renders and kept in the model, drawing and BOM | Amish: "i approve your recommendations for all 555 open decisions." | `docs/REVIEW.md`, 2026-09-26, item 2 |
+| 2026-10-02 | Hole pattern: the split is kept, with the full pattern in the renders and a representative patch in the exported CAD | Amish: "i approve your recommendations for all 555 open decisions." | `docs/REVIEW.md`, 2026-09-26, item 3 |
+| 2026-10-02 | Appearance-only details (index ticks, name plate, bolt heads, knobs, sample block and bar): render detail only | Amish: "i approve your recommendations for all 555 open decisions." | `docs/REVIEW.md`, 2026-09-26, item 4 |

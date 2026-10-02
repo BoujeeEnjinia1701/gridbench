@@ -3,9 +3,9 @@ doc_id: GBN-PRC-001
 title: GridBench design precis
 project: GridBench
 doc_type: Design precis
-version: "0.5"
+version: "0.6"
 status: Draft
-date: '2026-10-01'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -29,6 +29,10 @@ revisions:
   date: '2026-10-01'
   author: Amish Chadha
   change: Design made constructable (GBN-DDR-003); mass, stability and cost updated; cost reported against the value-engineering target
+- version: "0.6"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: 'Decisions of 2026-10-02 carried in: light-duty rating at the screw-in positions, screwed-down shelf, first workshops for co-design'
 ---
 
 # GridBench design precis
@@ -96,7 +100,7 @@ Table 2. Key numbers.
 | Dowel relocation | 0.036 mm worst case, 0.015 mm statistical (target 0.03 mm) | Round plus diamond pin, 200 mm apart |
 | Clamp force at the part | 515 to 858 N at 1.6 N·m; body stress 9.9 MPa or less | M6, nut factor 0.15 to 0.25 |
 | Tee nut pull-through | 2.69 to 4.30 kN against up to 1.78 kN of screw tension (130 positions) | Assumed shear strength; R7 met on paper |
-| Screw-in insert pull-out | 1.02 to 1.63 kN against up to 1.78 kN (122 positions over the frame) | R7 not met there; options await Amish |
+| Screw-in insert pull-out | 1.02 to 1.63 kN against up to 1.78 kN (122 positions over the frame) | R7 not met there; rated light duty at 0.92 N·m and marked on the worktop (decided by Amish, 2026-10-02) |
 | Sliding force, rubber pads | About 215 N empty, 341 N ballasted | μ = 0.5 assumed |
 | Fixture change | 56 s (target 60 s) | Two screws out, two in |
 | Tile machining | About 4.2 h by drill press with a tapping guide | 144 holes, 9 reamed bores, 4 counterbores |
@@ -128,9 +132,9 @@ Value-engineering target: USD 250 (`budget_usd`, a hypothetical control target, 
 
 ## Open questions
 
-- [ ] R7 at the 122 screw-in positions over the frame: light-duty rating at 0.92 N·m (recommended), moving the sub-grid, or a relaxed target (GBN-DDR-002 O4). Proposed, awaiting Amish.
-- [ ] Racking stiffness: end low rails or a screwed-down shelf (GBN-DDR-002 O3). Proposed, awaiting Amish.
-- [ ] First workshops and regions for co-design (GBN-DDR-001 O1). Proposed, awaiting Amish.
+- [x] R7 at the 122 screw-in positions over the frame: rated light duty at 0.92 N·m (296 to 493 N at the part), marked on the worktop in a contrasting colour and stated in the fixture library notes (GBN-DDR-002 O4; decided by Amish, 2026-10-02).
+- [x] Racking stiffness: the shelf is screwed down to the low rails; a push test at TRL 4 decides whether end low rails are added (GBN-DDR-002 O3; decided by Amish, 2026-10-02).
+- [x] First workshops for co-design: makerspaces or technical colleges that have a CNC router and teach fixturing; the first candidate to approach is a member lab of the Fab Lab network, and nothing is agreed (GBN-DDR-001 O1; decided by Amish, 2026-10-02).
 - [ ] Can the tile be drilled to ±0.05 mm without CNC, using a printed or steel drill jig on a drill press? Not verifiable on paper.
 - [ ] A sourced figure for plywood in-plane moisture movement; the moisture contents are now sourced, the coefficient is not.
 - [ ] Flatness of cast tooling plate bought as offcut, and of the plywood sheet once screwed down (R5).

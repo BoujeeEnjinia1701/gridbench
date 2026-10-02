@@ -3,9 +3,9 @@ doc_id: GBN-DDR-001
 title: GridBench TRL 2 review decisions
 project: GridBench
 doc_type: Design decision record
-version: "0.2"
+version: "0.3"
 status: Draft
-date: '2026-09-25'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -17,12 +17,16 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Recommendations accepted by Amish (DDR-002)
+- version: "0.3"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: 'O1 decided by Amish on 2026-10-02'
 ---
 
 # 0001: TRL 2 review decisions
 
 - **Date:** 2026-09-25
-- **Status:** accepted in part. On 2026-09-25 Amish wrote "i accept all your recommendations, go with them across all repos." Items A1 to A10 and O2 are decided by Amish, 2026-09-25: go with recommendation (see GBN-DDR-002). Item O1 has no recommendation and remains "Proposed, awaiting Amish".
+- **Status:** accepted in part. On 2026-09-25 Amish wrote "i accept all your recommendations, go with them across all repos." Items A1 to A10 and O2 are decided by Amish, 2026-09-25: go with recommendation (see GBN-DDR-002). Item O1 had no recommendation and was decided by Amish on 2026-10-02 ("i approve your recommendations for all 555 open decisions.").
 
 ## Context
 
@@ -53,7 +57,7 @@ The options for each item are those listed in `docs/REVIEW.md` (session 2026-09-
 
 | # | Item | Status |
 | --- | --- | --- |
-| O1 | First workshops and regions for co-design. No recommendation was made and no preference is stated, so none is chosen here. | Proposed, awaiting Amish |
+| O1 | First workshops and regions for co-design. No recommendation was made and no preference is stated, so none is chosen here. | Decided by Amish, 2026-10-02: makerspaces or technical colleges that have a CNC router and teach fixturing; first candidate to approach, a member lab of the Fab Lab network |
 | O2 | Raise `budget_usd` from $220 to $250 (cost option c). Recommended at TRL 2 only as the fallback if offcut prices do not hold. GBN-CAL-001 v0.1 showed core parts at $239.20, so the fallback was needed for R10 to be met. `budget_usd` is now $250 in `project.yaml`. | Decided by Amish, 2026-09-25: go with recommendation |
 
 ## Consequences

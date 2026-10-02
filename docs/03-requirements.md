@@ -3,9 +3,9 @@ doc_id: GBN-REQ-001
 title: GridBench requirements
 project: GridBench
 doc_type: Requirements
-version: "0.5"
+version: "0.6"
 status: Draft
-date: '2026-10-01'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -29,6 +29,10 @@ revisions:
   date: '2026-10-01'
   author: Amish Chadha
   change: Design made constructable (GBN-DDR-003); R10 reported against the value-engineering target; R12 figures updated
+- version: "0.6"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: 'R7 note: light-duty rating and marking at the 122 screw-in positions decided by Amish on 2026-10-02; R7 unchanged'
 ---
 
 # GridBench requirements
@@ -68,5 +72,5 @@ Table 1. GridBench requirements and TRL 3 status (GBN-CAL-001, Table 2).
 
 ## Requirements not met
 
-- **R7 clamp hold-down at the 122 screw-in positions over the frame:** the screw tension that guarantees 500 N at the part can exceed the estimated pull-out strength of a screw-in insert. Tee nuts, decided under GBN-DDR-002, cannot be fitted there because a frame member blocks the underside. Options, with a light-duty rating recommended, are in GBN-DDR-002 (O4), proposed, awaiting Amish.
+- **R7 clamp hold-down at the 122 screw-in positions over the frame:** the screw tension that guarantees 500 N at the part can exceed the estimated pull-out strength of a screw-in insert. Tee nuts, decided under GBN-DDR-002, cannot be fitted there because a frame member blocks the underside. Decided by Amish on 2026-10-02 (GBN-DDR-002, O4): these positions are rated light duty at 0.92 N·m (296 to 493 N at the part), marked on the worktop in a contrasting colour and stated in the fixture library notes. R7 itself is unchanged and stays not met at these positions.
 - **R3 and R4 at risk:** see GBN-CAL-001, sections E and F. The precision tile carries all tight-tolerance work.

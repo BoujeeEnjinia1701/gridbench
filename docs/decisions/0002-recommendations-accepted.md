@@ -3,9 +3,9 @@ doc_id: GBN-DDR-002
 title: GridBench recommendations accepted
 project: GridBench
 doc_type: Design decision record
-version: "0.1"
+version: "0.2"
 status: Draft
-date: '2026-09-25'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -13,12 +13,16 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Recommendations accepted by Amish (DDR-002)
+- version: "0.2"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: 'O1, O3 and O4 decided by Amish on 2026-10-02'
 ---
 
 # 0002: Recommendations accepted
 
 - **Date:** 2026-09-25
-- **Status:** accepted. Every item below that carried a recommendation is decided by Amish, 2026-09-25: go with recommendation. Items without a recommendation remain "Proposed, awaiting Amish".
+- **Status:** accepted. Every item below that carried a recommendation is decided by Amish, 2026-09-25: go with recommendation. Items without a recommendation remained "Proposed, awaiting Amish" until Amish decided them on 2026-10-02 ("i approve your recommendations for all 555 open decisions.").
 
 ## Context
 
@@ -51,13 +55,13 @@ The options for each item are those in `docs/REVIEW.md` (sessions 2026-09-25, /p
 
 Knock-on figures from GBN-CAL-001 v0.2: tipping force 107 N to 112 N empty and 176 N to 181 N ballasted; core parts $239.20 to $245.90.
 
-*Table 2. Items still open.*
+*Table 2. Items left open on 2026-09-25, decided by Amish on 2026-10-02.*
 
 | # | Item | Status |
 | --- | --- | --- |
-| O1 | First workshops and regions for co-design. No recommendation was made. | Proposed, awaiting Amish |
-| O3 | Racking stiffness: end low rails or a screwed-down shelf. The TRL 3 review named both without recommending one, and no requirement covers racking yet. | Proposed, awaiting Amish |
-| O4 | New: the 122 screw-in insert positions that sit over a frame member, where R7 is still not met (pull-out factor 0.57 to 0.92). Options: (a) rate them light duty at 0.92 N·m, giving 296 to 493 N at the part (GBN-CAL-001, G5e), and mark them on the worktop; (b) move the insert sub-grid off the frame lines; (c) relax R7 at those positions. Recommendation: (a). | Proposed, awaiting Amish |
+| O1 | First workshops and regions for co-design. No recommendation was made. | Decided by Amish, 2026-10-02: makerspaces or technical colleges that have a CNC router and teach fixturing; first candidate to approach, a member lab of the Fab Lab network |
+| O3 | Racking stiffness: end low rails or a screwed-down shelf. The TRL 3 review named both without recommending one, and no requirement covers racking yet. | Decided by Amish, 2026-10-02: screw the shelf down to the low rails now; push-test at TRL 4 and add end low rails only if the frame still sways |
+| O4 | New: the 122 screw-in insert positions that sit over a frame member, where R7 is still not met (pull-out factor 0.57 to 0.92). Options: (a) rate them light duty at 0.92 N·m, giving 296 to 493 N at the part (GBN-CAL-001, G5e), and mark them on the worktop; (b) move the insert sub-grid off the frame lines; (c) relax R7 at those positions. Recommendation: (a). | Decided by Amish, 2026-10-02: (a), with the positions marked in a contrasting colour and the rating stated in the fixture library notes |
 
 ## Consequences
 
