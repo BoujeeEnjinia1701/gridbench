@@ -316,3 +316,40 @@ Authority: Amish, 2026-10-02: "i approve your recommendations for all 555 open d
 ### Points found in the review
 
 - A saving in Value engineering (leave the 122 screw-in positions as plain holes 'if decision 2 rates them light duty anyway') contradicts item 2: the light-duty rating depends on the screw-in inserts being there.
+
+## Session 2026-10-02: approved follow-ups carried out
+
+Authority: Amish, 2026-10-02: "497 follow-up actions that need CAD, drawing, picture, BOM or calculation work ... APPROVED CHANGES, COMPLETE THESE", and for the renders, "Photoreal renders are out of date in most repos ... COMPLETE THESE". `trl` and `trl_target` stay at 3; `budget_usd` is unchanged. No commit or push.
+
+### Follow-ups
+
+1. Decision 2 (drawings): done. GBN-DWG-001 Rev P5 rings the 122 light-duty positions in red on the top view, with a leader and a note; the worktop making sketch GBN-DWG-108 Rev P2 rings them on its top view and says how to paint them.
+2. Decision 2 (pictures): done. The hole layout (`docs/05-build-plan/worktop-holes.png`) rings every screw-in position and adds a legend line; steps 8 and 9 show the red rings, and later steps carry them.
+3. Decision 2 (bom): done. Line 12 adds one paint marker in a contrasting colour ($3.00, indicative retail); line 4 states the rings.
+4. Decision 2 (docs): done. There was no separate fixture library notes file, so a "Fixture library notes" section is added to the precis (`docs/02-concept.md` v0.7), stating the light-duty rating (0.92 N·m, 296 to 493 N at the part) and the marking. The build plan worktop steps state it too.
+5. Decision 3 (model): done. `cad/src/model.py` adds eight 4 x 30 mm countersunk wood screws (four into each low rail at 105, 375, 635 and 905 mm from the shelf's left end), with clearance and countersink holes in the shelf and pilot holes in the rails. Four new checks (screws in their shelf holes, reaching into the rails, clear of the ballast, clear of the frame bolts and legs); 96 of 96 checks pass. STEP and STL regenerated.
+6. Decision 3 (pictures): done for step 7 (shelf and its screws), the shelf making sketch GBN-DWG-107 Rev P2 (eight holes and the screws in the inset), the low rail sketch GBN-DWG-104 Rev P2 and the overview. Step 4 comes before the shelf, so its picture shows no screws; its text now says the shelf is screwed into the rail tops in step 7.
+7. Decision 3 (bom): done. Line 12 adds the eight shelf screws (8 at an indicative $0.10); line 3 states them.
+
+Cross-repo actions: none.
+
+### Results
+
+- Requirement status changes: none. R7 stays not met at the 122 screw-in positions (rated light duty, as decided); R10 stays over the value-engineering target, now by $22.20.
+- Value-engineering target: USD 250. Estimated cost of the constructable design: USD 272.20 (USD 22.20 over the target) [K4]; line 12 rises from $14.00 to $17.80 [K2c]; everything $292.20.
+- Mass: bench 43.8 kg empty (fasteners 2.7 kg, up about 0.03 kg); 69.6 kg with the ballast [B1], [B2]; anchor tie force 34 N [C6].
+- Appearance model (`cad/src/product_model.py`) brought into line with the constructable design: hex bolt heads and washers on the legs at the model's 24 bolt positions (were carriage bolts on the aprons), tile pocket with 0.5 mm clearance and corner relief holes, the nine worktop brackets, the eight shelf screw heads, the red light-duty rings, and the fence, V-block, stops, toe clamps, post foot screws, arm clamp, end clamp, drop rod and indicator at the model's positions. Remaining appearance differences are those Amish decided on 2026-10-02 (wall anchor left out, full hole pattern, render-only details); hidden details (rail notch, cross dowels) are not drawn. Render scenes exported to `/home/claude/renders/gridbench`; photoreal renders, `card.png` and `social-preview.png` are to be made on Amish's Mac.
+
+### Documents changed
+
+- `cad/src/model.py`, `cad/src/sheets.py`, `cad/src/build_plan_media.py`, `cad/src/product_model.py`, `cad/src/concept_media.py`; `cad/step/`, `cad/stl/`
+- `cad/drawings/GBN-DWG-001` Rev P5; `GBN-DWG-104`, `GBN-DWG-107`, `GBN-DWG-108` Rev P2
+- `docs/05-build-plan/`: worktop-holes, overview, steps 7 to 15
+- `bom/bom.csv` (lines 3, 4, 12), `bom/bom-notes.md`
+- `docs/04-calcs/sizing.py`, `sizing-output.txt`, `01-sizing.md` (GBN-CAL-001 v0.4)
+- `docs/05-build-plan.md` (GBN-BLD-001 v0.3), `docs/02-concept.md` (GBN-PRC-001 v0.7), `docs/03-requirements.md` (GBN-REQ-001 v0.7), `docs/06-design-decisions.md` (GBN-DEC-001 v0.3), `README.md`
+- Concept media regenerated (`media/`)
+
+## 2026-10-02: photoreal renders redone on the constructable design
+
+Rendered with Blender Cycles on Amish's Mac from the updated appearance model; captioned with `.kit/photo_caption.py`; `media/card.png` and `media/social-preview.png` regenerated with `.kit/cards.py`. Views: hero, exploded, detail. image_qc passes. Appearance deviations are those logged above as proposed, awaiting Amish.

@@ -3,7 +3,7 @@ doc_id: GBN-DEC-001
 title: GridBench design decisions register
 project: GridBench
 doc_type: Design decisions register
-version: "0.2"
+version: "0.3"
 status: Draft
 date: '2026-10-02'
 author: Amish Chadha
@@ -17,6 +17,10 @@ revisions:
   date: '2026-10-02'
   author: Amish Chadha
   change: 'Amish approved the recommendations for all seven open decisions (2026-10-02); GBN-DDR-003 accepted; moved to decisions made; plain-hole saving withdrawn from value engineering'
+- version: "0.3"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: 'Value engineering updated for the shelf screws and light-duty marking added to carry out decisions 2 and 3'
 ---
 
 # GridBench design decisions register
@@ -46,7 +50,7 @@ The fourth appearance item of 2026-09-26, the toe clamp screws on tile holes, is
 
 ## Value engineering
 
-Value-engineering target: USD 250 (a hypothetical control target, not a limit). Estimated cost of the constructable design: USD 268.40 (USD 18.40 over the target) for the core parts, from `bom/bom.csv` [K3], [K4]; with the user-supplied dial indicator and the optional wall anchor, USD 288.40. Main cost drivers and savings worth trying:
+Value-engineering target: USD 250 (a hypothetical control target, not a limit). Estimated cost of the constructable design: USD 272.20 (USD 22.20 over the target) for the core parts, from `bom/bom.csv` [K3], [K4]; with the user-supplied dial indicator and the optional wall anchor, USD 292.20. The shelf screws and the paint marker for the light-duty rings, added on 2026-10-02 to carry out decisions 2 and 3, cost USD 3.80 [K2c]. Main cost drivers and savings worth trying:
 
 - **Frame, USD 57.00.** About USD 33.60 of timber and USD 23.40 of bolts, cross dowels and screws [K2]. Worth trying: one bolt instead of two at each low rail end (about USD 3.20); bolts and cross dowels bought as a bulk furniture-fitting pack; or a glued and screwed frame (about USD 15 less, but it no longer comes apart).
 - **Worktop, USD 45.00.** A half sheet of birch plywood plus router wear. Worth trying: a full sheet shared with the shelf, or a cheaper sheet faced only on the top.

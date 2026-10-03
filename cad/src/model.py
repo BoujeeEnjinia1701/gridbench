@@ -1,5 +1,10 @@
 """GridBench parametric model (build123d), TRL 3, constructable design.
 
+Revised 2026-10-02 to carry out decisions Amish made that day (GBN-DEC-001): the shelf is screwed
+down to the two low rails with eight 4 x 30 mm countersunk wood screws (racking, decision 3), and the
+122 light-duty screw-in positions carry a contrasting paint ring (clamp rating, decision 2; drawn in
+the pictures from light_duty_marks(), not modelled as a solid).
+
 Revised 2026-10-01 under GBN-DDR-003 (design for construction, made under Amish's 2026-09-30
 instruction to make the design physically buildable; open for his review): long aprons and low
 rails butt between the legs on M8 bolts and cross dowels; the cross rail beside the right legs is
@@ -58,8 +63,12 @@ PARAMS = {
     "cross_x": (-300.0, 0.0, 247.5, 502.5),          # cross rail centers; the last two carry the tile
     # 2 levelling feet with rubber pads (GBN-DDR-002)
     "foot_pad_d": 50.0, "foot_pad_t": 12.0, "rubber_t": 3.0, "adjust": 15.0,
-    # 3 shelf, resting on the two low rails
+    # 3 shelf, resting on the two low rails, screwed down to them (decision 3, 2026-10-02)
     "shelf_t": 12.0,
+    "shelf_screw": (4.0, 30.0), "shelf_screw_x": (-400.0, -130.0, 130.0, 400.0),   # countersunk wood screws, d x L; X on each rail
+    "shelf_csk_d": 8.0,
+    # light-duty marking (decision 2, 2026-10-02): paint ring round each screw-in position, outer d
+    "light_mark_d": 16.0,
     # 14 ballast: two concrete paving slabs on the shelf
     "slab": (400.0, 400.0, 35.0), "slab_gap": 40.0,
     # 7, 13 dowel pins (round and diamond), 8 mm h6 x 20
@@ -192,6 +201,18 @@ def insert_kinds(p=PARAMS):
     tee = [(x, y) for x, y in ins if not blocked(x, y)]
     screw = [(x, y) for x, y in ins if blocked(x, y)]
     return tee, screw
+
+
+def shelf_screw_points(p=PARAMS):
+    """Shelf screws: (x, y) on the centre line of each low rail (decision 3, 2026-10-02)."""
+    ly = derived(p)["ly"]
+    return [(x, sy * ly) for sy in (-1, 1) for x in p["shelf_screw_x"]]
+
+
+def light_duty_marks(p=PARAMS):
+    """The screw-in positions over the frame, rated light duty (0.92 N m) and marked on the worktop
+    with a contrasting paint ring (decision 2, 2026-10-02)."""
+    return insert_kinds(p)[1]
 
 
 def dowel_points(p=PARAMS):
@@ -432,7 +453,18 @@ def build_components(p=PARAMS, full_top_holes=False):
 
     # ---------- shelf
     sl, sd, st = d["shelf"]
-    C["shelf"] = box(0, 0, d["shelf_z"] + st / 2, sl, sd, st)
+    shelf = box(0, 0, d["shelf_z"] + st / 2, sl, sd, st)
+    ssd, ssl = p["shelf_screw"]
+    zst = d["shelf_z"] + st                                       # shelf top
+    sscr = []
+    for x, y in shelf_screw_points(p):
+        shelf -= _cyl(x, y, d["shelf_z"] - 1, zst + 1, ssd / 2 + 0.3)              # clearance hole
+        shelf -= _cyl(x, y, zst - 2.0, zst + 1, p["shelf_csk_d"] / 2)               # countersink (modelled as a recess)
+        C_rail = f"low_rail_{'b' if y > 0 else 'f'}"
+        C[C_rail] = C[C_rail] - _cyl(x, y, zst - ssl - 1, d["shelf_z"] + 0.5, ssd / 2 - 0.6)   # pilot hole
+        sscr.append(_cyl(x, y, zst - 2.0, zst, p["shelf_csk_d"] / 2 - 0.2) + _cyl(x, y, zst - ssl, zst - 2.0, ssd / 2 - 0.6))
+    C["shelf"] = shelf
+    C["shelf_screws"] = fuse(sscr)
 
     # ---------- worktop: through pocket with clearance and corner relief, grid holes
     g = p["pocket_gap"]
@@ -600,7 +632,7 @@ GROUPS = {   # old build_parts keys (BOM lines) to component keys, for the conce
     "frame": ["leg_lf", "leg_lb", "leg_rf", "leg_rb", "apron_f", "apron_b", "end_apron_l", "end_apron_r",
               "rail_1", "rail_2", "rail_3", "rail_4", "low_rail_f", "low_rail_b", "packer_1", "packer_2",
               "frame_bolts", "rail_screws", "brackets", "bracket_screws"],
-    "feet": ["feet", "tnuts"], "shelf": ["shelf"], "worktop": ["worktop"],
+    "feet": ["feet", "tnuts"], "shelf": ["shelf", "shelf_screws"], "worktop": ["worktop"],
     "inserts": ["tee_nuts", "screw_inserts", "rail_inserts"], "tile": ["tile", "tile_screws"],
     "pins": ["pins"], "diamond": ["diamond"], "clamps": ["clamps", "clamp_screws"],
     "fixtures": ["fence", "stops", "vblock", "fixture_screws"],
@@ -644,6 +676,10 @@ def checks(p=PARAMS):
                 (f"tile on packer_{n}", "touch", "tile", f"packer_{n}", 1.0)]
     out += [("shelf on the low rails", "touch_any", "shelf", ["low_rail_f", "low_rail_b"], 1.0),
             ("ballast on the shelf", "touch", "ballast", "shelf", 1.0),
+            ("shelf screws in their shelf holes", "nolap", "shelf_screws", "shelf", 1.0),
+            ("shelf screws reach into the low rails", "touch_any", "shelf_screws", ["low_rail_f", "low_rail_b"], 1.0),
+            ("shelf screws clear of the ballast", "apart", "shelf_screws", "ballast", 5.0),
+            ("shelf screws clear of the frame bolts and legs", "apart", "shelf_screws", ["frame_bolts"] + legs, 5.0),
             ("worktop on the aprons", "touch_any", "worktop", ["apron_f", "apron_b", "end_apron_l", "end_apron_r"], 1.0),
             ("tile clear of the worktop pocket", "apart", "tile", "worktop", 0.4),
             ("feet clear of the legs (thread in the T-nut)", "apart", "feet", legs, 0.5),

@@ -12,13 +12,22 @@ extrusion) with its arm and a dial indicator touching the sample block. Context 
 section of workshop floor.
 APPEARANCE MODEL ONLY: no tolerances, no fabrication detail. CONCEPT, NOT FOR FABRICATION.
 
+Updated 2026-10-02 to match the constructable design (GBN-DDR-003) and the decisions Amish made on
+2026-10-02: hex bolt heads and washers on the legs where the M8 frame bolts are (not carriage bolts
+on the aprons), the tile pocket 0.5 mm larger all round with corner relief holes, the nine worktop
+brackets, the eight countersunk screws that hold the shelf down to the low rails, a red paint ring
+round each of the 122 light-duty screw-in positions, and the fence, V-block, stop pins, instrument
+post, arm clamp, end clamp, drop rod and indicator at the model's positions.
+
 Every main dimension, position and interface comes from PARAMS, derived(), classify(),
-insert_kinds(), dowel_points() and fixing_points() in model.py. Axes as model.py: X along the
+insert_kinds(), light_duty_marks(), shelf_screw_points(), bracket_points(), arm_geometry(),
+dowel_points() and fixing_points() in model.py. Axes as model.py: X along the
 bench, Y front to back (front at -Y), Z up, floor at Z = 0, worktop surface at Z = PARAMS["h"].
-Differences from model.py (see docs/REVIEW.md, session 2026-09-26): the two toe-clamp screws are
-moved onto the nearest tile hole centers, with the clamp bodies slid in their slots (CLAMPS); the
-optional wall anchor brackets (BOM 15) are left out because no wall is shown; and the worktop
-carries all 1,008 holes where model.py cuts a representative patch.
+Differences from model.py, all decided by Amish on 2026-10-02 (render detail only): the optional wall
+anchor angles (BOM 15) are left out because no wall is shown; the worktop carries all 1,008 holes
+where model.py cuts a representative patch; and index ticks, the name plate, knobs, the sample block
+and bar are appearance details. Hidden details (the cross rail notch, cross dowels, screws inside the
+timber) are not drawn.
 
     from product_model import product_parts
     for p in product_parts(): print(p["name"], p["group"], p["material"])
@@ -31,8 +40,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from build123d import (Axis, Box, Compound, Cylinder, Pos, RegularPolygon, Rot, Sphere, chamfer,
                        extrude, fillet)
-from model import (PARAMS, classify, derived, dowel_points, fixing_points, grid_points,
-                   insert_kinds, rod)
+from model import (PARAMS, arm_geometry, bracket_points, classify, derived, dowel_points, fixing_points,
+                   grid_points, insert_kinds, light_duty_marks, rod, shelf_screw_points)
 
 TITLE = "GridBench: workbench with a 25 mm hole grid and fixture set"
 
@@ -50,11 +59,8 @@ RENDER_VIEWS = [
              "without the frame, so the 25 mm hole grid, brass inserts and the flush precision tile read clearly"},
 ]
 
-# Appearance-only placement: each toe-clamp screw sits on the nearest tile hole center, and the clamp
-# body slides in its slot to stay close to its model.py position. model.py puts body and screw
-# together at (320, 40) and (430, -40), which fall between tile holes.
-CLAMPS = [((312.5, 40.0), (312.5, 37.5), 90.0),     # (body center, screw center, rotation deg)
-          ((432.0, -37.5), (437.5, -37.5), 0.0)]
+# Toe clamps as model.py places them: (body center, screw center on a tile hole, rotation deg)
+CLAMPS = PARAMS["clamps_at"]
 
 # Colours (restrained product palette; kit accent)
 C_PLY = "#E2C48E"
@@ -74,6 +80,7 @@ C_LABEL = "#F4F4F2"
 C_CONCRETE = "#A8A29E"
 C_SAMPLE = "#9CA3AF"
 C_FLOOR = "#D4D1CB"
+C_RING = "#C0392B"     # contrasting paint ring at the light-duty positions (decision 2, 2026-10-02)
 
 
 def _fillet_try(shape, edges, radii):
@@ -196,7 +203,11 @@ def product_parts(P=PARAMS):
     for zz in (H - 4.5, H - 9.0, H - 13.5):
         ring = _box(0, 0, zz, L + 2, Dp + 2, 0.35) - _box(0, 0, zz, L - 0.6, Dp - 0.6, 1.0)
         top -= ring
-    top -= _box(tcx, tcy, H - tt_ / 2, s, s, tt_ + 2)
+    g = P["pocket_gap"]
+    top -= _box(tcx, tcy, H - tt_ / 2, s + 2 * g, s + 2 * g, tt_ + 2)
+    for cx_ in (x0 - g, x0 + s + g):
+        for cy_ in (y0 - g, y0 + s + g):
+            top -= _zcyl(cx_, cy_, H - tt_ / 2, P["pocket_relief_d"] / 2, tt_ + 2)
     # all 1,008 holes, cut per 150 mm cell (cell edges fall midway between grid lines) so that
     # each face carries few holes and tessellation stays fast; the cells meet flush
     top = _cells(top, [(plain_pts, P["plain_d"]), (screw_pts, P["insert_hole_d"]), (tee_pts, P["tee_hole_d"])],
@@ -211,6 +222,11 @@ def product_parts(P=PARAMS):
         if i == 0 and j % 4 == 0:
             ticks.append(_box(-L / 2 + 3.2, y, H + 0.05, 4.0, 0.8, 0.1))
     add("Grid index marks (laser-etched)", _fuse(ticks), C_INK, "paper", 4, "shell", (0, 0, E_TOP))
+
+    # red paint ring round each light-duty screw-in position (decision 2, 2026-10-02)
+    rings = [_zcyl(x, y, H + 0.08, P["light_mark_d"] / 2, 0.16) - _zcyl(x, y, H + 0.08, P["insert_od"] / 2 + 0.6, 1.0)
+             for x, y in light_duty_marks(P)]
+    add("Light-duty paint rings (122)", Compound(children=rings), C_RING, "painted", 12, "shell", (0, 0, E_TOP))
 
     ri = P["insert_od"] / 2 - 0.75
     ins = [_zcyl(x, y, H - P["insert_len"] / 2, ri, P["insert_len"]) - _zcyl(x, y, H - P["insert_len"] / 2, 2.5,
@@ -251,18 +267,36 @@ def product_parts(P=PARAMS):
     packers = [_box(x, tcy, zu + pk / 2, rw, s, pk) for x in P["cross_x"] if x0 < x < x0 + s]
     add("Hardwood packers under the tile", _fuse(packers), "#9A6B3F", "wood", 1, "internal", (0, 0, E_TOP - 90))
 
-    # carriage bolt heads (domed) on the outer faces of the aprons at each leg
+    # M8 hex bolt heads and washers on the outer faces of the legs, where model.py puts the frame bolts
     heads = []
-    yo = ly + leg / 2
-    xo = lx + leg / 2
+    hex_head = extrude(RegularPolygon(13.0 / 1.732, 6), amount=5.3)
+    washer = Cylinder(8.0, 1.6)
+    def head(x, y, z, axis, sg):
+        if axis == "x":
+            rot = Rot(0, 90 * sg, 0)
+        else:
+            rot = Rot(-90 * sg, 0, 0)
+        return Pos(x, y, z) * rot * (Pos(0, 0, 0.8) * washer + Pos(0, 0, 1.6) * hex_head)
     for sx in (-1, 1):
         for sy in (-1, 1):
-            for dz in (-35.0, -85.0):
-                h = Pos(sx * lx, sy * yo, zu + dz) * Rot(90 * sy, 0, 0) * (Sphere(9.5) & Pos(0, 0, 5) * Box(20, 20, 10))
-                heads.append(h)
-            h = Pos(sx * xo, sy * ly, zu - 60) * Rot(0, -90 * sx, 0) * (Sphere(9.5) & Pos(0, 0, 5) * Box(20, 20, 10))
-            heads.append(h)
-    add("Carriage bolt heads, M8", _fuse(heads), C_ZINC, "metal", 1, "internal", (0, 0, 0))
+            xo, yo = sx * (lx + leg / 2), sy * (ly + leg / 2)
+            for zz in P["apron_bolt_z"]:
+                heads.append(head(xo, sy * D["long_apron_y"], zu - ah + zz, "x", sx))
+            for zz in P["low_bolt_z"]:
+                heads.append(head(xo, sy * ly, P["low_rail_z"] + zz, "x", sx))
+            for zz in P["end_bolt_z"]:
+                heads.append(head(sx * D["end_apron_x"], yo, zu - ah + zz, "y", sy))
+    add("M8 hex bolt heads and washers (24)", _fuse(heads), C_ZINC, "metal", 1, "internal", (0, 0, 0))
+
+    # worktop brackets (BOM 17): steel angles on the apron inner faces, under the worktop
+    bv, bh, bw, bt = P["bracket"]
+    brs = []
+    for x, y, (nxn, nyn) in bracket_points(P):
+        if nyn != 0:
+            brs.append(_box(x, y + nyn * bt / 2, zu - bv / 2, bw, bt, bv) + _box(x, y + nyn * bh / 2, zu - bt / 2, bw, bh, bt))
+        else:
+            brs.append(_box(x + nxn * bt / 2, y, zu - bv / 2, bt, bw, bv) + _box(x + nxn * bh / 2, y, zu - bt / 2, bh, bw, bt))
+    add("Worktop brackets, steel (9)", _fuse(brs), C_STEEL, "metal", 17, "internal", (0, 0, E_TOP - 120))
 
     # name plate on the front apron
     fy = -(D["long_apron_y"] + aw / 2)
@@ -293,6 +327,10 @@ def product_parts(P=PARAMS):
     shelf = _box(0, 0, D["shelf_z"] + st / 2, sl, sd, st)
     shelf = _fillet_try(shelf, shelf.edges(), [1.0, 0.6])
     add("Lower shelf (plywood)", shelf, C_PLY_EDGE, "wood", 3, "internal", (0, -650, -260))
+    zst = D["shelf_z"] + st
+    sh_scr = [_zcyl(x, y, zst + 0.05, P["shelf_csk_d"] / 2 - 0.2, 0.3) - _box(x, y, zst + 0.3, 4.5, 0.8, 0.4)
+              for x, y in shelf_screw_points(P)]
+    add("Shelf screws, countersunk 4 x 30 (8)", _fuse(sh_scr), C_ZINC, "metal", 12, "internal", (0, -650, -260))
     ax_, ay_, az_ = P["slab"]
     zs = D["shelf_z"] + st + az_ / 2
     slabs = []
@@ -353,44 +391,51 @@ def product_parts(P=PARAMS):
     # ------------------------------------------------------------ fence, stops, V-block (BOM 9)
     fl, fw, fh = P["fence_seg"]
     segs, fscr = [], []
-    for i in range(2):
-        cx = -400 + fl / 2 + i * fl
-        f = _box(cx, 187.5, H + fh / 2, fl - 1, fw, fh)
+    FY, FDX = P["fence_y"], P["fence_screw_dx"]
+    for cx in P["fence_x"]:
+        f = _box(cx, FY, H + fh / 2, fl, fw, fh)
         f = _fillet_try(f, f.edges().filter_by(Axis.Z), [2.0, 1.0])
         f = _fillet_try(f, f.faces().sort_by(Axis.Z)[-1].edges(), [1.5, 1.0])
-        f -= _box(cx, 187.5 - fw / 2, H + fh - 8, fl - 20, 1.2, 1.0)    # sight line on the working face
-        for hx in (cx - 62.5, cx + 62.5):
-            f -= _zcyl(hx, 187.5, H + fh - 4, 5.6, 8.1)
-            fscr.append(_cap_screw(hx, 187.5, H + fh - 1.5))
+        f -= _box(cx, FY - fw / 2, H + fh - 8, fl - 20, 1.2, 1.0)    # sight line on the working face
+        for hx in (cx - FDX, cx + FDX):
+            f -= _zcyl(hx, FY, H + (P["fixture_floor"] + fh) / 2, P["cbore_d"] / 2, fh - P["fixture_floor"] + 0.1)
+            fscr.append(_cap_screw(hx, FY, H + P["fixture_floor"] + 6))
         segs.append(f)
     add("Printed fence segments (PETG)", _fuse(segs), C_PRINT_LT, "plastic", 9, "accessory", (0, 0, E_TILE))
-    add("Fence cap screws", _fuse(fscr), C_BLACKOX, "metal", 12, "accessory", (0, 0, E_TILE + 120))
 
     stops = []
-    for x in (-462.5, -137.5):
-        st_ = _zcyl(x, -12.5, H + P["stop_h"] / 2, P["stop_d"] / 2, P["stop_h"])
+    for x, y_ in P["stops_at"]:
+        st_ = _zcyl(x, y_, H + P["stop_h"] / 2, P["stop_d"] / 2, P["stop_h"])
         st_ = _fillet_try(st_, st_.faces().sort_by(Axis.Z)[-1].edges(), [2.0, 1.0])
-        st_ += _zcyl(x, -12.5, H + 1.5, P["stop_d"] / 2 + 2.5, 3.0)
-        st_ -= _zcyl(x, -12.5, H + P["stop_h"] - 3, 1.8, 3.2)
+        st_ += _zcyl(x, y_, H + 1.5, P["stop_d"] / 2 + 2.5, 3.0)
+        st_ -= _zcyl(x, y_, H + P["stop_h"] - 3, 1.8, 3.2)
         stops.append(st_)
     add("Printed stop pins", _fuse(stops), C_ACCENT, "plastic", 9, "accessory", (0, 0, E_TILE))
 
     vl, vw, vh = P["vblock"]
-    vb = _box(-300, -150, H + vh / 2, vl, vw, vh)
+    VX, VY = P["vblock_at"]
+    vtop = vw - 10.0                                                    # V 50 mm wide at the top, as model.py
+    vb = _box(VX, VY, H + vh / 2, vl, vw, vh)
     vb = _fillet_try(vb, vb.edges().filter_by(Axis.Y), [2.0, 1.0])
-    vb -= Pos(-300, -150, H + vh) * Rot(45, 0, 0) * Box(vl + 4, vw * 0.83, vw * 0.83)
-    vb -= _box(-300, -150 - vw / 2, H + 15, vl - 24, 1.2, 12)             # side recess (print cue)
+    vb -= Pos(VX, VY, H + vh) * Rot(45, 0, 0) * Box(vl + 4, vtop / 2 ** 0.5, vtop / 2 ** 0.5)
+    vb -= _box(VX, VY - vw / 2, H + 15, vl - 24, 1.2, 12)               # side recess (print cue)
+    for e in (-1, 1):
+        xs_ = VX + e * P["vblock_screw_dx"]
+        vb -= _zcyl(xs_, VY, H + (P["fixture_floor"] + vh) / 2, P["cbore_d"] / 2, vh - P["fixture_floor"] + 0.1)
+        fscr.append(_cap_screw(xs_, VY, H + P["fixture_floor"] + 6))
     add("Printed V-block (PETG)", vb, C_PRINT_LT, "plastic", 9, "accessory", (0, 0, E_TILE))
-    apex = H + vh - vw * 0.83 / 2 ** 0.5
     bar_r = 15.0
-    bar = _xcyl(-300, -150, apex + bar_r * 2 ** 0.5, bar_r, 150)
+    bar = _xcyl(VX, VY, H + vh - vtop / 2 + bar_r * 2 ** 0.5, bar_r, 150)
     bar = _chamfer_try(bar, bar.edges(), [1.0, 0.5])
     add("Sample round bar (steel)", bar, "#8B929A", "metal", None, "accessory", (0, 0, E_TILE + 150))
+    add("Fence and V-block cap screws", _fuse(fscr), C_BLACKOX, "metal", 12, "accessory", (0, 0, E_TILE + 120))
 
     # ------------------------------------------------------------ instrument post (BOM 10), indicator (BOM 11)
-    PX, PY = x0 + s + 12.5, 237.5
-    IX, IY = x0 + 150, wy
-    azz = H + P["arm_z"]
+    # positions from arm_geometry() in model.py: the post on a printed foot on the plywood behind the tile,
+    # an arm clamp on the post, the arm running forward beside the post, an end clamp carrying the drop rod
+    A = arm_geometry(P)
+    PX, PY, azz = A["px"], A["py"], A["az"]
+    IX, IY, RY = A["ix"], A["iy"], A["ry"]
     pw, pd, ph = P["post"]
     fl_, fw_, ft_ = P["post_foot"]
     EP = (300, 250, E_TILE)
@@ -398,8 +443,8 @@ def product_parts(P=PARAMS):
     foot = _fillet_try(foot, foot.edges().filter_by(Axis.Z), [6.0, 4.0])
     foot = _fillet_try(foot, foot.faces().sort_by(Axis.Z)[-1].edges(), [1.5, 1.0])
     add("Printed post foot", foot, C_ACCENT, "plastic", 10, "accessory", EP)
-    add("Post foot cap screw", _cap_screw(PX - 25, PY, H + ft_ + 6), C_BLACKOX, "metal", 12, "accessory",
-        (300, 250, E_TILE + 60))
+    add("Post foot cap screws", _fuse([_cap_screw(PX + a_, PY + c_, H + ft_ + 6) for a_, c_ in P["post_foot_screws"]]),
+        C_BLACKOX, "metal", 12, "accessory", (300, 250, E_TILE + 60))
     post = _box(PX, PY, H + ft_ + ph / 2, pw, pd, ph)
     post = _fillet_try(post, post.edges().filter_by(Axis.Z), [1.5, 1.0])
     zc = H + ft_ + ph / 2
@@ -412,24 +457,33 @@ def product_parts(P=PARAMS):
     cap = _box(PX, PY, H + ft_ + ph + 1.5, pw, pd, 3.0)
     cap = _fillet_try(cap, cap.edges(), [1.0, 0.5])
     add("Post end cap", cap, C_KNOB, "plastic", 10, "accessory", EP)
-    arm = rod((PX, PY, azz), (IX, IY + 25, azz), P["arm_d"] / 2)
+    arm = rod((A["ax"], A["arm_back"], azz), (A["ax"], A["arm_end"], azz), P["arm_d"] / 2)
     add("Indicator arm (steel)", arm, C_ZINC, "metal", 10, "accessory", EP)
-    cb = _box(PX, PY, azz, 36, 50, 40)
+    cw_, cd_, ch_ = P["arm_clamp"]
+    acx = (A["ax"] - P["arm_d"] / 2 - 9.0 + PX + pw / 2 + 7.0) / 2
+    cb = _box(acx, PY, azz, cw_, cd_, ch_)
     cb = _fillet_try(cb, cb.edges(), [4.0, 2.5, 1.0])
-    cb += _ycyl(PX + 24, PY, azz + 8, 7.0, 14) + Pos(PX + 24, PY, azz + 8) * Rot(0, 90, 0) * Cylinder(3, 16)
-    add("Printed arm clamp and knob", cb, C_KNOB, "plastic", 10, "accessory", EP)
-    swv = _zcyl(IX, IY + 25, azz, 11.0, 26)
-    swv = _fillet_try(swv, swv.edges(), [2.0, 1.0])
-    add("Printed swivel clamp", swv, C_KNOB, "plastic", 10, "accessory", EP)
+    cb -= _box(PX, PY, azz, pw + 0.4, pd + 0.4, ch_ + 2)
+    cb -= rod((A["ax"], PY + cd_, azz), (A["ax"], PY - cd_, azz), P["arm_d"] / 2 + 0.2)
+    cb += _ycyl(acx, PY - cd_ / 2 - 4, azz + 8, 7.0, 8) + Pos(acx, PY - cd_ / 2 - 4, azz + 8) * Rot(90, 0, 0) * Cylinder(3, 14)
+    add("Printed arm clamp and thumb screw", cb, C_KNOB, "plastic", 10, "accessory", EP)
+    ecw, ecd, ech = P["end_clamp"]
+    ec = _box(A["ax"], A["yc"], azz, ecw, ecd, ech)
+    ec = _fillet_try(ec, ec.edges(), [3.0, 2.0, 1.0])
+    ec -= rod((A["ax"], A["yc"] + ecd, azz), (A["ax"], A["arm_end"], azz), P["arm_d"] / 2 + 0.2)
+    ec -= _zcyl(A["ax"], RY, azz, P["drop_rod_d"] / 2 + 0.2, ech + 2)
+    add("Printed end clamp", ec, C_KNOB, "plastic", 10, "accessory", EP)
 
     EI = EP
     iz = H + 135
     case = _ycyl(IX, IY, iz, 28, 18)
     case = _fillet_try(case, case.edges(), [2.0, 1.0])
-    case += rod((IX, IY + 9, iz), (IX, IY + 25, iz), 5)                   # lug back
-    case += rod((IX, IY + 25, iz), (IX, IY + 25, azz - 12), 6)            # drop rod to the swivel
+    case += rod((IX, IY + 9, iz), (IX, RY - P["drop_rod_d"] / 2, iz), 5)          # lug back
+    case += _box(IX, RY, iz, 10, P["drop_rod_d"], 12)
     case += _zcyl(IX, IY, iz + 32, 3.5, 8) + Pos(IX, IY, iz + 38) * Sphere(4.5)
     add("Dial indicator case", case, C_ZINC, "metal", 11, "accessory", EI)
+    drop = rod((IX, RY, iz + 6), (IX, RY, azz + ech / 2 + 10), P["drop_rod_d"] / 2)
+    add("Drop rod (steel)", drop, C_ZINC, "metal", 10, "accessory", EI)
     bez = _ycyl(IX, IY - 10, iz, 29.5, 3.0) - _ycyl(IX, IY - 10, iz, 25.5, 4.0)
     bez = _fillet_try(bez, bez.edges(), [1.0, 0.5])
     add("Dial indicator bezel", bez, C_ACCENT, "painted", 11, "accessory", EI)

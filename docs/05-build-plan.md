@@ -3,7 +3,7 @@ doc_id: GBN-BLD-001
 title: GridBench prototype build plan
 project: GridBench
 doc_type: Build plan
-version: "0.2"
+version: "0.3"
 status: Draft
 date: '2026-10-02'
 author: Amish Chadha
@@ -17,6 +17,10 @@ revisions:
     date: '2026-10-02'
     author: Amish Chadha
     change: 'Safety stop S5: screw-in positions rated light duty and marked (decided by Amish, 2026-10-02)'
+  - version: "0.3"
+    date: '2026-10-02'
+    author: Amish Chadha
+    change: 'Shelf screwed down to the low rails and light-duty positions ringed on the worktop, with the pictures redrawn'
 ---
 
 # GridBench prototype build plan
@@ -29,7 +33,7 @@ revisions:
 
 *Figure 1. Every component pulled apart and numbered in build order; 20, the wall anchor, is optional.*
 
-The prototype is one GridBench: a bolted softwood frame on four levelling feet, carrying an 18 mm plywood worktop drilled on a 25 mm grid, with a 300 x 300 mm aluminium precision tile set flush in it at the right, two concrete slabs on a lower shelf, and a set of printed fixtures and an instrument post that screw onto the grid. Figure 1 shows the 20 components in the order you make or fit them. Sixteen kinds of part are made in a garage workshop, each with its own making sketch: the legs, end and long aprons, low and cross rails, packers and shelf (sawing and drilling timber), the worktop (drilling and routing plywood), the tile (drilling, reaming and tapping aluminium plate), and the toe clamps, fence, V-block, stop pins, post foot and two arm clamps (3D printing in PETG). Everything else is bought and fitted: feet, bolts and cross dowels, tee nuts and inserts, brackets, pins, the extrusion and rods for the post and arm, the dial indicator and the slabs. The parts cost about USD 268 from the bill of materials, with the dial indicator supplied by the user.
+The prototype is one GridBench: a bolted softwood frame on four levelling feet, carrying an 18 mm plywood worktop drilled on a 25 mm grid, with a 300 x 300 mm aluminium precision tile set flush in it at the right, two concrete slabs on a lower shelf, and a set of printed fixtures and an instrument post that screw onto the grid. Figure 1 shows the 20 components in the order you make or fit them. Sixteen kinds of part are made in a garage workshop, each with its own making sketch: the legs, end and long aprons, low and cross rails, packers and shelf (sawing and drilling timber), the worktop (drilling and routing plywood), the tile (drilling, reaming and tapping aluminium plate), and the toe clamps, fence, V-block, stop pins, post foot and two arm clamps (3D printing in PETG). Everything else is bought and fitted: feet, bolts and cross dowels, tee nuts and inserts, brackets, pins, the extrusion and rods for the post and arm, the dial indicator and the slabs. The parts cost about USD 272 from the bill of materials, with the dial indicator supplied by the user.
 
 > **Safety:** Drilling, tapping, routing and sawing make chips and can throw work: wear safety glasses, clamp the work, and keep hands clear of turning tools. The finished bench tips at about 117 N at its front edge when empty, so the two ballast slabs (about 13 kg each) go on the shelf before the bench is used; lift each with a straight back. The worktop is about 7 kg and awkward: lift it with a second person. Printed clamps can crack and release a part if overtightened: never tighten a clamp screw past 1.6 N·m. The bench is plywood and PETG: no welding, grinding sparks or hot work on it.
 
@@ -51,6 +55,8 @@ The concept showed what the bench does; some of its parts could not be made, fix
 | Fixtures | Fence, V-block, post foot and clamp screws on unthreaded holes or between holes | Every fixture on threaded positions, with one screw length for the plywood (Figures 20 and 25) | Each one can be screwed down |
 | Instrument arm | The arm passed through the post; no clamp at the drop rod | Two printed clamps; the arm passes beside the post and the drop rod beside the arm's end (Figure 28) | Nothing passes through anything else |
 | Wall anchor (optional) | A flat leg pointing at no wall | One leg under the rear apron, the other down the wall (Figure 29) | It can be fixed to a wall |
+| Shelf fixing | The shelf only rested on the low rails | Eight countersunk screws hold it down to the low rails (Figure 12, step 7) | The shelf braces the frame against racking |
+| Light-duty positions | Not marked | The 122 screw-in positions ringed in a contrasting colour on the worktop (Figure 14) | A user can see where to clamp lightly |
 
 ## 3. Making the components
 
@@ -147,7 +153,7 @@ Each end apron butts between two legs, flush with their tops and outside faces. 
 
 *Figure 8. Cut level with the upper bolt: the same bolt and cross dowel joint as the aprons, on the leg's centre line.*
 
-The rail butts between the legs on their centre line, its lower edge 105 above the floor (80 above the foot of the leg). The shelf rests on its top face.
+The rail butts between the legs on their centre line, its lower edge 105 above the floor (80 above the foot of the leg). The shelf rests on its top face and is screwed down into it at four points (step 7).
 
 **Check before moving on.** Same length as the long aprons within 0.5.
 
@@ -200,11 +206,14 @@ The rails butt between the long aprons with their tops flush, centred 210, 510, 
 
 **What it is and what it is made from.** The lower shelf that carries the ballast. Plywood 12 mm.
 
-**How to make it.** Cut 1,010 x 535, square; round the corners about 5 and sand the edges.
+**How to make it.**
 
-**How it fits the parts next to it.** It rests on the top faces of the two low rails, flush with their outside faces, 5 clear of the legs at each end. It goes in from the front, above the front low rail, and is lowered onto both rails (step 7).
+1. Cut 1,010 x 535, square; round the corners about 5 and sand the edges.
+2. Drill eight 4.5 holes, countersunk for an 8 head: four along each long edge on a line 22.5 in from the edge (over the middle of the low rail), at 105, 375, 635 and 905 from the left end.
 
-**Check before moving on.** It lies flat on both rails and touches no leg.
+**How it fits the parts next to it.** It rests on the top faces of the two low rails, flush with their outside faces, 5 clear of the legs at each end. It goes in from the front, above the front low rail, and is lowered onto both rails (step 7). Eight 4 x 30 countersunk wood screws, four into each rail, hold it down, so that the shelf braces the frame against racking. The screws sit clear of the ballast slabs.
+
+**Check before moving on.** It lies flat on both rails and touches no leg; every hole lands over the middle of a rail.
 
 ### 3.8 Worktop
 
@@ -214,7 +223,7 @@ The rails butt between the long aprons with their tops flush, centred 210, 510, 
 
 ![Figure 14. Every hole in the worktop](05-build-plan/worktop-holes.png)
 
-*Figure 14. Every hole, seen from above with the front edge at the bottom: plain holes, tee nut holes and screw-in insert holes.*
+*Figure 14. Every hole, seen from above with the front edge at the bottom: plain holes, tee nut holes and screw-in insert holes, each screw-in position ringed in red paint as light duty.*
 
 **What it is and what it is made from.** The working surface: a plywood panel drilled on the 25 mm grid, with a pocket for the precision tile. Birch plywood 18 mm, one 1,200 x 600 panel.
 
@@ -226,6 +235,7 @@ The rails butt between the long aprons with their tops flush, centred 210, 510, 
 4. Drill as Figure 14: 756 plain holes of 6.6, 130 holes of 8.0 for tee nuts, and 122 holes of 8.5 for screw-in inserts (the threaded positions that will sit over a frame member). Use a shared CNC router if you can. Otherwise use a printed drilling template indexed from the left and front edges each time, never from the last hole drilled, so errors do not add up.
 5. Tile pocket: 301 x 301, right through, from 824.5 to 1,125.5 from the left edge and 149.5 to 450.5 from the front edge. Drill an 8 mm relief hole centred on each corner first, then cut inside the line with a jigsaw and rout to the line against a straightedge.
 6. Round every edge 1 mm and seal both faces with a thin finish so the panel takes up moisture evenly.
+7. When the finish is dry, ring each of the 122 screw-in insert holes (shown in orange in Figure 14) on the top face with a paint marker in a contrasting colour, a ring about 16 across. These positions are rated light duty: a toe clamp there is tightened to 0.92 N·m at most, which gives 296 to 493 N at the part. Full clamping force is for the tee nut positions and the tile.
 
 **How it fits the parts next to it.**
 
@@ -239,7 +249,7 @@ The tee nuts and inserts go in before the worktop goes on the frame (step 8). Th
 
 *Figure 16. Each bracket is screwed to the apron's inside face and up into the worktop, midway between two threaded positions.*
 
-**Check before moving on.** Diagonals equal within 1; a 6 mm pin drops into any plain hole; the pocket is 301 within 0.3 both ways.
+**Check before moving on.** Diagonals equal within 1; a 6 mm pin drops into any plain hole; the pocket is 301 within 0.3 both ways; all 122 screw-in positions are ringed and no other hole is.
 
 ### 3.9 Precision tile
 
@@ -405,7 +415,7 @@ Buy to specification, not brand. Line numbers are those of the bill of materials
 - **Pins (lines 7 and 13).** Round 8 mm h6 hardened dowel pins 20 long, and diamond (relieved) 8 mm h6 locating pins 20 long. A precision fixture always uses one of each.
 - **Post, arm and rod (line 10).** One 20 x 40 aluminium extrusion 350 long, one 18 mm steel bar 225 long, one 12 mm steel bar 200 long, four M6 thumb screws and nuts.
 - **Dial indicator (line 11, user-supplied).** 0.01 resolution, 10 travel, 8 mm stem, lug back.
-- **Fastener kit (line 12).** M6 cap screws: 10 x 30 (fixtures on the plywood), 4 x 80 (toe clamps, with printed knobs), 4 x 20 (tile), 10 x 16 (fixtures on the tile); 2 M5 x 20; washers; a 5 mm hex key.
+- **Fastener kit (line 12).** M6 cap screws: 10 x 30 (fixtures on the plywood), 4 x 80 (toe clamps, with printed knobs), 4 x 20 (tile), 10 x 16 (fixtures on the tile); 2 M5 x 20; washers; a 5 mm hex key; eight 4 x 30 countersunk wood screws for the shelf; one paint marker in a colour that stands out on birch plywood (red, for example) for the light-duty rings.
 - **Ballast slabs (line 14).** Two concrete paving slabs 400 x 400 x 35, about 13 kg each.
 - **Wall anchor angles (line 15, optional).** Two steel angles 50 x 50 x 4, 40 wide, with screws and wall plugs:
 
@@ -441,7 +451,7 @@ With a helper holding the end frames upright, bolt the long aprons between them 
 
 ![Step 4](05-build-plan/step-04.png)
 
-Bolt the low rails between the legs, their lower edges 105 above the floor. Tighten every frame bolt firmly.
+Bolt the low rails between the legs, their lower edges 105 above the floor. Tighten every frame bolt firmly. Keep the rails' top faces clear: the shelf is screwed down into them in step 7.
 
 ### Step 5: cross rails between the long aprons
 
@@ -459,7 +469,7 @@ Glue each packer centred on the top of a tile rail, running front to back, and c
 
 ![Step 7](05-build-plan/step-07.png)
 
-Slide the shelf in from the front, above the front low rail, and lower it onto both rails.
+Slide the shelf in from the front, above the front low rail, and lower it onto both rails. Through each of its eight holes, drill a 3 mm pilot hole 20 deep into the rail, then drive a 4 x 30 countersunk wood screw until its head is flush. **Hold point:** the shelf does not move when pushed along the bench.
 
 ### Step 8: threaded inserts into the worktop
 
@@ -553,8 +563,8 @@ Stop at each point. Carry on only when everything listed is true.
 
 - Model and constructability checks: `cad/src/model.py` (`python cad/src/model.py --check`); STEP and STL exports in `cad/step/` and `cad/stl/`.
 - Pictures: `cad/src/build_plan_media.py`, using `.kit/build_views.py`; written to `docs/05-build-plan/` and `cad/drawings/GBN-DWG-101` to `GBN-DWG-116`.
-- General arrangement: `cad/drawings/GBN-DWG-001.pdf`, Rev P4.
-- Calculations: `docs/04-calcs/01-sizing.md` (GBN-CAL-001 v0.3) and `docs/04-calcs/sizing.py`; mass [B1], tipping [C2], [C4], stiffness [D5], clamps and inserts [G4], [G5c], fixture change [H1], cost [K3].
+- General arrangement: `cad/drawings/GBN-DWG-001.pdf`, Rev P5.
+- Calculations: `docs/04-calcs/01-sizing.md` (GBN-CAL-001 v0.4) and `docs/04-calcs/sizing.py`; mass [B1], tipping [C2], [C4], stiffness [D5], clamps and inserts [G4], [G5c], fixture change [H1], cost [K3].
 - Bill of materials: `bom/bom.csv`.
 - Decisions: `docs/decisions/0003-design-for-construction.md` (GBN-DDR-003), with GBN-DDR-001 and GBN-DDR-002; open items in `docs/06-design-decisions.md` (GBN-DEC-001).
-- Requirements: `docs/03-requirements.md` (GBN-REQ-001 v0.5).
+- Requirements: `docs/03-requirements.md` (GBN-REQ-001 v0.7).

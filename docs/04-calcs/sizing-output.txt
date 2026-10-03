@@ -3,15 +3,15 @@
 [A3] dowel bore to nearest M6 hole 17.7 mm between centers; ligament 10.7 mm
 [A4] fixing counterbore to nearest M6 hole 16.0 mm; ligament 7.5 mm
 [A5] plywood ligament efficiency (25 - 6.6) / 25 = 0.736; tile (25 - 5.0) / 25 = 0.800
-[B1] masses kg: frame 22.4, worktop 7.2, tile 3.0, shelf 4.4, inserts, feet, fasteners 2.4, frame bolts, cross dowels, brackets 2.6, fixtures, post, indicator 1.7; bench 43.8 kg
-[B2] ballast slab 12.9 kg each, two 25.8 kg; bench with ballast 69.5 kg
+[B1] masses kg: frame 22.4, worktop 7.2, tile 3.0, shelf 4.4, inserts, feet, fasteners 2.4, frame bolts, cross dowels, brackets 2.7, fixtures, post, indicator 1.7; bench 43.8 kg
+[B2] ballast slab 12.9 kg each, two 25.8 kg; bench with ballast 69.6 kg
 [B3] center of mass about 575 mm above the floor, empty
 [C1] feet 1090 x 490 mm (centers); lever for a front push 245 mm, push height 900 mm
 [C2] tipping force empty 117 N (target 150 N); along the bench 260 N
 [C3] mass needed for 150 N: 56.2 kg, so ballast of at least 12.4 kg
 [C4] with two slabs: tipping force 186 N, factor 1.24 on 150 N
 [C5] sliding force on hard feet (mu 0.2): empty 86 N, ballasted 136 N; on the adopted rubber pads (mu 0.5): empty 215 N, ballasted 341 N
-[C6] wall anchor (optional) tie force for a 150 N pull on the empty bench: 35 N at 862 mm
+[C6] wall anchor (optional) tie force for a 150 N pull on the empty bench: 34 N at 862 mm
 [D1] largest plywood bay 255 x 470 mm clear (b/a 1.84); plate stiffness with holes 2.75 kN m
 [D2] local worktop deflection, 500 N at bay center: 0.19 mm (TRL 2 strip estimate 0.41 mm)
 [D3] each of the two bay cross rails takes about 250 N: deflection 0.07 mm, adds 0.07 mm at bay center
@@ -50,6 +50,7 @@
 [K1] timber by section: 70 x 70 3.43 m, 45 x 120 2.88 m, 45 x 70 3.92 m; total 10.2 m
 [K2] frame cost 30.55 + 10 % waste + $23.40 hardware (24 M8 x 120 bolts and washers, 24 M8 cross dowels, 16 6 x 100 structural screws) = $57.00
 [K2b] threaded inserts: 130 tee nuts at $0.12 and 122 + 4 (tile rails) screw-in at $0.10 = $28.20
-[K3] BOM 17 lines; core parts $268.40; user-supplied indicator $15.00; optional anchor $5.00; everything $288.40
-[K4] value-engineering target (budget_usd) $250: core $268.40, $18.40 over the target (+7.4 %); everything +15.4 %; against the former $220: core +22.0 %
-[K5] TRL 2 total $239.20 (with indicator); CAL-001 v0.1 core $239.20; v0.2 core $245.90; now (core plus indicator) $283.40
+[K2c] fastener kit (BOM line 12): $14.00 plus 8 shelf screws 4 x 30 at $0.10 and a paint marker at $3.00 for the 122 light-duty rings = $17.80 (decisions 2 and 3, 2026-10-02)
+[K3] BOM 17 lines; core parts $272.20; user-supplied indicator $15.00; optional anchor $5.00; everything $292.20
+[K4] value-engineering target (budget_usd) $250: core $272.20, $22.20 over the target (+8.9 %); everything +16.9 %; against the former $220: core +23.7 %
+[K5] TRL 2 total $239.20 (with indicator); CAL-001 v0.1 core $239.20; v0.2 core $245.90; now (core plus indicator) $287.20

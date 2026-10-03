@@ -21,11 +21,13 @@ sys.path[:0] = [str(ROOT / ".kit"), str(ROOT / "cad" / "src")]
 import build_views as bv  # noqa: E402
 from build_views import Part  # noqa: E402
 from model import (PARAMS as P, build_components, derived, classify, insert_kinds, fixing_points,  # noqa: E402
-                   dowel_points, arm_geometry, bracket_points, fixture_holes)
+                   dowel_points, arm_geometry, bracket_points, fixture_holes, light_duty_marks, shelf_screw_points)
+
+RING = "#DC2626"   # the contrasting paint ring round each light-duty position (decision 2, 2026-10-02)
 
 OUT = ROOT / "docs" / "05-build-plan"
 DWG = ROOT / "cad" / "drawings"
-DATE = "2026-10-01"
+DATE = "2026-10-02"
 D = derived(P)
 H = P["h"]
 _C = {}
@@ -54,6 +56,9 @@ def marks(kind):
             _MK[kind] = Compound(children=[Pos(x, y, H) * disk(P["plain_d"] / 2, 0.6) for x, y in plain])
         elif kind == "tee":
             _MK[kind] = Compound(children=[Pos(x, y, zu - P["tee_flange_t"]) * disk(P["tee_flange_d"] / 2, P["tee_flange_t"]) for x, y in tee])
+        elif kind == "light":
+            ring = lambda: disk(P["light_mark_d"] / 2, 0.8) - disk(P["insert_od"] / 2 + 0.6, 2.0)  # noqa: E731
+            _MK[kind] = Compound(children=[Pos(x, y, H + 0.05) * ring() for x, y in light_duty_marks(P)])
         else:
             _MK[kind] = Compound(children=[Pos(x, y, H) * disk(P["insert_od"] / 2, 0.6) for x, y in scr])
     return _MK[kind]
@@ -96,7 +101,7 @@ def made():
         "bolts": part("M8 bolts and cross dowels (24)", C("frame_bolts"), COL["bolt"]),
         "rails": part("Cross rails (4) and their screws", S(*RAILS, "rail_screws"), COL["rail"]),
         "packers": part("Packers under the tile (2)", S("packer_1", "packer_2"), COL["packer"]),
-        "shelf": part("Shelf", C("shelf"), COL["shelf"]),
+        "shelf": part("Shelf and its 8 screws", S("shelf", "shelf_screws"), COL["shelf"]),
         "worktop": part("Worktop", C("worktop"), COL["worktop"]),
         "inserts": part("Tee nuts and screw-in inserts", _fuse([marks("tee"), marks("screw")]), COL["tee"]),
         "brackets": part("Worktop brackets (9)", S("brackets", "bracket_screws"), COL["bracket"]),
@@ -159,6 +164,7 @@ def layouts():
         ax.add_patch(plt.Circle((X(x), Y(y)), 4.0, fc=AC, ec=AC, lw=0.4))
     for x, y in scr:
         ax.add_patch(plt.Circle((X(x), Y(y)), 4.25, fc="#C2410C", ec="#C2410C", lw=0.4))
+        ax.add_patch(plt.Circle((X(x), Y(y)), P["light_mark_d"] / 2, fc="none", ec=RING, lw=1.3))
     for k, v in enumerate((12.5, 112.5, 212.5, 412.5, 612.5, 812.5, 1012.5, 1187.5)):
         ax.text(v, -14, f"{v:g}", ha="center", va="top", fontsize=7.5, color=AC)
         ax.plot([v, v], [-3, -11], color=AC, lw=0.5)
@@ -178,6 +184,9 @@ def layouts():
         xk = 0.05 + i * 0.31
         fig.patches.append(plt.Circle((xk, ky), 0.006, transform=fig.transFigure, fc=c, ec=ec, lw=0.8))
         fig.text(xk + 0.012, ky, t, fontsize=8.5, color=INK, va="center")
+    fig.patches.append(plt.Circle((0.05, 0.042), 0.008, transform=fig.transFigure, fc="none", ec=RING, lw=1.3))
+    fig.text(0.062, 0.042, f"Red paint ring, about {P['light_mark_d']:.0f} mm across, round every screw-in position: light duty, "
+             f"tighten a clamp there to 0.92 N m at most ({len(scr)})", fontsize=8.5, color=INK, va="center")
     fig.text(0.03, 0.015, "BUILD PLAN ILLUSTRATION, PLAN NOT YET BUILT", fontsize=7, color="#B45309")
     fig.text(0.97, 0.015, "github.com/BoujeeEnjinia1701/gridbench", fontsize=7, color=AC, ha="right", family="monospace")
     OUT.mkdir(parents=True, exist_ok=True)
@@ -271,7 +280,7 @@ def sheets(which=None):
 
     jobs[104] = lambda: bv.component_sheet(
         Part("Low rail", C("low_rail_f"), COL["low_rail"]), [M["legs"], M["shelf"]],
-        dwg_no="GBN-DWG-104", title="GridBench low rail (make 2): making sketch", material="Sawn softwood 45 x 70 mm, C16 or better",
+        dwg_no="GBN-DWG-104", rev="P2", revisions=[("P1", "Making sketch for the prototype build plan", "2026-10-01", "AC"), ("P2", "Shelf screwed down into the top face", "2026-10-02", "AC")], title="GridBench low rail (make 2): making sketch", material="Sawn softwood 45 x 70 mm, C16 or better",
         view_shape=b.Rot(0, 90, 0) * at_origin(C("low_rail_f")), inset_view=(22, -60),
         notes=[f"Make two. Cut 45 x 70 mm softwood to {D['low_rail_len']:,.0f} mm, ends square.",
                "In each end: two 9 mm holes along the length, 52 mm deep, centred in",
@@ -280,7 +289,9 @@ def sheets(which=None):
                "  from the end, at the same heights.",
                "Fit: butts between the legs on their centre line, 105 mm above the",
                "  floor (80 mm above the foot of the leg); two M8 x 120 bolts and",
-               "  cross dowels at each end. The shelf rests on its top face.",
+               "  cross dowels at each end. The shelf rests on its top face and is",
+               "  screwed down into it at four points: 3 mm pilot holes, 20 mm deep,",
+               "  drilled through the shelf in step 7.",
                "Check: same length as the long aprons within 0.5 mm."], **base)
 
     def rail_sheet():
@@ -318,25 +329,46 @@ def sheets(which=None):
                "Check: both packers the same thickness within 0.05 mm."], **base)
 
     jobs[107] = lambda: bv.component_sheet(
-        Part("Shelf", C("shelf"), COL["shelf"]), [M["legs"], M["low_rails"], M["ballast"]],
-        dwg_no="GBN-DWG-107", title="GridBench shelf: making sketch", material="Plywood 12 mm",
+        Part("Shelf", C("shelf"), COL["shelf"]), [M["legs"], M["low_rails"], M["ballast"], part("Shelf screws", C("shelf_screws"), "#111827")],
+        dwg_no="GBN-DWG-107", rev="P2", revisions=[("P1", "Making sketch for the prototype build plan", "2026-10-01", "AC"), ("P2", "Eight countersunk screw holes; shelf screwed to the low rails", "2026-10-02", "AC")], title="GridBench shelf: making sketch", material="Plywood 12 mm",
         view_shape=at_origin(C("shelf")), inset_view=(30, -50),
         notes=[f"Cut 12 mm plywood to {D['shelf'][0]:,.0f} x {D['shelf'][1]:.0f} mm, square.",
                "Round the corners about 5 mm and sand the edges.",
+               "Drill eight 4.5 mm holes, countersunk for an 8 mm head: four along",
+               "  each long edge, 22.5 mm in from the edge, at 105, 375, 635 and",
+               "  905 mm from the left end.",
                "Fit: rests on the top faces of the two low rails, flush with their",
                "  outside faces, 5 mm clear of the legs at each end. It is slid in",
-               "  from the front, above the front low rail, then lowered.",
+               "  from the front, above the front low rail, then lowered and held",
+               "  down by eight 4 x 30 mm countersunk wood screws into the rails.",
                "It carries the two ballast slabs, side by side, 40 mm apart.",
                "Check: it lies flat on both rails and does not touch a leg."], **base)
 
     def worktop_sheet():
+        import drawing
         top = C("worktop")
+        # draw the light-duty paint rings on the top view: catch where the top view lands, add them at save
+        orig_add, orig_save, cell = drawing.Sheet.add_svg, drawing.Sheet.save, {}
+        def add_svg(self, svg_path, x, y, w=None, h=None, *a, **k):
+            if str(svg_path).endswith("top.svg") and "_GBN-DWG-108_views" in str(svg_path):
+                cell.update(x=x, y=y, w=w, h=h)
+            return orig_add(self, svg_path, x, y, w, h, *a, **k)
+        def save(self, stem, *a, **k):
+            if cell:
+                L, Dp = P["top_l"], P["top_d"]
+                X = lambda mx: cell["x"] + (mx + L / 2) / L * cell["w"]  # noqa: E731
+                Y = lambda my: cell["y"] + (Dp / 2 - my) / Dp * cell["h"]  # noqa: E731
+                r = P["light_mark_d"] / 2 * cell["w"] / L
+                self._layers += [f'<circle cx="{X(x):.2f}" cy="{Y(y):.2f}" r="{r:.2f}" fill="none" stroke="{RING}" stroke-width="0.25"/>'
+                                 for x, y in light_duty_marks(P)]
+            return orig_save(self, stem, *a, **k)
+        drawing.Sheet.add_svg, drawing.Sheet.save = add_svg, save
         x0, s, g = P["tile_x0"], P["tile"], P["pocket_gap"]
         plain = b.Pos(0, 0, H - P["top_t"] / 2) * b.Box(P["top_l"], P["top_d"], P["top_t"])
         plain -= b.Pos(x0 + s / 2, P["tile_y0"] + s / 2, H - P["top_t"] / 2) * b.Box(s + 2 * g, s + 2 * g, P["top_t"] + 2)
         return bv.component_sheet(
             Part("Worktop", top, COL["worktop"]), [M["legs"], M["aprons"], M["end_aprons"], M["rails"]],
-            dwg_no="GBN-DWG-108", title="GridBench worktop: making sketch", material="Birch plywood 18 mm, one 1,200 x 600 mm panel",
+            dwg_no="GBN-DWG-108", rev="P2", revisions=[("P1", "Making sketch for the prototype build plan", "2026-10-01", "AC"), ("P2", "Red rings at the 122 light-duty screw-in positions", "2026-10-02", "AC")], title="GridBench worktop: making sketch", material="Birch plywood 18 mm, one 1,200 x 600 mm panel",
             view_shape=at_origin(plain), inset_view=(30, -55),
             notes=["Cut 18 mm birch plywood to 1,200 x 600 mm, square within 0.5 mm.",
                    "Holes (shown on the hole layout, not here): 1,008 on a 25 mm grid, first",
@@ -348,9 +380,19 @@ def sheets(which=None):
                    "  left edge and 149.5 to 450.5 mm from the front edge. Drill an 8 mm",
                    "  relief hole on each corner first, then jigsaw and rout to the line.",
                    "Round all edges 1 mm; seal both faces with a thin finish.",
+                   "Red rings (top view): paint a ring about 16 mm across round each of",
+                   "  the 122 screw-in positions in a contrasting colour. They are light",
+                   "  duty: a clamp there is tightened to 0.92 N m at most.",
                    "Fit: on the aprons and rails, held by nine steel brackets from below.",
                    "Check: corner to corner diagonals equal within 1 mm."], **base)
-    jobs[108] = worktop_sheet
+    def worktop_job():
+        import drawing
+        a, s_ = drawing.Sheet.add_svg, drawing.Sheet.save
+        try:
+            return worktop_sheet()
+        finally:
+            drawing.Sheet.add_svg, drawing.Sheet.save = a, s_
+    jobs[108] = worktop_job
 
     def tile_sheet():
         t = C("tile")
@@ -709,21 +751,25 @@ def steps(which=None):
                          "Glue each packer centred on the top of a tile rail, running front to back; clamp until set",
                          elev=35, azim=-55, label_done=False)
     frame4 = frame3 + [M["packers"]]
-    jobs[7] = lambda: st(7, frame4, [mv(M["shelf"], (0, -450, 60))], "shelf onto the low rails",
-                         "Slide it in from the front above the front low rail, then lower it onto both rails",
+    jobs[7] = lambda: st(7, frame4, [mv(part("Shelf", C("shelf"), COL["shelf"]), (0, -450, 60)),
+                                     mv(part("4 x 30 countersunk screws (8)", C("shelf_screws"), COL["bolt"]), (0, -450, 200))],
+                         "shelf onto the low rails",
+                         "Slide it in from the front above the front low rail, lower it onto both rails, then screw it down: four screws into each rail",
                          elev=22, azim=-55, label_done=False)
     frame5 = frame4 + [M["shelf"]]
     jobs[8] = lambda: st(8, [M["worktop"]], [mv(part("Tee nuts, 130 (from below)", marks("tee"), "#C9A227"), (0, 0, -120)),
-                                             mv(part("Screw-in inserts, 122 (from the top)", marks("screw"), "#C2410C"), (0, 0, 120))],
+                                             mv(part("Screw-in inserts, 122 (from the top)", marks("screw"), "#C2410C"), (0, 0, 120)),
+                                             mv(part("Light-duty paint rings, 122", marks("light"), RING), (0, 0, 220))],
                          "threaded inserts into the worktop",
-                         "Tee nuts pressed in from the underside; screw-in inserts driven flush from the top where a frame member will be below",
+                         "Tee nuts pressed in from below; screw-in inserts driven flush from the top, each ringed in red paint as light duty",
                          elev=-25, azim=-60, label_done=False)
     top = part("Worktop with its inserts", _fuse([C("worktop"), marks("tee"), marks("screw"), marks("plain")]), COL["worktop"])
-    jobs[9] = lambda: st(9, frame5, [mv(top, (0, 0, 260)), mv(M["brackets"], (0, 0, -140))],
+    rings = part("Light-duty rings (red)", marks("light"), RING)
+    jobs[9] = lambda: st(9, frame5, [mv(top, (0, 0, 260)), mv(rings, (0, 0, 260)), mv(M["brackets"], (0, 0, -140))],
                          "worktop onto the frame",
                          "20 mm overhang all round, tile pocket over the two tile rails; nine brackets screwed to the aprons and up into the worktop",
                          elev=22, azim=-55, label_done=False)
-    bench = frame5 + [top, M["brackets"]]
+    bench = frame5 + [top, rings, M["brackets"]]
     jobs[10] = lambda: st(10, bench, [mv(part("Rail inserts", C("rail_inserts"), "#C2410C"), (0, 0, 120)),
                                       mv(part("Precision tile", C("tile"), COL["tile"]), (0, 0, 240)),
                                       mv(part("M6 x 20 cap screws", C("tile_screws"), COL["bolt"]), (0, 0, 380))],

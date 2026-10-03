@@ -1,4 +1,4 @@
-"""GridBench sizing calculations, GBN-CAL-001 v0.3 (TRL 3; revised under GBN-DDR-002 and GBN-DDR-003).
+"""GridBench sizing calculations, GBN-CAL-001 v0.4 (TRL 3; revised under GBN-DDR-002, GBN-DDR-003 and the decisions of 2026-10-02).
 
 Run from the repo root:  python docs/04-calcs/sizing.py
 Imports PARAMS and the derived dimensions from cad/src/model.py, reads bom/bom.csv and
@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "cad" / "src"))
-from model import PARAMS as P, derived, classify, dowel_points, fixing_points, grid_points, insert_kinds  # noqa: E402
+from model import PARAMS as P, derived, classify, dowel_points, fixing_points, grid_points, insert_kinds, shelf_screw_points  # noqa: E402
 
 G = 9.81
 D = derived(P)
@@ -90,7 +90,9 @@ mass["inserts, feet, fasteners"] = len(ins) * 0.004 + 4 * 0.15 + 0.8
 n_bolts = 4 * (len(P["apron_bolt_z"]) + len(P["end_bolt_z"]) + len(P["low_bolt_z"]))
 n_rail_screws = 2 * len(P["cross_x"]) * len(P["rail_screw_z"])
 n_brackets = 2 * len(P["bracket_x"]) + 1
-mass["frame bolts, cross dowels, brackets"] = n_bolts * (0.065 + 0.020) + n_rail_screws * 0.020 + n_brackets * 0.030
+n_shelf_screws = len(shelf_screw_points(P))          # shelf screwed down to the low rails (decision 3, 2026-10-02)
+mass["frame bolts, cross dowels, brackets"] = (n_bolts * (0.065 + 0.020) + n_rail_screws * 0.020 + n_brackets * 0.030
+                                               + n_shelf_screws * 0.004)
 mass["fixtures, post, indicator"] = 0.6 + 0.8 + 0.3
 m_empty = sum(mass.values())
 m_slab = math.prod(P["slab"]) * 1e-9 * RHO_CONC
@@ -287,6 +289,8 @@ for r in rows:
 n_rail_ins = len(fixing_points(P))
 say("K2b", f"threaded inserts: {len(tee_pts)} tee nuts at $0.12 and {len(screw_pts)} + {n_rail_ins} (tile rails) screw-in at $0.10 = "
            f"${len(tee_pts) * 0.12 + (len(screw_pts) + n_rail_ins) * 0.10:.2f}")
+say("K2c", f"fastener kit (BOM line 12): $14.00 plus {n_shelf_screws} shelf screws 4 x 30 at $0.10 and a paint marker at $3.00 "
+           f"for the {len(screw_pts)} light-duty rings = ${14.00 + n_shelf_screws * 0.10 + 3.00:.2f} (decisions 2 and 3, 2026-10-02)")
 alt = 220.0   # the TRL 3 v0.1 budget, for comparison
 say("K3", f"BOM {len(rows)} lines; core parts ${tot['core']:.2f}; user-supplied indicator ${tot['user-supplied']:.2f}; "
           f"optional anchor ${tot['optional']:.2f}; everything ${sum(tot.values()):.2f}")

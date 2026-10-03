@@ -1,4 +1,5 @@
-"""GridBench general arrangement sheet GBN-DWG-001, Rev P4 (TRL 3; Rev P2 under GBN-DDR-002, Rev P4 under GBN-DDR-003).
+"""GridBench general arrangement sheet GBN-DWG-001, Rev P5 (TRL 3; Rev P2 under GBN-DDR-002, Rev P4 under GBN-DDR-003,
+Rev P5 for the decisions of 2026-10-02: light-duty rings and shelf screws).
 
 Run from the repo root:  python cad/src/sheets.py
 Writes cad/drawings/GBN-DWG-001.svg, .pdf and .png from the parametric model in
@@ -12,11 +13,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path[:0] = [str(ROOT / ".kit"), str(ROOT / "cad" / "src")]
 from drawing import Sheet, _viewbox, _t, M, TB_Y, INK, MUTED  # noqa: E402
-from model import PARAMS as P, assembly, build_parts, derived, dowel_points, insert_kinds  # noqa: E402
+from model import PARAMS as P, assembly, build_parts, derived, dowel_points, insert_kinds, light_duty_marks  # noqa: E402
 
 TEE, SCREW = insert_kinds(P)
 
-DATE = "2026-10-01"
+DATE = "2026-10-02"
+RING = "#DC2626"
 D0 = "2026-09-25"
 
 
@@ -52,12 +54,12 @@ def safe_project_views(part, workdir, line_weight=0.35, names=("front", "top", "
 def ortho_cells(sheet, views, names=("front", "top", "right")):
     """Repeat Sheet.add_ortho's layout arithmetic to find where each view lands (x, y, w, h)."""
     ax, ay, aw, ah = M + 10, M + 16, 245, TB_Y - M - 20
-    gap, lab = 14, 12
+    gap, lab, dl = 14, 12, 11          # dl: room add_ortho leaves for its overall dimensions
     dims = {n: _viewbox(Path(views[n]).read_text())[2:] for n in names}
     fw, fh = dims["front"]; tw, th = dims["top"]; rw, rh = dims["right"]
     k = sheet.scale
-    ax += (aw - (k * (max(fw, tw) + rw) + gap)) / 2
-    ay += (ah - (k * (th + max(fh, rh)) + gap + 2 * lab)) / 2
+    ax += (aw - (k * (max(fw, tw) + rw) + gap + dl)) / 2 + dl
+    ay += (ah - (k * (th + max(fh, rh)) + gap + 2 * lab + dl)) / 2 + dl
     colw = k * max(fw, tw)
     front_y = ay + k * th + lab + gap
     row_h = k * max(fh, rh)
@@ -100,13 +102,14 @@ def main():
     tile = build_parts()["tile"]
     tview = safe_project_views(tile, work / "tile", names=("top",))["top"]
     bb = asm.bounding_box()
-    s = Sheet(project="GridBench", title="General arrangement", dwg_no="GBN-DWG-001", rev="P4",
+    s = Sheet(project="GridBench", title="General arrangement", dwg_no="GBN-DWG-001", rev="P5",
               author="Amish Chadha", date=DATE, scale=None, theme="technical",
               material="Softwood frame, birch plywood top, cast aluminum tile; bought-in parts per bom/bom.csv. PRELIMINARY, NOT FOR FABRICATION",
               revisions=[("P1", "Preliminary GA for TRL 3 (from cad/src/model.py)", D0, "AC"),
                          ("P2", "Recommendations accepted (DDR-002): 45 x 120 aprons, tee nuts, rubber feet", D0, "AC"),
                          ("P3", "Layout and labels tidied", D0, "AC"),
-                         ("P4", "Design for construction (DDR-003): bolted joints, brackets, tile fixing", DATE, "AC")])
+                         ("P4", "Design for construction (DDR-003): bolted joints, brackets, tile fixing", "2026-10-01", "AC"),
+                         ("P5", "Light-duty rings at the screw-in positions; shelf screwed to the low rails", DATE, "AC")])
     s.add_ortho(views)
     k = s.scale
     c = ortho_cells(s, views)
@@ -136,6 +139,13 @@ def main():
     L += [ext(Xt(x0), Yt(P['tile_y0'] + t), Xt(x0), Yt(Dt / 2) - 11), ext(Xt(x0 + t), Yt(P['tile_y0'] + t), Xt(x0 + t), Yt(Dt / 2) - 11)]
     L += leader(Xt(x0 + t / 2), Yt(0), Xt(bb.max.X) + 9, Yt(Dt / 2) + 2, "6 PRECISION TILE, FLUSH")
     L += leader(Xt(-500), Yt(-250), Xt(bb.max.X) + 9, Yt(-Dt / 2) + 2, "4 PLYWOOD FIELD, 25 GRID")
+    # light-duty positions: contrasting paint ring round each screw-in insert (decision 2, 2026-10-02)
+    lm = light_duty_marks(P)
+    rr = P["light_mark_d"] / 2 * k
+    L += [f'<circle cx="{Xt(mx):.2f}" cy="{Yt(my):.2f}" r="{rr:.2f}" fill="none" stroke="{RING}" stroke-width="0.22"/>'
+          for mx, my in lm]
+    ex_ = max(lm, key=lambda q: (q[0], -q[1]) if q[1] < 0 else (-1e9, 0))
+    L += leader(Xt(ex_[0]), Yt(ex_[1]), Xt(bb.max.X) + 9, Yt(-Dt / 4), f"{len(lm)} LIGHT-DUTY RINGS (RED)")
 
     # right view (from +X): +Y to the right, Z up
     x, y, w, h = c["right"]
@@ -158,7 +168,7 @@ def main():
                                    "Tile 12.7 thick on 5.3 packers"], x=M + 4, y=dy + dw + 30, width=60)
 
     s._layers += L
-    s.add_svg(views["iso"], 276, 32, 140, 96, label="Isometric view", sublabel="Not to scale; worktop holes shown as a representative patch")
+    s.add_svg(views["iso"], 276, 44, 140, 84, label="Isometric view", sublabel="Not to scale; worktop holes shown as a representative patch")
     s.add_notes("Main dimensions and interfaces (mm)", [
         f"Worktop {Lt:,.0f} x {Dt:.0f} x {P['top_t']:.0f} birch ply, top at {H:.0f} ±{P['adjust']:.0f}",
         f"Grid {P['pitch']:.0f} pitch, first hole {P['edge']} from each edge; 1,152 positions",
@@ -166,10 +176,10 @@ def main():
         f"Tile {t:.0f} x {t:.0f} x {P['tile_t']}, left edge {x0 + Lt / 2:.0f} from the worktop's left edge",
         f"Feet at {2 * D['lx']:,.0f} x {2 * D['ly']:.0f} centers, rubber pads, in M10 T-nuts; legs {P['leg']:.0f} square",
         f"Aprons {P['apron'][0]:.0f} x {P['apron'][1]:.0f}; cross rails {P['rail'][0]:.0f} x {P['rail'][1]:.0f} at X {', '.join(f'{v:g}' for v in P['cross_x'])}",
-        "Toe clamp torque 1.6 N m max; one round + one diamond pin",
+        f"Clamp 1.6 N m max; 0.92 N m at the {len(SCREW)} red-ringed light-duty positions; round + diamond pin",
         "Aprons and low rails butt between the legs: 2 M8 bolts and cross dowels per end",
         "Worktop on 9 steel angle brackets; tile on 4 M6 x 20 screws into rail inserts",
-        "Ballast 2 x 12.9 kg slabs; exposed edges chamfered or rounded 0.5 min",
+        "Ballast 2 x 12.9 kg slabs on a shelf screwed to the low rails (8 screws)",
         "Third-angle; front view from -Y; origin at worktop center",
     ], x=276, y=148, width=146)
     out = s.save(ROOT / "cad" / "drawings" / "GBN-DWG-001")

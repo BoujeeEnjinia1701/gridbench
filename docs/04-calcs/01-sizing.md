@@ -3,9 +3,9 @@ doc_id: GBN-CAL-001
 title: GridBench sizing calculations
 project: GridBench
 doc_type: Calculation
-version: "0.3"
+version: "0.4"
 status: Draft
-date: '2026-10-01'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -17,15 +17,19 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Recommendations accepted by Amish (DDR-002); $250 budget, 45 x 120 mm aprons, flanged tee nuts, rubber-padded feet; results re-run
-- version: "0.3"
+- version: "0.4"
   date: '2026-10-01'
   author: Amish Chadha
   change: Design made constructable (GBN-DDR-003); mass, stability and cost re-run; cost reported against the value-engineering target
+- version: "0.4"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: 'Shelf screws (decision 3) and light-duty marking (decision 2) added: mass and cost re-run; light-duty rating recorded as decided'
 ---
 
 # GridBench sizing calculations
 
-On paper, GridBench meets seven of its twelve requirements (four by calculation, three by design), has two at risk, has one that cannot be verified at TRL 3, misses one in part, and is over its cost target. Version 0.3 follows the design-for-construction changes of GBN-DDR-003: the aprons and low rails butt between the legs on M8 bolts and cross dowels, the worktop is held by nine brackets, the tile by four screws into rail inserts, and the fixtures sit on threaded positions. The bench is 1.9 kg heavier (43.8 kg), tips at 117 N empty and 186 N ballasted, and its core parts cost USD 268.40: value-engineering target USD 250, USD 18.40 over the target [K4]. Stiffness and every other result are unchanged. Version 0.2 applied the recommendations Amish accepted on 2026-09-25 (GBN-DDR-002): `budget_usd` is now $250, the long and end aprons are 45 x 120 mm instead of 45 x 95 mm, flanged M6 tee nuts pressed in from the underside replace the screw-in inserts wherever the underside is clear, and the levelling feet carry rubber pads. R10 (cost) was then met at $245.90. R6 (stiffness) now has margin: 0.37 mm against 0.5 mm, down from 0.49 mm. R7 (clamp hold-down) is met on paper at the 130 tee-nut positions (pull-through factor 1.51 to 2.42) and on the tile, but not at the 122 insert positions that sit over a frame member, where a screw-in insert must stay and its pull-out factor is still 0.57 to 0.92. R3 (coarse field accuracy, template-drilled build) and R4 (relocation within 0.03 mm) are at risk. R5 (flatness) cannot be verified at TRL 3. The first issue of this note changed four details of the TRL 2 concept, which stand: the printed toe clamp is deeper (30 mm instead of 16 mm) with a rated torque of 1.6 N·m instead of 2 N·m, every precision fixture carries one round and one diamond locating pin, the fence is printed in two 190 mm segments that fit a 200 mm bed, and two concrete slabs on the shelf form the ballast. Every number in this note is printed by `docs/04-calcs/sizing.py`; the tag in brackets, for example [C4], is the line of that script's output that carries it.
+On paper, GridBench meets seven of its twelve requirements (four by calculation, three by design), has two at risk, has one that cannot be verified at TRL 3, misses one in part, and is over its cost target. Version 0.4 adds the eight screws that fix the shelf down to the low rails and the paint marker for the light-duty rings, carrying out decisions Amish made on 2026-10-02: core parts now cost USD 272.20, USD 22.20 over the USD 250 value-engineering target [K4], and the ballasted bench is 69.6 kg [B2]; no requirement status changes. Version 0.3 follows the design-for-construction changes of GBN-DDR-003: the aprons and low rails butt between the legs on M8 bolts and cross dowels, the worktop is held by nine brackets, the tile by four screws into rail inserts, and the fixtures sit on threaded positions. The bench is 1.9 kg heavier (43.8 kg), tips at 117 N empty and 186 N ballasted, and its core parts cost USD 268.40: value-engineering target USD 250, USD 18.40 over the target [K4]. Stiffness and every other result are unchanged. Version 0.2 applied the recommendations Amish accepted on 2026-09-25 (GBN-DDR-002): `budget_usd` is now $250, the long and end aprons are 45 x 120 mm instead of 45 x 95 mm, flanged M6 tee nuts pressed in from the underside replace the screw-in inserts wherever the underside is clear, and the levelling feet carry rubber pads. R10 (cost) was then met at $245.90. R6 (stiffness) now has margin: 0.37 mm against 0.5 mm, down from 0.49 mm. R7 (clamp hold-down) is met on paper at the 130 tee-nut positions (pull-through factor 1.51 to 2.42) and on the tile, but not at the 122 insert positions that sit over a frame member, where a screw-in insert must stay and its pull-out factor is still 0.57 to 0.92. R3 (coarse field accuracy, template-drilled build) and R4 (relocation within 0.03 mm) are at risk. R5 (flatness) cannot be verified at TRL 3. The first issue of this note changed four details of the TRL 2 concept, which stand: the printed toe clamp is deeper (30 mm instead of 16 mm) with a rated torque of 1.6 N·m instead of 2 N·m, every precision fixture carries one round and one diamond locating pin, the fence is printed in two 190 mm segments that fit a 200 mm bed, and two concrete slabs on the shelf form the ballast. Every number in this note is printed by `docs/04-calcs/sizing.py`; the tag in brackets, for example [C4], is the line of that script's output that carries it.
 
 > **Safety:** These are first-principles estimates for a paper proof of concept. They do not replace a push test for tipping, a pull test of clamps and inserts, or inspection of the tile. The empty bench tips at about 117 N at its front edge [C2]; it must be ballasted or anchored before use. See GBN-PRC-001, Safety.
 
@@ -65,8 +69,8 @@ The design case is a bench in an indoor workshop at 10 to 35 °C and 20 to 80 % 
 
 ## B. Mass (context for R12)
 
-- **Bench.** Frame timber 22.4 kg, worktop 7.2 kg, tile 3.0 kg, shelf 4.4 kg, inserts, feet and fasteners 2.4 kg, frame bolts, cross dowels and brackets 2.6 kg, and fixtures 1.7 kg give 43.8 kg [B1], against 41.9 kg in v0.2. The frame timber is lighter than in v0.2 because the long aprons no longer run through the legs (GBN-DDR-003); the bolts and brackets more than make up for it.
-- **Ballast.** Two 400 x 400 x 35 mm concrete slabs weigh 12.9 kg each, 25.8 kg together; the ballasted bench is 69.5 kg [B2]. Each slab is light enough for one person to lift.
+- **Bench.** Frame timber 22.4 kg, worktop 7.2 kg, tile 3.0 kg, shelf 4.4 kg, inserts, feet and fasteners 2.4 kg, frame bolts, cross dowels, brackets and shelf screws 2.7 kg, and fixtures 1.7 kg give 43.8 kg [B1], against 41.9 kg in v0.2. The frame timber is lighter than in v0.2 because the long aprons no longer run through the legs (GBN-DDR-003); the bolts and brackets more than make up for it.
+- **Ballast.** Two 400 x 400 x 35 mm concrete slabs weigh 12.9 kg each, 25.8 kg together; the ballasted bench is 69.6 kg [B2]. Each slab is light enough for one person to lift.
 
 ## C. Tipping and sliding (R12)
 
@@ -74,7 +78,7 @@ The design case is a bench in an indoor workshop at 10 to 35 °C and 20 to 80 % 
 - **Empty bench.** It tips at 117 N, below the 150 N target; along the bench it would take 260 N [C2]. R12 is not met by the empty bench.
 - **Ballast.** At least 12.4 kg of ballast is needed [C3]. With the two slabs the bench tips at 186 N, a factor of 1.24 on 150 N [C4]. R12 is met on paper with the ballast in place.
 - **Sliding.** On hard feet the empty bench would slide at about 86 N, before it tips. With the adopted rubber pads it slides at about 215 N empty and 341 N ballasted [C5], so a firm push no longer moves it. Sliding is not a requirement.
-- **Anchor.** For the optional wall anchor, the tie force for a 150 N pull on the empty bench is only 35 N [C6], so light angle brackets suffice.
+- **Anchor.** For the optional wall anchor, the tie force for a 150 N pull on the empty bench is only 34 N [C6], so light angle brackets suffice.
 
 ## D. Stiffness and strength (R6)
 
@@ -104,7 +108,7 @@ The design case is a bench in an indoor workshop at 10 to 35 °C and 20 to 80 % 
 - **TRL 2 clamp.** At 16 mm deep and 2 N·m, the clamp body would carry about 33 MPa, nearly three times the sustained limit for printed PETG [G3], so it would creep. The body is now 30 mm deep and the rated torque 1.6 N·m.
 - **Revised clamp.** At 1.6 N·m the part receives 515 to 858 N over the nut factor range (target 500 N), at a peak body stress of 9.9 MPa against 12 MPa [G2, G4]. Printed on its side, the bending stress runs along the layers.
 - **Inserts.** A screw-in insert resists 1.02 to 1.63 kN before the plywood shears around it, while the screw tension reaches 1.78 kN at the low nut factor; the factor is 0.57 to 0.92 [G5]. A screw-in insert therefore cannot guarantee 500 N at the part. On the tile, 12.7 mm of thread engagement is ample [G6] and R7 is met on paper, subject to PETG creep data.
-- **Tee nuts (GBN-DDR-002).** Flanged M6 tee nuts pressed in from the underside now take the load at every insert position whose 19 mm flange has a clear underside: 130 of the 252 positions. The other 122 lie within the flange radius of an apron, cross rail or leg and keep a screw-in insert [G5b]. To pull out, a tee nut must punch its flange through the full sheet: 2.69 to 4.30 kN, a factor of 1.51 to 2.42 on the highest screw tension [G5c]. The flange bears on the plywood at 7.6 MPa against an assumed 10 MPa (factor 1.31), and the 9.5 mm barrel gives ample thread engagement [G5d]. R7 is met on paper at the tee-nut positions and not met at the 122 screw-in positions over the frame; how to treat those is a new item awaiting Amish (`docs/REVIEW.md`). One option is to rate those positions light duty: at 0.92 N·m the screw tension stays within the lowest insert strength, and the part receives 296 to 493 N [G5e].
+- **Tee nuts (GBN-DDR-002).** Flanged M6 tee nuts pressed in from the underside now take the load at every insert position whose 19 mm flange has a clear underside: 130 of the 252 positions. The other 122 lie within the flange radius of an apron, cross rail or leg and keep a screw-in insert [G5b]. To pull out, a tee nut must punch its flange through the full sheet: 2.69 to 4.30 kN, a factor of 1.51 to 2.42 on the highest screw tension [G5c]. The flange bears on the plywood at 7.6 MPa against an assumed 10 MPa (factor 1.31), and the 9.5 mm barrel gives ample thread engagement [G5d]. R7 is met on paper at the tee-nut positions and not met at the 122 screw-in positions over the frame; Amish decided on 2026-10-02 to rate those positions light duty and ring them on the worktop in a contrasting colour: at 0.92 N·m the screw tension stays within the lowest insert strength, and the part receives 296 to 493 N [G5e].
 
 ## H. Fixture change (R8)
 
@@ -119,8 +123,8 @@ The design case is a bench in an indoor workshop at 10 to 35 °C and 20 to 80 % 
 
 - **Timber.** The frame uses 3.43 m of 70 x 70 mm, 2.88 m of 45 x 120 mm and 3.92 m of 45 x 70 mm, 10.2 m in all [K1]. With 10 % waste and $23.40 of hardware (24 M8 x 120 bolts with washers, 24 M8 cross dowels, 16 structural screws and $1.00 of glue and small screws) the frame costs $57.00 [K2] (BOM line 1; $43.50 in v0.2, when the frame had no joints).
 - **Inserts.** 130 tee nuts at $0.12 and 126 screw-in inserts at $0.10 (122 in the worktop, 4 in the tile rails) cost $28.20 [K2b] (BOM line 5).
-- **Totals.** The 17-line BOM gives core parts of $268.40, the user-supplied dial indicator $15.00 and the optional anchor brackets $5.00, $288.40 in all [K3]. Besides the frame and inserts, the design-for-construction changes added the nine worktop brackets ($3.60, line 17), the arm clamps and drop rod (line 10, $12.00 to $15.00) and the longer screw set (line 12, $12.00 to $14.00).
-- **Against the value-engineering target.** Value-engineering target: USD 250 (`budget_usd`, a hypothetical control target, not a limit). Estimated cost of the constructable design: USD 268.40 (USD 18.40 over the target, 7.4 %); everything including the indicator and anchor is 15.4 % over [K4]. Core plus indicator is $283.40, against $239.20 at TRL 2 [K5]. The main cost drivers and the savings worth trying are in the design decisions register (GBN-DEC-001, Value engineering).
+- **Totals.** The 17-line BOM gives core parts of $272.20, the user-supplied dial indicator $15.00 and the optional anchor brackets $5.00, $292.20 in all [K3]. Besides the frame and inserts, the design-for-construction changes added the nine worktop brackets ($3.60, line 17), the arm clamps and drop rod (line 10, $12.00 to $15.00) and the longer screw set (line 12, $12.00 to $14.00). The eight shelf screws and the paint marker for the light-duty rings, added on 2026-10-02, take line 12 to $17.80 [K2c].
+- **Against the value-engineering target.** Value-engineering target: USD 250 (`budget_usd`, a hypothetical control target, not a limit). Estimated cost of the constructable design: USD 272.20 (USD 22.20 over the target, 8.9 %); everything including the indicator and anchor is 16.9 % over [K4]. Core plus indicator is $287.20, against $239.20 at TRL 2 [K5]. The main cost drivers and the savings worth trying are in the design decisions register (GBN-DEC-001, Value engineering).
 
 ## L. Results against every requirement
 
@@ -132,7 +136,7 @@ The design case is a bench in an indoor workshop at 10 to 35 °C and 20 to 80 % 
 | R3 | Coarse field hole position | CNC ±0.22 mm; template ±0.34 mm statistical, ±0.62 mm worst case over 1,000 mm [E4] | ±0.3 mm (CNC); ±0.5 mm (template) at 40 to 60 % RH | **At risk** (template build; unsourced coefficient) |
 | R4 | Precision tile location | Relocation 0.036 mm worst case, 0.015 mm statistical [F3]; hole position not verifiable | ±0.05 mm; 0.03 mm | **At risk** |
 | R5 | Flatness | Depends on the plate as supplied and on the plywood sheet | Tile 0.05 mm over 300 mm; worktop 0.5 mm over 1,000 mm | Not verifiable at TRL 3 |
-| R10 | Parts cost | $268.40 core (indicator user-supplied) [K3, K4] | $250 value-engineering target (`budget_usd`) | Over the value-engineering target by $18.40 |
+| R10 | Parts cost | $272.20 core (indicator user-supplied) [K3, K4] | $250 value-engineering target (`budget_usd`) | Over the value-engineering target by $22.20 |
 | R6 | Stiffness and load | 0.37 mm total, 0.19 mm local, under 500 N; 150 kg at 1.0 MPa in the aprons [D5, D8] | 0.5 mm; 150 kg | Met on paper |
 | R8 | Fixture change | 56 s [H1] | 60 s | Met on paper (thin margin) |
 | R9 | Buildability | Largest print 190 mm; tile about 4.2 h by drill press [I1, I2] | 200 x 200 mm bed; CNC optional | Met on paper |
@@ -160,4 +164,4 @@ Counts: 1 not met (R7, in part), 1 over the value-engineering target (R10), 2 at
 | Insert pull-out 2 to 4 kN (unverified) | 1.02 to 1.63 kN (assumed shear) [G5]; tee nuts 2.69 to 4.30 kN [G5c] | Tee nuts where the underside is clear (DDR-002) |
 | 400 mm printed fence | Does not fit a 200 mm bed [I1] | Two 190 mm segments |
 | Tapping about 2.5 h | 4.2 h including drilling, reaming and counterbores [I2] | Precis updated |
-| Parts about $239 (with indicator) | $283.40 with indicator; $268.40 core [K3, K5] | Reported against the USD 250 value-engineering target |
+| Parts about $239 (with indicator) | $287.20 with indicator; $272.20 core [K3, K5] | Reported against the USD 250 value-engineering target |
